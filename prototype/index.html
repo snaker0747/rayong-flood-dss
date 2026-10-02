@@ -913,7 +913,9 @@
           const radarTile = L.tileLayer(tileUrl, {
             tileSize: 256,
             opacity: 0.65,
-            zIndex: 400
+            zIndex: 400,
+            maxZoom: 19,
+            maxNativeZoom: 7
           });
           radarLayers.push(radarTile);
         });
