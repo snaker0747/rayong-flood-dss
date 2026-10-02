@@ -273,81 +273,92 @@
         
         <!-- 1. VIEW MODE: LEAFLET GIS MAP -->
         <div id="view-gis" class="w-full h-full relative">
-          <!-- TOP CONTROLS BAR INSIDE MAP -->
-          <div class="absolute top-3 left-3 right-3 z-[1000] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-            
-            <!-- Layer Switchers -->
-            <div class="bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs flex flex-wrap items-center gap-2.5 shadow-xl pointer-events-auto">
-              <span class="font-bold text-slate-200 flex items-center gap-1">
-                <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i> ชั้นข้อมูล:
-              </span>
+          <!-- 1. TOP LEFT: LAYER SWITCHERS -->
+          <div class="absolute top-3 left-3 z-[1000] bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs flex flex-wrap items-center gap-2.5 shadow-xl pointer-events-auto max-w-[calc(100%-205px)]">
+            <span class="font-bold text-slate-200 flex items-center gap-1">
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i> ชั้นข้อมูล:
+            </span>
 
-              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
-                <input type="checkbox" id="chk-lakes" checked onchange="toggleLayer('lakes')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
-                <span>🏞️ ผืนน้ำ 4 อ่างหลัก</span>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
+              <input type="checkbox" id="chk-lakes" checked onchange="toggleLayer('lakes')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
+              <span>🏞️ 4 อ่างหลัก</span>
+            </label>
+
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
+              <input type="checkbox" id="chk-flow" checked onchange="toggleLayer('flow')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
+              <span>🌊 ทางน้ำไหล</span>
+            </label>
+
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
+              <input type="checkbox" id="chk-stations" checked onchange="toggleLayer('stations')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
+              <span>📏 สถานีน้ำ</span>
+            </label>
+
+            <!-- Dedicated Radar Layer Toggle with Status Badge & Opacity -->
+            <div class="flex items-center gap-1.5 pl-2 border-l border-slate-700/80">
+              <label id="lbl-radar" class="flex items-center gap-1.5 cursor-pointer px-2 py-0.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700/80 transition select-none">
+                <input type="checkbox" id="chk-radar" onchange="toggleRadarLayer()" class="rounded bg-slate-900 border-slate-600 text-emerald-400 focus:ring-0">
+                <span class="font-semibold text-slate-200">🌧️ เรดาร์ฝน</span>
+                <span id="badge-radar-status" class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-slate-900 text-slate-400">ปิด</span>
               </label>
 
-              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
-                <input type="checkbox" id="chk-flow" checked onchange="toggleLayer('flow')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
-                <span>🌊 แม่น้ำ/คลองระบาย</span>
-              </label>
-
-              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
-                <input type="checkbox" id="chk-stations" checked onchange="toggleLayer('stations')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
-                <span>📏 สถานีวัดน้ำ</span>
-              </label>
-
-              <!-- Dedicated Radar Layer Toggle with Status Badge & Opacity -->
-              <div class="flex items-center gap-1.5 pl-2 border-l border-slate-700/80">
-                <label id="lbl-radar" class="flex items-center gap-1.5 cursor-pointer px-2 py-0.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700/80 transition select-none">
-                  <input type="checkbox" id="chk-radar" onchange="toggleRadarLayer()" class="rounded bg-slate-900 border-slate-600 text-emerald-400 focus:ring-0">
-                  <span class="font-semibold text-slate-200">🌧️ เรดาร์ฝนสด</span>
-                  <span id="badge-radar-status" class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-slate-900 text-slate-400">ปิด</span>
-                </label>
-
-                <!-- Opacity Slider (visible when radar is ON) -->
-                <div id="radar-opacity-wrap" class="hidden items-center gap-1 text-[11px] text-slate-300 pl-1">
-                  <span class="text-[10px] text-slate-400">โปร่งใส:</span>
-                  <input type="range" id="radar-opacity-slider" min="15" max="85" value="40" oninput="changeRadarOpacity(this.value)" class="w-16 h-1 bg-slate-700 rounded appearance-none cursor-pointer accent-emerald-400">
-                  <span id="radar-opacity-val" class="font-mono text-[10px] text-emerald-400 font-bold">40%</span>
-                </div>
+              <!-- Opacity Slider (visible when radar is ON) -->
+              <div id="radar-opacity-wrap" class="hidden items-center gap-1 text-[11px] text-slate-300 pl-1">
+                <span class="text-[10px] text-slate-400">โปร่งใส:</span>
+                <input type="range" id="radar-opacity-slider" min="15" max="85" value="40" oninput="changeRadarOpacity(this.value)" class="w-14 h-1 bg-slate-700 rounded appearance-none cursor-pointer accent-emerald-400">
+                <span id="radar-opacity-val" class="font-mono text-[10px] text-emerald-400 font-bold">40%</span>
               </div>
-            </div>
-
-            <!-- Basemap Selector Buttons -->
-            <div class="bg-slate-900/95 backdrop-blur-md p-1 rounded-xl border border-slate-700/80 text-xs flex items-center gap-1 shadow-lg pointer-events-auto">
-              <button onclick="setBasemap('osm')" id="btn-osm" class="px-2.5 py-1 rounded-lg font-semibold bg-blue-600 text-white transition">
-                🗺️ ถนน
-              </button>
-              <button onclick="setBasemap('satellite')" id="btn-satellite" class="px-2.5 py-1 rounded-lg font-semibold text-slate-300 hover:bg-slate-800 transition">
-                🛰️ ดาวเทียม
-              </button>
-              <button onclick="setBasemap('topo')" id="btn-topo" class="px-2.5 py-1 rounded-lg font-semibold text-slate-300 hover:bg-slate-800 transition">
-                ⛰️ ภูมิประเทศ
-              </button>
             </div>
           </div>
 
-          <!-- QUICK ZOOM SHORTCUT BUTTONS -->
-          <div class="absolute top-14 left-3 z-[1000] flex flex-col gap-1.5 pointer-events-auto">
-            <div class="bg-slate-900/90 backdrop-blur-md p-1.5 rounded-lg border border-slate-700/80 text-[11px] flex flex-col gap-1 shadow-md">
-              <span class="text-[10px] font-bold text-slate-400 px-1 uppercase tracking-wider">ซูมจุดสำคัญ:</span>
-              <button onclick="zoomTo('dokkrai')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+          <!-- 2. TOP RIGHT: BASEMAP SELECTOR (Permanently anchored on the right) -->
+          <div class="absolute top-3 right-3 z-[1000] bg-slate-900/95 backdrop-blur-md p-1 rounded-xl border border-slate-700/80 text-xs flex items-center gap-1 shadow-xl pointer-events-auto">
+            <button onclick="setBasemap('osm')" id="btn-osm" class="px-2.5 py-1 rounded-lg font-semibold bg-blue-600 text-white transition shadow">
+              🗺️ ถนน
+            </button>
+            <button onclick="setBasemap('satellite')" id="btn-satellite" class="px-2.5 py-1 rounded-lg font-semibold text-slate-300 hover:bg-slate-800 transition">
+              🛰️ ดาวเทียม
+            </button>
+            <button onclick="setBasemap('topo')" id="btn-topo" class="px-2.5 py-1 rounded-lg font-semibold text-slate-300 hover:bg-slate-800 transition">
+              ⛰️ ภูมิประเทศ
+            </button>
+          </div>
+
+          <!-- 3. QUICK ZOOM SHORTCUT BUTTONS (COLLAPSIBLE) -->
+          <div id="quick-zoom-container" class="absolute top-[54px] left-3 z-[1000] pointer-events-auto">
+            <!-- Expanded State -->
+            <div id="quick-zoom-card" class="bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-700/80 text-[11px] flex flex-col gap-1 shadow-2xl w-48 transition-all">
+              <div class="flex items-center justify-between pb-1 border-b border-slate-800">
+                <span class="text-[10px] font-bold text-slate-300 flex items-center gap-1 uppercase tracking-wider">
+                  <i data-lucide="crosshair" class="w-3.5 h-3.5 text-blue-400"></i> ซูมจุดสำคัญ:
+                </span>
+                <button onclick="toggleQuickZoom(false)" title="ย่อ/ซ่อนกล่องซูม" class="text-slate-400 hover:text-white p-0.5 rounded hover:bg-slate-800 transition flex items-center">
+                  <i data-lucide="minus" class="w-3 h-3"></i>
+                </button>
+              </div>
+              <button onclick="zoomTo('dokkrai')" class="px-2 py-1 text-left bg-slate-800/80 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> ผืนน้ำอ่างฯ ดอกกราย
               </button>
-              <button onclick="zoomTo('nongplalai')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+              <button onclick="zoomTo('nongplalai')" class="px-2 py-1 text-left bg-slate-800/80 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-400"></span> ผืนน้ำอ่างฯ หนองปลาไหล
               </button>
-              <button onclick="zoomTo('prasae')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+              <button onclick="zoomTo('prasae')" class="px-2 py-1 text-left bg-slate-800/80 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-sky-400"></span> ผืนน้ำอ่างฯ ประแสร์
               </button>
-              <button onclick="zoomTo('thapma')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+              <button onclick="zoomTo('thapma')" class="px-2 py-1 text-left bg-slate-800/80 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-amber-400"></span> คลองทับมา (จุดเสี่ยง)
               </button>
-              <button onclick="zoomTo('estuary')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+              <button onclick="zoomTo('estuary')" class="px-2 py-1 text-left bg-slate-800/80 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-cyan-400"></span> ปากน้ำระยองสู่อ่าวไทย
               </button>
             </div>
+
+            <!-- Collapsed State (Pill Button) -->
+            <button id="quick-zoom-btn-open" onclick="toggleQuickZoom(true)" class="hidden bg-slate-900/95 hover:bg-slate-800 backdrop-blur-md px-2.5 py-1.5 rounded-xl border border-slate-700/80 text-[11px] font-bold text-slate-200 shadow-xl items-center gap-1.5 transition">
+              <i data-lucide="crosshair" class="w-3.5 h-3.5 text-blue-400"></i>
+              <span>ซูมจุดสำคัญ</span>
+              <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+            </button>
           </div>
 
           <!-- FLOATING TMD RADAR PICTURE-IN-PICTURE (PiP) -->
@@ -367,21 +378,38 @@
             </div>
           </div>
 
-          <!-- Legend Overlay (Bottom Left) -->
-          <div class="absolute bottom-11 left-3 z-[1000] bg-slate-900/95 backdrop-blur-md p-3 rounded-xl border border-slate-700/80 text-[11px] space-y-1.5 shadow-xl max-w-xs pointer-events-auto">
-            <div class="font-bold text-slate-200 border-b border-slate-800 pb-1 flex items-center justify-between">
-              <span>สัญลักษณ์ผืนน้ำ & เส้นทางน้ำ</span>
-              <span class="text-[10px] text-cyan-400 font-mono">REAL-TIME</span>
+          <!-- 4. LEGEND OVERLAY (BOTTOM LEFT, COLLAPSIBLE) -->
+          <div id="legend-container" class="absolute bottom-11 left-3 z-[1000] pointer-events-auto">
+            <!-- Expanded State -->
+            <div id="legend-card" class="bg-slate-900/95 backdrop-blur-md p-2.5 rounded-xl border border-slate-700/80 text-[11px] space-y-1.5 shadow-2xl max-w-xs transition-all">
+              <div class="font-bold text-slate-200 border-b border-slate-800 pb-1 flex items-center justify-between">
+                <span class="flex items-center gap-1">
+                  <i data-lucide="info" class="w-3.5 h-3.5 text-cyan-400"></i> สัญลักษณ์ผืนน้ำ & ทางน้ำ
+                </span>
+                <div class="flex items-center gap-2">
+                  <span class="text-[9px] text-cyan-400 font-mono">REAL-TIME</span>
+                  <button onclick="toggleLegend(false)" title="ย่อ/ซ่อนสัญลักษณ์" class="text-slate-400 hover:text-white p-0.5 rounded hover:bg-slate-800 transition flex items-center">
+                    <i data-lucide="minus" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-x-2 gap-y-1">
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-2 rounded bg-sky-500 border border-sky-300"></span> ผืนน้ำอ่างเก็บน้ำ</div>
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-1.5 bg-amber-400 rounded"></span> คลองทับมา (น้ำหลาก)</div>
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-1.5 bg-sky-400 rounded"></span> แม่น้ำระยอง/ประแสร์</div>
+                <div class="flex items-center gap-1.5"><span class="w-3.5 h-1 bg-purple-400 rounded"></span> ท่อผันน้ำ Water Grid</div>
+              </div>
+              <div class="border-t border-slate-800 pt-1 text-[10px] text-slate-300 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> เส้นประวิ่ง = กระแสน้ำกำลังไหลระบายลงทะเล
+              </div>
             </div>
-            <div class="grid grid-cols-2 gap-x-2 gap-y-1">
-              <div class="flex items-center gap-1.5"><span class="w-3.5 h-2 rounded bg-sky-500 border border-sky-300"></span> ผืนน้ำอ่างเก็บน้ำ</div>
-              <div class="flex items-center gap-1.5"><span class="w-3.5 h-1.5 bg-amber-400 rounded"></span> คลองทับมา (น้ำหลาก)</div>
-              <div class="flex items-center gap-1.5"><span class="w-3.5 h-1.5 bg-sky-400 rounded"></span> แม่น้ำระยอง/ประแสร์</div>
-              <div class="flex items-center gap-1.5"><span class="w-3.5 h-1 bg-purple-400 rounded"></span> ท่อผันน้ำ Water Grid</div>
-            </div>
-            <div class="border-t border-slate-800 pt-1 text-[10px] text-slate-300 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> เส้นประวิ่ง = กระแสน้ำกำลังไหลระบายลงทะเล
-            </div>
+
+            <!-- Collapsed State (Pill Button) -->
+            <button id="legend-btn-open" onclick="toggleLegend(true)" class="hidden bg-slate-900/95 hover:bg-slate-800 backdrop-blur-md px-2.5 py-1.5 rounded-xl border border-slate-700/80 text-[11px] font-bold text-slate-200 shadow-xl items-center gap-1.5 transition">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-cyan-400"></i>
+              <span>สัญลักษณ์</span>
+              <i data-lucide="chevron-up" class="w-3 h-3 text-slate-400"></i>
+            </button>
           </div>
 
           <!-- Leaflet Map Container -->
@@ -1064,6 +1092,42 @@
       if (target === 'nongplalai') map.flyTo([12.928, 101.282], 13.5, { duration: 1 });
       if (target === 'prasae') map.flyTo([12.975, 101.630], 13, { duration: 1 });
       if (target === 'estuary') map.flyTo([12.658, 101.268], 14, { duration: 1 });
+    }
+
+    // Toggle Quick Zoom Panel (Collapsible)
+    let isQuickZoomOpen = true;
+    function toggleQuickZoom(open) {
+      isQuickZoomOpen = (open !== undefined) ? open : !isQuickZoomOpen;
+      const card = document.getElementById('quick-zoom-card');
+      const btn = document.getElementById('quick-zoom-btn-open');
+      if (isQuickZoomOpen) {
+        card.classList.remove('hidden');
+        btn.classList.add('hidden');
+        btn.classList.remove('flex');
+      } else {
+        card.classList.add('hidden');
+        btn.classList.remove('hidden');
+        btn.classList.add('flex');
+      }
+      lucide.createIcons();
+    }
+
+    // Toggle Legend Panel (Collapsible)
+    let isLegendOpen = true;
+    function toggleLegend(open) {
+      isLegendOpen = (open !== undefined) ? open : !isLegendOpen;
+      const card = document.getElementById('legend-card');
+      const btn = document.getElementById('legend-btn-open');
+      if (isLegendOpen) {
+        card.classList.remove('hidden');
+        btn.classList.add('hidden');
+        btn.classList.remove('flex');
+      } else {
+        card.classList.add('hidden');
+        btn.classList.remove('hidden');
+        btn.classList.add('flex');
+      }
+      lucide.createIcons();
     }
 
     // 8. VIEW MODE SWITCHER (GIS vs WINDY vs TMD RADAR)
