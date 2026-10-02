@@ -277,24 +277,41 @@
           <div class="absolute top-3 left-3 right-3 z-[1000] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
             
             <!-- Layer Switchers -->
-            <div class="bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs flex items-center gap-3 shadow-lg pointer-events-auto">
-              <span class="font-bold text-slate-200">ชั้นข้อมูล:</span>
-              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-                <input type="checkbox" id="chk-lakes" checked onchange="toggleLayer('lakes')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
-                🏞️ ผืนน้ำ 4 อ่างหลัก
+            <div class="bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs flex flex-wrap items-center gap-2.5 shadow-xl pointer-events-auto">
+              <span class="font-bold text-slate-200 flex items-center gap-1">
+                <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i> ชั้นข้อมูล:
+              </span>
+
+              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
+                <input type="checkbox" id="chk-lakes" checked onchange="toggleLayer('lakes')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
+                <span>🏞️ ผืนน้ำ 4 อ่างหลัก</span>
               </label>
-              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-                <input type="checkbox" id="chk-flow" checked onchange="toggleLayer('flow')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
-                🌊 เส้นทางแม่น้ำ/คลอง
+
+              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
+                <input type="checkbox" id="chk-flow" checked onchange="toggleLayer('flow')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
+                <span>🌊 แม่น้ำ/คลองระบาย</span>
               </label>
-              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-                <input type="checkbox" id="chk-stations" checked onchange="toggleLayer('stations')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
-                📏 สถานีวัดน้ำ
+
+              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white select-none">
+                <input type="checkbox" id="chk-stations" checked onchange="toggleLayer('stations')" class="rounded bg-slate-800 border-slate-600 text-blue-500 focus:ring-0">
+                <span>📏 สถานีวัดน้ำ</span>
               </label>
-              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-                <input type="checkbox" id="chk-radar" checked onchange="toggleLayer('radar')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
-                🌧️ เรดาร์สดเคลื่อนไหว
-              </label>
+
+              <!-- Dedicated Radar Layer Toggle with Status Badge & Opacity -->
+              <div class="flex items-center gap-1.5 pl-2 border-l border-slate-700/80">
+                <label id="lbl-radar" class="flex items-center gap-1.5 cursor-pointer px-2 py-0.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700/80 transition select-none">
+                  <input type="checkbox" id="chk-radar" onchange="toggleRadarLayer()" class="rounded bg-slate-900 border-slate-600 text-emerald-400 focus:ring-0">
+                  <span class="font-semibold text-slate-200">🌧️ เรดาร์ฝนสด</span>
+                  <span id="badge-radar-status" class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-slate-900 text-slate-400">ปิด</span>
+                </label>
+
+                <!-- Opacity Slider (visible when radar is ON) -->
+                <div id="radar-opacity-wrap" class="hidden items-center gap-1 text-[11px] text-slate-300 pl-1">
+                  <span class="text-[10px] text-slate-400">โปร่งใส:</span>
+                  <input type="range" id="radar-opacity-slider" min="15" max="85" value="40" oninput="changeRadarOpacity(this.value)" class="w-16 h-1 bg-slate-700 rounded appearance-none cursor-pointer accent-emerald-400">
+                  <span id="radar-opacity-val" class="font-mono text-[10px] text-emerald-400 font-bold">40%</span>
+                </div>
+              </div>
             </div>
 
             <!-- Basemap Selector Buttons -->
@@ -893,10 +910,11 @@
 
     renderStations();
 
-    // 6. LIVE REAL-TIME ANIMATED RADAR LAYER (RainViewer Live Frames directly on Leaflet)
+    // 6. LIVE REAL-TIME ANIMATED RADAR LAYER (RainViewer Live Frames on Leaflet)
     let radarLayers = [];
     let radarIndex = 0;
     let radarTimer = null;
+    let currentRadarOpacity = 0.40; // Soft 40% default opacity for high underlying visibility
 
     async function initLiveRadarTiles() {
       try {
@@ -905,14 +923,14 @@
         const host = data.host;
         const pastFrames = data.radar?.past || [];
         
-        // Take the latest 6 frames for a smooth 1-hour loop
+        // Take the latest 6 frames for a smooth loop
         const recentFrames = pastFrames.slice(-6);
 
         recentFrames.forEach(frame => {
           const tileUrl = `${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png`;
           const radarTile = L.tileLayer(tileUrl, {
             tileSize: 256,
-            opacity: 0.65,
+            opacity: currentRadarOpacity,
             zIndex: 400,
             maxZoom: 19,
             maxNativeZoom: 7
@@ -920,6 +938,8 @@
           radarLayers.push(radarTile);
         });
 
+        // NOTE: Starts in OFF mode by default to prevent overlapping clutter.
+        // It will only render on map when user turns on the checkbox.
         if (radarLayers.length > 0) {
           playRadarLoop();
         }
@@ -931,7 +951,16 @@
     function playRadarLoop() {
       if (radarTimer) clearInterval(radarTimer);
       radarTimer = setInterval(() => {
-        if (!document.getElementById('chk-radar').checked) return;
+        const chk = document.getElementById('chk-radar');
+        if (!chk || !chk.checked) {
+          // If unchecked, guarantee no radar frame remains on map
+          radarLayers.forEach(l => {
+            if (map.hasLayer(l)) map.removeLayer(l);
+          });
+          return;
+        }
+
+        if (radarLayers.length === 0) return;
 
         // Hide previous frame
         if (radarLayers[radarIndex] && map.hasLayer(radarLayers[radarIndex])) {
@@ -940,11 +969,53 @@
 
         radarIndex = (radarIndex + 1) % radarLayers.length;
 
-        // Show current frame
+        // Show current frame with configured opacity
         if (radarLayers[radarIndex]) {
+          radarLayers[radarIndex].setOpacity(currentRadarOpacity);
           map.addLayer(radarLayers[radarIndex]);
         }
       }, 1000);
+    }
+
+    // Explicit Toggle for Radar Layer
+    function toggleRadarLayer() {
+      const chk = document.getElementById('chk-radar');
+      const badge = document.getElementById('badge-radar-status');
+      const opacityWrap = document.getElementById('radar-opacity-wrap');
+      const lbl = document.getElementById('lbl-radar');
+
+      if (chk.checked) {
+        badge.innerText = "เปิด";
+        badge.className = "text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-emerald-500/30 text-emerald-300 border border-emerald-500/50";
+        lbl.className = "flex items-center gap-1.5 cursor-pointer px-2 py-0.5 rounded-lg border border-emerald-500/60 bg-emerald-950/40 text-emerald-200 transition select-none";
+        opacityWrap.classList.remove('hidden');
+        opacityWrap.classList.add('flex');
+
+        if (radarLayers[radarIndex] && !map.hasLayer(radarLayers[radarIndex])) {
+          radarLayers[radarIndex].setOpacity(currentRadarOpacity);
+          map.addLayer(radarLayers[radarIndex]);
+        }
+      } else {
+        badge.innerText = "ปิด";
+        badge.className = "text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-slate-900 text-slate-400";
+        lbl.className = "flex items-center gap-1.5 cursor-pointer px-2 py-0.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700/80 transition select-none";
+        opacityWrap.classList.add('hidden');
+        opacityWrap.classList.remove('flex');
+
+        // Immediately strip all radar frames from map
+        radarLayers.forEach(l => {
+          if (map.hasLayer(l)) map.removeLayer(l);
+        });
+      }
+    }
+
+    // Dynamic Opacity Controller
+    function changeRadarOpacity(val) {
+      currentRadarOpacity = val / 100;
+      document.getElementById('radar-opacity-val').innerText = val + '%';
+      radarLayers.forEach(l => {
+        l.setOpacity(currentRadarOpacity);
+      });
     }
 
     initLiveRadarTiles();
@@ -974,21 +1045,9 @@
       }
     }
 
-    // Toggle Layer Checkbox
+    // Toggle Standard Layers (Lakes, Rivers, Stations)
     function toggleLayer(name) {
       const chk = document.getElementById('chk-' + name);
-      if (name === 'radar') {
-        if (!chk.checked) {
-          if (radarLayers[radarIndex] && map.hasLayer(radarLayers[radarIndex])) {
-            map.removeLayer(radarLayers[radarIndex]);
-          }
-        } else {
-          if (radarLayers[radarIndex] && !map.hasLayer(radarLayers[radarIndex])) {
-            map.addLayer(radarLayers[radarIndex]);
-          }
-        }
-        return;
-      }
       if (chk.checked) {
         map.addLayer(layers[name]);
       } else {
