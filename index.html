@@ -23,7 +23,7 @@
       border: 1px solid rgba(51, 65, 85, 0.8);
     }
     
-    /* 🌊 ANIMATED FLOW STREAMS (กระแสน้ำไหลเคลื่อนไหวต่อเนื่อง) */
+    /* 🌊 ANIMATED FLOW STREAMS */
     @keyframes river-flow {
       from { stroke-dashoffset: 80; }
       to { stroke-dashoffset: 0; }
@@ -45,7 +45,7 @@
       animation: river-flow 1.1s linear infinite;
     }
 
-    /* 🌊 RESERVOIR WATER BODY GLOW (ผืนน้ำในเขื่อนกระเพื่อมเรืองแสง) */
+    /* 🌊 RESERVOIR WATER BODY GLOW */
     @keyframes lake-pulse {
       0%, 100% { fill-opacity: 0.55; stroke-opacity: 0.9; }
       50% { fill-opacity: 0.70; stroke-opacity: 1; }
@@ -55,16 +55,6 @@
     }
     .lake-water {
       animation: lake-pulse 3.5s ease-in-out infinite;
-    }
-
-    /* 🌀 ROTATING RADAR SWEEP */
-    @keyframes radar-sweep {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .radar-beam {
-      transform-origin: center center;
-      animation: radar-sweep 8s linear infinite;
     }
 
     /* 🌊 LIQUID SHIMMER IN RESERVOIR BARS */
@@ -147,7 +137,7 @@
         <div class="flex items-center gap-2">
           <h1 class="text-lg font-bold tracking-wide text-white">ศูนย์บัญชาการเฝ้าระวังและพยากรณ์น้ำท่วมระยอง</h1>
           <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center gap-1.5 shadow-sm">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span> LIVE STREAMING
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span> RADAR LIVE
           </span>
         </div>
         <p class="text-xs text-slate-400">Rayong Smart Flood Monitoring, Forecasting & Decision Support System (RW-DSS)</p>
@@ -157,15 +147,15 @@
     <!-- Quick Status Badges -->
     <div class="flex items-center gap-4 text-xs">
       <div class="hidden md:flex flex-col text-right">
-        <span class="text-slate-400">บูรณาการ: ThaiWater | กรมชลประทาน (RID) | อุตุนิยมวิทยา (TMD) | ทร.</span>
+        <span class="text-slate-400">บูรณาการเรดาร์: TMD ระยอง | Windy.com | ThaiWater | RID</span>
         <span class="text-slate-300 font-mono flex items-center justify-end gap-1.5">
           <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-          <span id="live-clock">02 ต.ค. 2026 19:38:00 น.</span>
+          <span id="live-clock">02 ต.ค. 2026 19:42:00 น.</span>
         </span>
       </div>
       <div class="flex items-center gap-2">
         <button onclick="zoomTo('rayong')" id="btn-rayong" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition shadow hover:bg-blue-500">
-          📍 ลุ่มน้ำระยอง (Focus)
+          📍 โฟกัสลุ่มน้ำระยอง
         </button>
         <button onclick="zoomTo('thailand')" id="btn-thailand" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
           🇹🇭 เขื่อนทั่วประเทศ
@@ -178,12 +168,12 @@
   <div class="bg-amber-500/15 border-b border-amber-500/40 px-5 py-2 flex items-center justify-between text-xs text-amber-200">
     <div class="flex items-center gap-2 overflow-hidden">
       <span class="p-1 rounded bg-amber-500/30 text-amber-300 animate-pulse"><i data-lucide="alert-triangle" class="w-4 h-4"></i></span>
-      <span class="font-bold text-amber-300 shrink-0">[เตือนภัยระดับ 2 - เฝ้าระวังน้ำหลากทับมา]:</span>
-      <span class="truncate">อ่างฯ ดอกกรายล้นความจุ 116.9% ระบายน้ำ 4.1M ลบ.ม./วัน กำลังไหลบ่าลงสู่คลองทับมา สถานีสูบน้ำทับมาเดินเครื่องสูบเร่งระบายน้ำออกสู่อ่าวไทย</span>
+      <span class="font-bold text-amber-300 shrink-0">[เตือนภัยระดับ 2 - เรดาร์ระยองตรวจพบกลุ่มฝน]:</span>
+      <span class="truncate">เรดาร์ TMD ระยองตรวจพบกลุ่มฝนปานกลาง-หนัก 35-50 dBZ เคลื่อนตัวจากปลวกแดงสู่อ่างฯ หนองปลาไหลและคลองทับมา สถานีสูบน้ำเดินเครื่อง 4/6 เครื่อง</span>
     </div>
     <span class="shrink-0 text-slate-300 hidden lg:flex items-center gap-2 font-mono">
       <i data-lucide="cog" class="w-4 h-4 text-emerald-400 pump-spinning"></i>
-      สถานีสูบน้ำทับมา: <strong class="text-emerald-400 font-bold">เดินเครื่อง 4/6 ตัว (24 ลบ.ม./วิ)</strong>
+      สถานีสูบน้ำทับมา: <strong class="text-emerald-400 font-bold">สูบระบาย 24 ลบ.ม./วินาที</strong>
     </span>
   </div>
 
@@ -192,7 +182,7 @@
     <!-- Card 1: Rain -->
     <div class="glass-panel p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
       <div>
-        <p class="text-xs text-slate-400 font-medium">ฝนสะสมสูงสุด 24 ชม.</p>
+        <p class="text-xs text-slate-400 font-medium">ฝนสะสม 24 ชม. (TMD Radar)</p>
         <div class="flex items-baseline gap-1 mt-1">
           <span class="text-2xl font-extrabold text-white" id="kpi-rain">78.5</span>
           <span class="text-xs text-slate-400">มม.</span>
@@ -253,84 +243,165 @@
   <!-- WORKSPACE CONTENT: MAP & ANALYTICS -->
   <main class="flex-1 px-4 pb-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
     
-    <!-- LEFT 7 COLS: GIS MAP + TIMELINE -->
+    <!-- LEFT 7 COLS: GIS MAP + RADAR SWITCHER + TIMELINE -->
     <div class="lg:col-span-7 flex flex-col gap-3">
+      
+      <!-- MODE TABS: GIS WATER MAP / WINDY RADAR / TMD RADAR -->
+      <div class="glass-panel p-1.5 rounded-xl border border-slate-800 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-1.5">
+          <button onclick="switchMode('gis')" id="tab-gis" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow transition flex items-center gap-1.5">
+            <i data-lucide="map" class="w-4 h-4"></i>
+            <span>แผนที่ระบบน้ำ GIS (+เรดาร์ฝนสด)</span>
+          </button>
+          <button onclick="switchMode('windy')" id="tab-windy" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+            <span>เรดาร์สด Windy.com</span>
+          </button>
+          <button onclick="switchMode('tmd')" id="tab-tmd" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1.5">
+            <i data-lucide="radar" class="w-4 h-4 text-emerald-400"></i>
+            <span>เรดาร์ระยอง กรมอุตุฯ (TMD)</span>
+          </button>
+        </div>
+        <button onclick="toggleTmdPiP()" id="btn-pip" class="hidden sm:flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700">
+          <i data-lucide="picture-in-picture-2" class="w-3.5 h-3.5"></i>
+          <span>หน้าต่างจอเล็ก TMD PiP</span>
+        </button>
+      </div>
+
+      <!-- MAIN MAP DISPLAY CONTAINER -->
       <div class="glass-panel rounded-xl overflow-hidden border border-slate-800 flex flex-col h-[560px] relative shadow-2xl">
         
-        <!-- TOP CONTROLS BAR INSIDE MAP -->
-        <div class="absolute top-3 left-3 right-3 z-[1000] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-          
-          <!-- Layer Switchers -->
-          <div class="bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs flex items-center gap-3 shadow-lg pointer-events-auto">
-            <span class="font-bold text-slate-200">ชั้นข้อมูล:</span>
-            <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-              <input type="checkbox" id="chk-lakes" checked onchange="toggleLayer('lakes')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
-              🏞️ ผืนน้ำ 4 อ่างหลัก
-            </label>
-            <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-              <input type="checkbox" id="chk-flow" checked onchange="toggleLayer('flow')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
-              🌊 เส้นทางแม่น้ำ/คลอง
-            </label>
-            <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-              <input type="checkbox" id="chk-stations" checked onchange="toggleLayer('stations')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
-              📏 สถานีวัดน้ำ
-            </label>
-            <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-              <input type="checkbox" id="chk-radar" checked onchange="toggleLayer('radar')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
-              🌧️ เรดาร์กวาดฝน
-            </label>
+        <!-- 1. VIEW MODE: LEAFLET GIS MAP -->
+        <div id="view-gis" class="w-full h-full relative">
+          <!-- TOP CONTROLS BAR INSIDE MAP -->
+          <div class="absolute top-3 left-3 right-3 z-[1000] flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+            
+            <!-- Layer Switchers -->
+            <div class="bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/80 text-xs flex items-center gap-3 shadow-lg pointer-events-auto">
+              <span class="font-bold text-slate-200">ชั้นข้อมูล:</span>
+              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chk-lakes" checked onchange="toggleLayer('lakes')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
+                🏞️ ผืนน้ำ 4 อ่างหลัก
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chk-flow" checked onchange="toggleLayer('flow')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
+                🌊 เส้นทางแม่น้ำ/คลอง
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chk-stations" checked onchange="toggleLayer('stations')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
+                📏 สถานีวัดน้ำ
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chk-radar" checked onchange="toggleLayer('radar')" class="rounded bg-slate-800 border-slate-600 text-blue-500">
+                🌧️ เรดาร์สดเคลื่อนไหว
+              </label>
+            </div>
+
+            <!-- Basemap Selector Buttons -->
+            <div class="bg-slate-900/95 backdrop-blur-md p-1 rounded-xl border border-slate-700/80 text-xs flex items-center gap-1 shadow-lg pointer-events-auto">
+              <button onclick="setBasemap('osm')" id="btn-osm" class="px-2.5 py-1 rounded-lg font-semibold bg-blue-600 text-white transition">
+                🗺️ ถนน
+              </button>
+              <button onclick="setBasemap('satellite')" id="btn-satellite" class="px-2.5 py-1 rounded-lg font-semibold text-slate-300 hover:bg-slate-800 transition">
+                🛰️ ดาวเทียม
+              </button>
+              <button onclick="setBasemap('topo')" id="btn-topo" class="px-2.5 py-1 rounded-lg font-semibold text-slate-300 hover:bg-slate-800 transition">
+                ⛰️ ภูมิประเทศ
+              </button>
+            </div>
           </div>
 
-          <!-- Basemap Selector Buttons -->
-          <div class="bg-slate-900/95 backdrop-blur-md p-1 rounded-xl border border-slate-700/80 text-xs flex items-center gap-1 shadow-lg pointer-events-auto">
-            <button onclick="setBasemap('osm')" id="btn-osm" class="px-2.5 py-1 rounded-lg font-semibold bg-blue-600 text-white transition">
-              🗺️ แผนที่ถนน
-            </button>
-            <button onclick="setBasemap('satellite')" id="btn-satellite" class="px-2.5 py-1 rounded-lg font-semibold text-slate-300 hover:bg-slate-800 transition">
-              🛰️ ดาวเทียม
-            </button>
-            <button onclick="setBasemap('topo')" id="btn-topo" class="px-2.5 py-1 rounded-lg font-semibold text-slate-300 hover:bg-slate-800 transition">
-              ⛰️ ภูมิประเทศ
-            </button>
+          <!-- QUICK ZOOM SHORTCUT BUTTONS -->
+          <div class="absolute top-14 left-3 z-[1000] flex flex-col gap-1.5 pointer-events-auto">
+            <div class="bg-slate-900/90 backdrop-blur-md p-1.5 rounded-lg border border-slate-700/80 text-[11px] flex flex-col gap-1 shadow-md">
+              <span class="text-[10px] font-bold text-slate-400 px-1 uppercase tracking-wider">ซูมจุดสำคัญ:</span>
+              <button onclick="zoomTo('dokkrai')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> ผืนน้ำอ่างฯ ดอกกราย
+              </button>
+              <button onclick="zoomTo('nongplalai')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> ผืนน้ำอ่างฯ หนองปลาไหล
+              </button>
+              <button onclick="zoomTo('prasae')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-sky-400"></span> ผืนน้ำอ่างฯ ประแสร์
+              </button>
+              <button onclick="zoomTo('thapma')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span> คลองทับมา (จุดเสี่ยง)
+              </button>
+              <button onclick="zoomTo('estuary')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-cyan-400"></span> ปากน้ำระยองสู่อ่าวไทย
+              </button>
+            </div>
           </div>
+
+          <!-- FLOATING TMD RADAR PICTURE-IN-PICTURE (PiP) -->
+          <div id="tmd-pip-box" class="absolute bottom-12 right-3 z-[1000] w-64 bg-slate-900/95 backdrop-blur-md rounded-xl border border-slate-700 shadow-2xl overflow-hidden transition-all pointer-events-auto">
+            <div class="px-2.5 py-1.5 bg-slate-800/90 border-b border-slate-700 flex items-center justify-between text-xs">
+              <span class="font-bold text-cyan-300 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> เรดาร์ระยอง TMD (Live Loop)
+              </span>
+              <button onclick="toggleTmdPiP()" class="text-slate-400 hover:text-white text-xs">✕</button>
+            </div>
+            <div class="p-1.5 bg-black flex flex-col items-center">
+              <img src="https://weather.tmd.go.th/ryg/rygloop.gif" class="w-full h-auto rounded" alt="TMD Rayong Radar Loop" />
+              <div class="text-[10px] text-slate-400 mt-1 flex items-center justify-between w-full px-1">
+                <span>เรดาร์ CMAX 240km</span>
+                <span class="text-emerald-400">อัปเดตสดจาก TMD</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legend Overlay (Bottom Left) -->
+          <div class="absolute bottom-11 left-3 z-[1000] bg-slate-900/95 backdrop-blur-md p-3 rounded-xl border border-slate-700/80 text-[11px] space-y-1.5 shadow-xl max-w-xs pointer-events-auto">
+            <div class="font-bold text-slate-200 border-b border-slate-800 pb-1 flex items-center justify-between">
+              <span>สัญลักษณ์ผืนน้ำ & เส้นทางน้ำ</span>
+              <span class="text-[10px] text-cyan-400 font-mono">REAL-TIME</span>
+            </div>
+            <div class="grid grid-cols-2 gap-x-2 gap-y-1">
+              <div class="flex items-center gap-1.5"><span class="w-3.5 h-2 rounded bg-sky-500 border border-sky-300"></span> ผืนน้ำอ่างเก็บน้ำ</div>
+              <div class="flex items-center gap-1.5"><span class="w-3.5 h-1.5 bg-amber-400 rounded"></span> คลองทับมา (น้ำหลาก)</div>
+              <div class="flex items-center gap-1.5"><span class="w-3.5 h-1.5 bg-sky-400 rounded"></span> แม่น้ำระยอง/ประแสร์</div>
+              <div class="flex items-center gap-1.5"><span class="w-3.5 h-1 bg-purple-400 rounded"></span> ท่อผันน้ำ Water Grid</div>
+            </div>
+            <div class="border-t border-slate-800 pt-1 text-[10px] text-slate-300 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> เส้นประวิ่ง = กระแสน้ำกำลังไหลระบายลงทะเล
+            </div>
+          </div>
+
+          <!-- Leaflet Map Container -->
+          <div id="map" class="w-full h-full bg-slate-900 z-0"></div>
         </div>
 
-        <!-- QUICK ZOOM SHORTCUT BUTTONS -->
-        <div class="absolute top-14 left-3 z-[1000] flex flex-col gap-1.5 pointer-events-auto">
-          <div class="bg-slate-900/90 backdrop-blur-md p-1.5 rounded-lg border border-slate-700/80 text-[11px] flex flex-col gap-1 shadow-md">
-            <span class="text-[10px] font-bold text-slate-400 px-1 uppercase tracking-wider">ซูมจุดสำคัญ:</span>
-            <button onclick="zoomTo('dokkrai')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> ผืนน้ำอ่างฯ ดอกกราย
-            </button>
-            <button onclick="zoomTo('nongplalai')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> ผืนน้ำอ่างฯ หนองปลาไหล
-            </button>
-            <button onclick="zoomTo('prasae')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-sky-400"></span> ผืนน้ำอ่างฯ ประแสร์
-            </button>
-            <button onclick="zoomTo('thapma')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-amber-400"></span> คลองทับมา (จุดเสี่ยง)
-            </button>
-            <button onclick="zoomTo('estuary')" class="px-2 py-1 text-left bg-slate-800 hover:bg-blue-600 rounded text-slate-200 hover:text-white transition flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-cyan-400"></span> ปากน้ำระยองสู่อ่าวไทย
-            </button>
-          </div>
+        <!-- 2. VIEW MODE: WINDY LIVE RADAR EMBED -->
+        <div id="view-windy" class="w-full h-full hidden relative bg-slate-950">
+          <iframe 
+            id="windy-frame"
+            width="100%" 
+            height="100%" 
+            src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=km%2Fh&zoom=10&overlay=radar&product=radar&level=surface&lat=12.733&lon=101.275&message=true" 
+            frameborder="0"
+            class="w-full h-full">
+          </iframe>
         </div>
 
-        <!-- Legend Overlay (Bottom Left) -->
-        <div class="absolute bottom-11 left-3 z-[1000] bg-slate-900/95 backdrop-blur-md p-3 rounded-xl border border-slate-700/80 text-[11px] space-y-1.5 shadow-xl max-w-xs pointer-events-auto">
-          <div class="font-bold text-slate-200 border-b border-slate-800 pb-1 flex items-center justify-between">
-            <span>สัญลักษณ์ผืนน้ำ & เส้นทางน้ำ</span>
-            <span class="text-[10px] text-cyan-400 font-mono">REAL-TIME</span>
-          </div>
-          <div class="grid grid-cols-2 gap-x-2 gap-y-1">
-            <div class="flex items-center gap-1.5"><span class="w-3.5 h-2 rounded bg-sky-500 border border-sky-300"></span> ผืนน้ำอ่างเก็บน้ำ</div>
-            <div class="flex items-center gap-1.5"><span class="w-3.5 h-1.5 bg-amber-400 rounded"></span> คลองทับมา (น้ำหลาก)</div>
-            <div class="flex items-center gap-1.5"><span class="w-3.5 h-1.5 bg-sky-400 rounded"></span> แม่น้ำระยอง/ประแสร์</div>
-            <div class="flex items-center gap-1.5"><span class="w-3.5 h-1 bg-purple-400 rounded"></span> ท่อผันน้ำ Water Grid</div>
-          </div>
-          <div class="border-t border-slate-800 pt-1 text-[10px] text-slate-300 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> เส้นประวิ่ง = กระแสน้ำกำลังไหลระบายลงทะเล
+        <!-- 3. VIEW MODE: TMD RAYONG LIVE RADAR FULL VIEW -->
+        <div id="view-tmd" class="w-full h-full hidden relative bg-slate-950 flex flex-col items-center justify-center p-4">
+          <div class="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-2xl flex flex-col items-center">
+            <div class="w-full flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></span>
+                <h3 class="font-bold text-white text-sm">เรดาร์ตรวจอากาศสถานีระยอง (ภาพเคลื่อนไหวสด CMAX 240 กม.)</h3>
+              </div>
+              <a href="https://weather.tmd.go.th/rygloop.php" target="_blank" class="text-xs text-blue-400 hover:text-blue-300 underline flex items-center gap-1">
+                <span>weather.tmd.go.th</span>
+                <i data-lucide="external-link" class="w-3 h-3"></i>
+              </a>
+            </div>
+            <div class="relative bg-black rounded-xl overflow-hidden border border-slate-700/60 p-1 flex justify-center">
+              <img src="https://weather.tmd.go.th/ryg/rygloop.gif" class="max-h-[440px] w-auto object-contain rounded" alt="TMD Rayong Radar Loop Live" />
+            </div>
+            <p class="text-xs text-slate-400 mt-2 text-center">
+              แหล่งที่มา: กรมอุตุนิยมวิทยา (TMD) — แสดงกลุ่มฝนสะสม ความเข้มข้น dBZ และทิศทางการเคลื่อนตัวผ่านลุ่มน้ำระยอง
+            </p>
           </div>
         </div>
 
@@ -341,14 +412,12 @@
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> INCOMING TELEMETRY:
             </span>
             <span id="telemetry-log" class="text-slate-300 truncate">
-              [19:38:02] ThaiWater: สถานีคลองทับมา ระดับน้ำ +2.45 ม. (สภาวะเฝ้าระวัง)
+              [19:42:02] ThaiWater: สถานีคลองทับมา ระดับน้ำ +2.45 ม. (สภาวะเฝ้าระวัง)
             </span>
           </div>
-          <span class="text-slate-400 shrink-0 hidden sm:inline" id="packet-counter">แพ็กเกจข้อมูล: 1,520 รายการ</span>
+          <span class="text-slate-400 shrink-0 hidden sm:inline" id="packet-counter">แพ็กเกจข้อมูล: 1,580 รายการ</span>
         </div>
 
-        <!-- Leaflet Map Container -->
-        <div id="map" class="w-full h-full bg-slate-900 z-0"></div>
       </div>
 
       <!-- TIMELINE & SIMULATION CONTROLLER -->
@@ -516,7 +585,7 @@
     // Initialize Lucide Icons
     lucide.createIcons();
 
-    // 1. BASEMAP LAYERS CONFIGURATION (No API Keys Required)
+    // 1. BASEMAP LAYERS CONFIGURATION
     const basemaps = {
       osm: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
@@ -558,22 +627,19 @@
 
     // 2. LAYER GROUPS
     const layers = {
-      lakes: L.layerGroup().addTo(map),      // ผืนน้ำอ่างเก็บน้ำ (Reservoir Water Body Polygons)
-      flow: L.layerGroup().addTo(map),       // เส้นทางแม่น้ำ/คลองระบายน้ำ (River Stream Networks)
-      stations: L.layerGroup().addTo(map),   // สถานีวัดระดับน้ำ
+      lakes: L.layerGroup().addTo(map),      // ผืนน้ำอ่างเก็บน้ำ
+      flow: L.layerGroup().addTo(map),       // เส้นทางน้ำ/คลอง
+      stations: L.layerGroup().addTo(map),   // สถานีวัดน้ำ
       radar: L.layerGroup().addTo(map),      // เรดาร์ฝน
       floodZone: L.layerGroup().addTo(map)   // พื้นที่น้ำท่วมจำลอง
     };
 
-    // -------------------------------------------------------------
-    // 3. DRAW RESERVOIR WATER BODY POLYGONS (วาดผืนน้ำเขื่อนจริงบนแผนที่)
-    // -------------------------------------------------------------
+    // 3. DRAW RESERVOIR WATER BODY POLYGONS
     function drawReservoirWaterBodies() {
       layers.lakes.clearLayers();
 
-      // 1. อ่างเก็บน้ำดอกกราย (Dok Krai Lake Polygon)
       const dokKraiPolygonCoords = [
-        [12.868, 101.215], // สันเขื่อนด้านใต้
+        [12.868, 101.215],
         [12.875, 101.218],
         [12.885, 101.226],
         [12.898, 101.222],
@@ -584,9 +650,8 @@
         [12.872, 101.205]
       ];
 
-      // 2. อ่างเก็บน้ำหนองปลาไหล (Nong Pla Lai Lake Polygon)
       const nongPlaLaiPolygonCoords = [
-        [12.905, 101.280], // สันเขื่อนด้านใต้
+        [12.905, 101.280],
         [12.915, 101.295],
         [12.932, 101.305],
         [12.948, 101.298],
@@ -597,9 +662,8 @@
         [12.908, 101.272]
       ];
 
-      // 3. อ่างเก็บน้ำคลองใหญ่ (Khlong Yai Lake Polygon)
       const khlongYaiPolygonCoords = [
-        [12.975, 101.320], // สันเขื่อน
+        [12.975, 101.320],
         [12.985, 101.332],
         [13.002, 101.335],
         [13.015, 101.325],
@@ -608,9 +672,8 @@
         [12.982, 101.312]
       ];
 
-      // 4. อ่างเก็บน้ำประแสร์ (Prasae Reservoir - Largest East Lake)
       const prasaePolygonCoords = [
-        [12.945, 101.625], // สันเขื่อน
+        [12.945, 101.625],
         [12.955, 101.645],
         [12.972, 101.665],
         [12.990, 101.658],
@@ -621,67 +684,38 @@
         [12.960, 101.605]
       ];
 
-      // Render Dok Krai Lake (Red glow alert because >100% capacity)
       L.polygon(dokKraiPolygonCoords, {
         color: '#f43f5e',
         fillColor: '#0284c7',
         fillOpacity: 0.65,
         weight: 3.5,
         className: 'lake-dokkrai'
-      }).bindPopup(`
-        <div class="text-xs p-1">
-          <strong class="text-rose-400 text-sm">🏢 อ่างเก็บน้ำดอกกราย</strong><br/>
-          <span class="text-slate-200">ปริมาณน้ำปัจจุบัน: 83.52 ล้าน ลบ.ม. (116.98%)</span><br/>
-          <span class="text-rose-300 font-bold">⚠️ วิกฤตล้นตลิ่ง ระบายน้ำออก 4.10M ลบ.ม./วัน</span>
-        </div>
-      `).addTo(layers.lakes);
+      }).bindPopup('<strong class="text-rose-400">🏢 อ่างเก็บน้ำดอกกราย</strong><br/>83.52 ล้าน ลบ.ม. (116.98%) - ล้นตลิ่ง').addTo(layers.lakes);
 
-      // Render Nong Pla Lai Lake
       L.polygon(nongPlaLaiPolygonCoords, {
         color: '#0284c7',
         fillColor: '#0284c7',
         fillOpacity: 0.60,
         weight: 3,
         className: 'lake-water'
-      }).bindPopup(`
-        <div class="text-xs p-1">
-          <strong class="text-cyan-300 text-sm">🏢 อ่างเก็บน้ำหนองปลาไหล</strong><br/>
-          <span class="text-slate-200">ปริมาณน้ำปัจจุบัน: 104.80 ล้าน ลบ.ม. (64.0%)</span><br/>
-          <span class="text-emerald-400">สถานะ: ปกติ ปลอดภัย</span>
-        </div>
-      `).addTo(layers.lakes);
+      }).bindPopup('<strong class="text-cyan-300">🏢 อ่างเก็บน้ำหนองปลาไหล</strong><br/>104.80 ล้าน ลบ.ม. (64.0%)').addTo(layers.lakes);
 
-      // Render Khlong Yai Lake
       L.polygon(khlongYaiPolygonCoords, {
         color: '#f59e0b',
         fillColor: '#0284c7',
         fillOpacity: 0.60,
         weight: 3,
         className: 'lake-water'
-      }).bindPopup(`
-        <div class="text-xs p-1">
-          <strong class="text-amber-400 text-sm">🏢 อ่างเก็บน้ำคลองใหญ่</strong><br/>
-          <span class="text-slate-200">ปริมาณน้ำปัจจุบัน: 48.12 ล้าน ลบ.ม. (94.72%)</span><br/>
-          <span class="text-amber-300">สถานะ: เตือนภัย ระบายออก 1.30M ลบ.ม./วัน</span>
-        </div>
-      `).addTo(layers.lakes);
+      }).bindPopup('<strong class="text-amber-400">🏢 อ่างเก็บน้ำคลองใหญ่</strong><br/>48.12 ล้าน ลบ.ม. (94.72%)').addTo(layers.lakes);
 
-      // Render Prasae Lake
       L.polygon(prasaePolygonCoords, {
         color: '#0284c7',
         fillColor: '#0284c7',
         fillOpacity: 0.60,
         weight: 3,
         className: 'lake-water'
-      }).bindPopup(`
-        <div class="text-xs p-1">
-          <strong class="text-cyan-300 text-sm">🏢 อ่างเก็บน้ำประแสร์ (อ.แกลง)</strong><br/>
-          <span class="text-slate-200">ปริมาณน้ำปัจจุบัน: 203.55 ล้าน ลบ.ม. (69.0%)</span><br/>
-          <span class="text-emerald-400">สถานะ: ปกติ มีท่อผันน้ำไปคลองใหญ่</span>
-        </div>
-      `).addTo(layers.lakes);
+      }).bindPopup('<strong class="text-cyan-300">🏢 อ่างเก็บน้ำประแสร์</strong><br/>203.55 ล้าน ลบ.ม. (69.0%)').addTo(layers.lakes);
 
-      // Add Lake Permanent Banner Labels
       const lakeLabels = [
         { name: "🌊 ผืนน้ำอ่างฯ ดอกกราย (117% ล้น)", lat: 12.885, lng: 101.210, border: "#f43f5e" },
         { name: "🌊 ผืนน้ำอ่างฯ หนองปลาไหล (64%)", lat: 12.928, lng: 101.282, border: "#38bdf8" },
@@ -702,102 +736,78 @@
 
     drawReservoirWaterBodies();
 
-    // -------------------------------------------------------------
-    // 4. DRAW CONTINUOUS RIVER FLOW PATHS & DIVERSION NETWORKS
-    // -------------------------------------------------------------
+    // 4. DRAW CONTINUOUS RIVER FLOW PATHS
     function drawDetailedRiverNetworks() {
       layers.flow.clearLayers();
 
-      // 1. คลองทับมา (Thap Ma Canal) - เส้นทางน้ำหลากจากอ่างฯ ดอกกราย
       const thapMaCoords = [
-        [12.868, 101.215], // อาคารระบายน้ำอ่างฯ ดอกกราย
-        [12.845, 101.218], // นิคมพัฒนา
+        [12.868, 101.215],
+        [12.845, 101.218],
         [12.805, 101.232],
-        [12.765, 101.240], // วัดน้ำคอกใหม่
-        [12.730, 101.242], // สะพานข้ามทางหลวง 36
-        [12.715, 101.245], // สะพานท่าสถิตย์ (จุดวิกฤตทับมา)
-        [12.705, 101.258], // บรรจบแม่น้ำระยอง
-        [12.678, 101.275], // เทศบาลนครระยอง
-        [12.658, 101.268]  // ปากน้ำระยองสู่อ่าวไทย
+        [12.765, 101.240],
+        [12.730, 101.242],
+        [12.715, 101.245],
+        [12.705, 101.258],
+        [12.678, 101.275],
+        [12.658, 101.268]
       ];
 
-      // 2. แม่น้ำระยอง (Rayong River) - ระบายน้ำจากอ่างฯ หนองปลาไหล
       const rayongRiverCoords = [
-        [12.905, 101.280], // ประตูระบายน้ำหนองปลาไหล
-        [12.860, 101.282], // อ.บ้านค่าย
+        [12.905, 101.280],
+        [12.860, 101.282],
         [12.810, 101.295],
-        [12.755, 101.290], // เชิงเนิน
-        [12.705, 101.258], // บรรจบคลองทับมา
-        [12.678, 101.275], // เทศบาลนครระยอง
-        [12.658, 101.268]  // ปากน้ำระยอง
+        [12.755, 101.290],
+        [12.705, 101.258],
+        [12.678, 101.275],
+        [12.658, 101.268]
       ];
 
-      // 3. แม่น้ำประแสร์ (Prasae River - อ.แกลง)
       const prasaeRiverCoords = [
-        [12.945, 101.625], // อาคารระบายน้ำประแสร์
+        [12.945, 101.625],
         [12.905, 101.635],
         [12.835, 101.648],
-        [12.775, 101.670], // อำเภอแกลง
-        [12.702, 101.705]  // ปากน้ำประแสร์ลงอ่าวไทย
+        [12.775, 101.670],
+        [12.702, 101.705]
       ];
 
-      // 4. ท่อผันน้ำประแสร์ - คลองใหญ่ - หนองปลาไหล (Water Grid)
       const waterGridCoords = [
-        [12.955, 101.625], // สถานีสูบผันน้ำประแสร์
+        [12.955, 101.625],
         [12.985, 101.470],
-        [12.985, 101.320], // อ่างฯ คลองใหญ่
-        [12.945, 101.298]  // เชื่อมเข้าหนองปลาไหล
+        [12.985, 101.320],
+        [12.945, 101.298]
       ];
 
-      // 5. คลองระบายน้ำหลากเลี่ยงเมืองระยอง (Bypass Channel)
       const bypassCanalCoords = [
-        [12.720, 101.248], // ประตูระบายน้ำทับมา
+        [12.720, 101.248],
         [12.695, 101.238],
-        [12.665, 101.245]  // ระบายลงทะเลโดยตรง
+        [12.665, 101.245]
       ];
 
-      // --- A. Base River Geometry (Thick background lines) ---
+      // Base
       L.polyline(rayongRiverCoords, { color: '#0369a1', weight: 9, opacity: 0.6 }).addTo(layers.flow);
       L.polyline(thapMaCoords, { color: '#b45309', weight: 9, opacity: 0.6 }).addTo(layers.flow);
       L.polyline(prasaeRiverCoords, { color: '#0369a1', weight: 9, opacity: 0.6 }).addTo(layers.flow);
       L.polyline(bypassCanalCoords, { color: '#059669', weight: 6, opacity: 0.5 }).addTo(layers.flow);
 
-      // --- B. Animated Flow Lines (Moving particle streams) ---
+      // Flow
       L.polyline(rayongRiverCoords, {
-        color: '#38bdf8',
-        weight: 5,
-        className: 'flow-stream-rayong',
-        opacity: 0.95
+        color: '#38bdf8', weight: 5, className: 'flow-stream-rayong', opacity: 0.95
       }).bindTooltip("🌊 แม่น้ำระยอง: กระแสน้ำระบายลงอ่าวไทย", { sticky: true }).addTo(layers.flow);
 
       L.polyline(thapMaCoords, {
-        color: '#f59e0b',
-        weight: 5.5,
-        className: 'flow-stream-thapma',
-        opacity: 0.95
+        color: '#f59e0b', weight: 5.5, className: 'flow-stream-thapma', opacity: 0.95
       }).bindTooltip("⚠️ คลองทับมา: กระแสน้ำหลากเร่งระบายจากอ่างฯ ดอกกราย", { sticky: true }).addTo(layers.flow);
 
       L.polyline(prasaeRiverCoords, {
-        color: '#38bdf8',
-        weight: 5,
-        className: 'flow-stream-prasae',
-        opacity: 0.95
+        color: '#38bdf8', weight: 5, className: 'flow-stream-prasae', opacity: 0.95
       }).bindTooltip("🌊 แม่น้ำประแสร์ (อ.แกลง)", { sticky: true }).addTo(layers.flow);
 
       L.polyline(waterGridCoords, {
-        color: '#c084fc',
-        weight: 4,
-        dashArray: '6, 10',
-        className: 'flow-watergrid',
-        opacity: 0.9
-      }).bindTooltip("🔄 โครงข่ายท่อผันน้ำภาคตะวันออก: ประแสร์ -> คลองใหญ่ -> หนองปลาไหล", { sticky: true }).addTo(layers.flow);
+        color: '#c084fc', weight: 4, dashArray: '6, 10', className: 'flow-watergrid', opacity: 0.9
+      }).bindTooltip("🔄 โครงข่ายท่อผันน้ำ: ประแสร์ -> คลองใหญ่ -> หนองปลาไหล", { sticky: true }).addTo(layers.flow);
 
       L.polyline(bypassCanalCoords, {
-        color: '#34d399',
-        weight: 4,
-        dashArray: '6, 10',
-        className: 'flow-watergrid',
-        opacity: 0.9
+        color: '#34d399', weight: 4, dashArray: '6, 10', className: 'flow-watergrid', opacity: 0.9
       }).bindTooltip("🔀 คลองผันน้ำเลี่ยงเมืองระยอง: ระบายตัดลงทะเล", { sticky: true }).addTo(layers.flow);
 
       // Active Water Discharge effect at Pumping Station
@@ -817,45 +827,35 @@
 
     drawDetailedRiverNetworks();
 
-    // -------------------------------------------------------------
     // 5. TELEMETRY & RIVER WATER LEVEL STATIONS
-    // -------------------------------------------------------------
     const riverStations = [
       {
         id: "thapma",
         name: "คลองทับมา (สะพานท่าสถิตย์)",
         lat: 12.715, lng: 101.245,
-        stage: "+2.45 ม.",
-        bankfull: "+3.00 ม.",
-        status: "watch",
-        statusLabel: "เฝ้าระวัง (เหลือ 55 ซม.)"
+        stage: "+2.45 ม.", bankfull: "+3.00 ม.",
+        status: "watch", statusLabel: "เฝ้าระวัง (เหลือ 55 ซม.)"
       },
       {
         id: "rayong_river",
         name: "แม่น้ำระยอง (สะพานเปรมใจรักษ์)",
         lat: 12.678, lng: 101.275,
-        stage: "+1.35 ม.",
-        bankfull: "+2.60 ม.",
-        status: "normal",
-        statusLabel: "ปกติ"
+        stage: "+1.35 ม.", bankfull: "+2.60 ม.",
+        status: "normal", statusLabel: "ปกติ"
       },
       {
         id: "namkok",
         name: "วัดน้ำคอกใหม่ (คลองหวายโสม)",
         lat: 12.765, lng: 101.240,
-        stage: "+3.10 ม.",
-        bankfull: "+4.00 ม.",
-        status: "watch",
-        statusLabel: "เฝ้าระวัง"
+        stage: "+3.10 ม.", bankfull: "+4.00 ม.",
+        status: "watch", statusLabel: "เฝ้าระวัง"
       },
       {
         id: "estuary",
         name: "ปากแม่น้ำระยอง (น้ำทะเล)",
         lat: 12.658, lng: 101.268,
-        stage: "หนุน +1.48 ม.",
-        bankfull: "+2.20 ม.",
-        status: "normal",
-        statusLabel: "ระดับน้ำทะเลหนุน"
+        stage: "หนุน +1.48 ม.", bankfull: "+2.20 ม.",
+        status: "normal", statusLabel: "ระดับน้ำทะเลหนุน"
       }
     ];
 
@@ -893,36 +893,61 @@
 
     renderStations();
 
-    // -------------------------------------------------------------
-    // 6. ROTATING WEATHER RADAR SWEEP
-    // -------------------------------------------------------------
-    function renderRadarSweep() {
-      layers.radar.clearLayers();
+    // 6. LIVE REAL-TIME ANIMATED RADAR LAYER (RainViewer Live Frames directly on Leaflet)
+    let radarLayers = [];
+    let radarIndex = 0;
+    let radarTimer = null;
 
-      L.circle([12.880, 101.200], {
-        radius: 12000,
-        color: '#f59e0b',
-        fillColor: '#f59e0b',
-        fillOpacity: 0.18,
-        weight: 1.5,
-        dashArray: '4, 4'
-      }).bindTooltip("🌧️ เรดาร์ TMD สัตหีบ: รัศมีตรวจพบกลุ่มฝนปานกลาง (35-50 มม./ชม.)", { sticky: true }).addTo(layers.radar);
+    async function initLiveRadarTiles() {
+      try {
+        const response = await fetch('https://api.rainviewer.com/public/weather-maps.json');
+        const data = await response.json();
+        const host = data.host;
+        const pastFrames = data.radar?.past || [];
+        
+        // Take the latest 6 frames for a smooth 1-hour loop
+        const recentFrames = pastFrames.slice(-6);
 
-      L.circle([12.720, 101.250], {
-        radius: 6500,
-        color: '#10b981',
-        fillColor: '#10b981',
-        fillOpacity: 0.15,
-        weight: 1.5,
-        dashArray: '4, 4'
-      }).bindTooltip("🌧️ เรดาร์ TMD: กลุ่มฝนเล็กน้อย ต.ทับมา", { sticky: true }).addTo(layers.radar);
+        recentFrames.forEach(frame => {
+          const tileUrl = `${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png`;
+          const radarTile = L.tileLayer(tileUrl, {
+            tileSize: 256,
+            opacity: 0.65,
+            zIndex: 400
+          });
+          radarLayers.push(radarTile);
+        });
+
+        if (radarLayers.length > 0) {
+          playRadarLoop();
+        }
+      } catch (err) {
+        console.warn("RainViewer radar live tiles fallback:", err);
+      }
     }
 
-    renderRadarSweep();
+    function playRadarLoop() {
+      if (radarTimer) clearInterval(radarTimer);
+      radarTimer = setInterval(() => {
+        if (!document.getElementById('chk-radar').checked) return;
 
-    // -------------------------------------------------------------
+        // Hide previous frame
+        if (radarLayers[radarIndex] && map.hasLayer(radarLayers[radarIndex])) {
+          map.removeLayer(radarLayers[radarIndex]);
+        }
+
+        radarIndex = (radarIndex + 1) % radarLayers.length;
+
+        // Show current frame
+        if (radarLayers[radarIndex]) {
+          map.addLayer(radarLayers[radarIndex]);
+        }
+      }, 1000);
+    }
+
+    initLiveRadarTiles();
+
     // 7. SIMULATED FLOOD INUNDATION HAZARD ZONE
-    // -------------------------------------------------------------
     let floodPolygon = null;
     function updateFloodZone(val) {
       layers.floodZone.clearLayers();
@@ -950,6 +975,18 @@
     // Toggle Layer Checkbox
     function toggleLayer(name) {
       const chk = document.getElementById('chk-' + name);
+      if (name === 'radar') {
+        if (!chk.checked) {
+          if (radarLayers[radarIndex] && map.hasLayer(radarLayers[radarIndex])) {
+            map.removeLayer(radarLayers[radarIndex]);
+          }
+        } else {
+          if (radarLayers[radarIndex] && !map.hasLayer(radarLayers[radarIndex])) {
+            map.addLayer(radarLayers[radarIndex]);
+          }
+        }
+        return;
+      }
       if (chk.checked) {
         map.addLayer(layers[name]);
       } else {
@@ -968,13 +1005,47 @@
       if (target === 'estuary') map.flyTo([12.658, 101.268], 14, { duration: 1 });
     }
 
-    // 8. REAL-TIME DATA STREAM TICKER & AUTO INGESTION SIMULATOR
-    let packetCount = 1520;
+    // 8. VIEW MODE SWITCHER (GIS vs WINDY vs TMD RADAR)
+    function switchMode(mode) {
+      document.getElementById('view-gis').classList.add('hidden');
+      document.getElementById('view-windy').classList.add('hidden');
+      document.getElementById('view-tmd').classList.add('hidden');
+
+      ['gis', 'windy', 'tmd'].forEach(m => {
+        const btn = document.getElementById('tab-' + m);
+        if (m === mode) {
+          btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow transition flex items-center gap-1.5";
+        } else {
+          btn.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1.5";
+        }
+      });
+
+      document.getElementById('view-' + mode).classList.remove('hidden');
+
+      if (mode === 'gis') {
+        setTimeout(() => map.invalidateSize(), 100);
+      }
+    }
+
+    // Toggle Picture-in-Picture TMD Radar Box
+    let isPipOpen = true;
+    function toggleTmdPiP() {
+      const pip = document.getElementById('tmd-pip-box');
+      isPipOpen = !isPipOpen;
+      if (isPipOpen) {
+        pip.classList.remove('hidden');
+      } else {
+        pip.classList.add('hidden');
+      }
+    }
+
+    // 9. REAL-TIME DATA STREAM TICKER & AUTO INGESTION SIMULATOR
+    let packetCount = 1580;
     const telemetryEvents = [
+      "📡 [TMD เรดาร์ระยอง] กลุ่มฝนปานกลาง 35-45 dBZ กำลังเคลื่อนตัวเข้าสู่อ่างฯ หนองปลาไหล",
+      "📡 [Windy Weather API] ตรวจพบประจุฟ้าผ่าบริเวณเขาชะเมา ทิศทางลมตะวันตกเฉียงใต้ 18 กม./ชม.",
       "📡 [สสน. ThaiWater] สถานีคลองทับมา: ระดับน้ำ +2.45 ม. (อัตราไหล 208 m³/s)",
       "📡 [กรมชลประทาน RID] อ่างฯ ดอกกราย: ระบายน้ำคงที่ 4.10 ล้าน ลบ.ม./วัน (ล้นความจุ)",
-      "📡 [กรมชลประทาน RID] อ่างฯ หนองปลาไหล: ความจุ 64.0% รับน้ำหลากได้อีก 58.9 ล้าน ลบ.ม.",
-      "📡 [กรมอุตุนิยมวิทยา TMD] เรดาร์สัตหีบตรวจพบกลุ่มฝนสะสมเหนือปลวกแดง 12 มม./ชม.",
       "📡 [ทร. กรมอุทกศาสตร์] ปากน้ำระยอง: ระดับน้ำทะเลกำลังหนุนขึ้นที่ +1.52 ม.รทก.",
       "📡 [สถานีสูบน้ำทับมา] ปั๊มขนาดใหญ่ 4 เครื่อง ทำงานเต็มกำลังสูบ 24 ลบ.ม./วินาที"
     ];
@@ -994,7 +1065,7 @@
       document.getElementById('kpi-stage').innerText = `+${curStage}`;
     }, 3500);
 
-    // 9. CHART.JS HYDROGRAPH
+    // 10. CHART.JS HYDROGRAPH
     const ctx = document.getElementById('hydrographChart').getContext('2d');
     const hydroChart = new Chart(ctx, {
       type: 'line',
@@ -1052,7 +1123,7 @@
       }
     });
 
-    // 10. TIMELINE SLIDER LOGIC & DYNAMIC SIMULATION
+    // 11. TIMELINE SLIDER LOGIC & DYNAMIC SIMULATION
     const timelineLabels = [
       "ย้อนหลัง 12 ชั่วโมง",
       "ปัจจุบัน (Real-Time Live)",
