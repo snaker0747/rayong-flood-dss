@@ -285,7 +285,7 @@
 
               <label class="flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 select-none">
                 <input type="checkbox" id="chk-lakes" checked onchange="toggleLayer('lakes')" class="rounded bg-slate-900 border-slate-600 text-blue-500 focus:ring-0">
-                <span>🏞️ 4 อ่างหลัก</span>
+                <span>🏞️ 5 อ่างหลัก</span>
               </label>
 
               <label class="flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 select-none">
@@ -322,12 +322,17 @@
                 <i data-lucide="crosshair" class="w-3.5 h-3.5 text-blue-400 shrink-0"></i>
                 <select onchange="zoomTo(this.value); this.value='';" class="bg-transparent text-slate-200 text-xs font-semibold focus:outline-none cursor-pointer">
                   <option value="" class="bg-slate-900 text-slate-400 font-normal">🎯 ซูมจุดสำคัญ...</option>
-                  <option value="dokkrai" class="bg-slate-900 text-rose-300">🔴 อ่างฯ ดอกกราย (117% ล้นตลิ่ง)</option>
-                  <option value="nongplalai" class="bg-slate-900 text-emerald-300">🟢 อ่างฯ หนองปลาไหล (64%)</option>
-                  <option value="prasae" class="bg-slate-900 text-sky-300">🔵 อ่างฯ ประแสร์ (69%)</option>
-                  <option value="thapma" class="bg-slate-900 text-amber-300">🟡 คลองทับมา (จุดเสี่ยง)</option>
+                  <option value="dokkrai" class="bg-slate-900 text-rose-300">🔴 อ่างฯ ดอกกราย (117% ล้น)</option>
+                  <option value="nongplalai" class="bg-slate-900 text-emerald-300">🟢 อ่างฯ หนองปลาไหล (96%)</option>
+                  <option value="khlongyai" class="bg-slate-900 text-amber-300">🟡 อ่างฯ คลองใหญ่ (95%)</option>
+                  <option value="prasae" class="bg-slate-900 text-rose-300">🔴 อ่างฯ ประแสร์ (102% ล้น)</option>
+                  <option value="khlongraok" class="bg-slate-900 text-rose-300">🔴 อ่างฯ คลองระโอก (เขาจุก) (104% ล้น)</option>
+                  <option value="dokkraiCanal" class="bg-slate-900 text-cyan-300">🌊 คลองดอกกราย (แม่น้ำคู้-บ้านค่าย)</option>
+                  <option value="khlongPho" class="bg-slate-900 text-cyan-300">🌊 คลองระโอก-คลองโพล้ (อ.แกลง)</option>
+                  <option value="thapma" class="bg-slate-900 text-amber-300">⚠️ คลองทับมา (จุดเสี่ยง)</option>
                   <option value="estuary" class="bg-slate-900 text-cyan-300">🔷 ปากน้ำระยองสู่อ่าวไทย</option>
-                  <option value="rayong" class="bg-slate-900 text-slate-200">🗺️ ภาพรวมทั้งจังหวัดระยอง</option>
+                  <option value="prasaeEstuary" class="bg-slate-900 text-cyan-300">🔷 ปากน้ำประแสร์สู่อ่าวไทย</option>
+                  <option value="rayong" class="bg-slate-900 text-slate-200">🗺️ ภาพรวมระยอง (5 อ่างฯ ครบ)</option>
                 </select>
               </div>
 
@@ -571,7 +576,7 @@
     </div>
 
     <!-- RIGHT 5 COLS: HYDROGRAPH & DAM MONITOR -->
-    <div class="lg:col-span-5 flex flex-col gap-3">
+    <div class="lg:col-span-5 flex flex-col gap-3 max-h-[850px] overflow-y-auto pr-1">
       
       <!-- AI HYDROGRAPH FORECAST CHART -->
       <div class="glass-panel p-4 rounded-xl border border-slate-800 flex flex-col shadow-xl">
@@ -740,7 +745,7 @@
     const map = L.map('map', {
       zoomControl: true,
       layers: [basemaps.osm]
-    }).setView([12.835, 101.320], 11);
+    }).setView([12.830, 101.480], 10);
 
     setTimeout(() => map.invalidateSize(), 250);
     window.addEventListener('resize', () => map.invalidateSize());
@@ -815,48 +820,76 @@ const officialReservoirCoords = {
 
     // ACCURATE RIVER & CANAL TRAJECTORIES (CONNECTING DAMS TO GULF OF THAILAND)
     const officialRiverCoords = {
+      // 1. คลองดอกกราย (INFOGRAPHIC 1): ประตูระบายน้ำอ่างฯ ดอกกราย -> ต.แม่น้ำคู้ (ปลวกแดง) -> ต.พนานิคม (นิคมพัฒนา) -> อ.บ้านค่าย (จุดบรรจบ)
+      dokkraiCanal: [
+        [12.8864, 101.2206], // ประตูระบายน้ำอ่างฯ ดอกกราย
+        [12.8820, 101.2320], // แม่น้ำคู้เหนือ
+        [12.8750, 101.2420], // ต.แม่น้ำคู้ อ.ปลวกแดง (จุดชุมชน)
+        [12.8620, 101.2500], // รอยต่อปลวกแดง-นิคมพัฒนา
+        [12.8450, 101.2560], // ต.พนานิคม อ.นิคมพัฒนา (เขตอุตสาหกรรม/เกษตร)
+        [12.8300, 101.2620], // พนานิคมใต้
+        [12.8150, 101.2700], // เข้าสู่อำเภอนิคมพัฒนา
+        [12.7950, 101.2780], // นิคมพัฒนา มุ่งหน้าบ้านค่าย
+        [12.7750, 101.2880]  // อ.บ้านค่าย จุดบรรจบแม่น้ำระยอง (Ban Khai Confluence)
+      ],
+
+      // 2. แม่น้ำระยอง (INFOGRAPHIC 1): รับน้ำจากหนองปลาไหล + คลองดอกกราย (บ้านค่าย) -> อ.เมืองระยอง -> ทะเลอ่าวไทย
+      rayongRiver: [
+        [12.9280, 101.2702], // สันเขื่อนหนองปลาไหล
+        [12.8800, 101.2780], // ไหลลงใต้ผ่านบ้านค่ายเหนือ
+        [12.8500, 101.2850], // แม่น้ำระยองตอนบน
+        [12.8100, 101.2950], // รอยต่อบ้านค่าย
+        [12.7750, 101.2880], // จุดบรรจบคลองดอกกราย (Ban Khai Confluence)
+        [12.7450, 101.2850], // เข้าสู่อำเภอเมืองระยอง
+        [12.7180, 101.2700], // ผ่านเขตเทศบาลนครระยอง
+        [12.6780, 101.2750], // ตัวเมืองระยอง
+        [12.6650, 101.2720], // ปากแม่น้ำระยอง
+        [12.6580, 101.2680]  // ทะเลอ่าวไทย (Gulf of Thailand)
+      ],
+
+      // 3. คลองระโอก (INFOGRAPHIC 2): ประตูระบายน้ำอ่างฯ คลองระโอก (เขาจุก) อ.แกลง -> ไหลลงคลองโพล้
+      khlongRaOk: [
+        [12.8610, 101.7580], // ประตูระบายน้ำอ่างฯ คลองระโอก (เขาจุก)
+        [12.8580, 101.7450], // คลองระโอกตอนกลาง
+        [12.8540, 101.7300], // คลองระโอกตะวันตก
+        [12.8500, 101.7150]  // จุดบรรจบคลองโพล้
+      ],
+
+      // 4. คลองโพล้ (INFOGRAPHIC 2): อ.เขาชะเมา -> รับน้ำจากคลองระโอก -> ไหลลงแม่น้ำประแสร์
+      khlongPho: [
+        [12.9200, 101.6850], // ต้นน้ำคลองโพล้ (อ.เขาชะเมา / ใกล้สถานี Z.18 บ้านซำฆ้อ)
+        [12.8800, 101.6750], // คลองโพล้ อ.เขาชะเมา
+        [12.8500, 101.7150], // จุดรับน้ำจากคลองระโอก
+        [12.8350, 101.6480]  // จุดบรรจบแม่น้ำประแสร์ (อ.แกลง)
+      ],
+
+      // 5. แม่น้ำประแสร์ (INFOGRAPHIC 2): จากอ่างฯ ประแสร์ & จุดบรรจบคลองโพล้ -> อ.แกลง -> ปากน้ำประแสร์สู่ทะเล
+      prasaeRiver: [
+        [12.9860, 101.5554], // อ่างฯ ประแสร์
+        [12.9350, 101.5850], // ลุ่มน้ำประแสร์
+        [12.8700, 101.6300], // อ.แกลงตอนบน
+        [12.8350, 101.6480], // จุดบรรจบคลองโพล้ (ใกล้สถานี Z.11 บ้านเขาวังไทร)
+        [12.8030, 101.6500], // เทศบาลเมืองแกลง (สถานี RAY001)
+        [12.7750, 101.6700], // แกลงตอนล่าง
+        [12.7400, 101.6880], // ก่อนออกปากน้ำ
+        [12.7150, 101.7000], // ปากน้ำประแสร์
+        [12.7000, 101.7080]  // ทะเลอ่าวไทย (Gulf of Thailand)
+      ],
+
+      // คลองทับมา (สายน้ำหลากระบายผ่านเมืองระยอง)
       thapma: [
         [12.8864, 101.2206],
         [12.8750, 101.2200],
-        [12.8550, 101.2215],
         [12.8350, 101.2250],
         [12.8050, 101.2320],
-        [12.7800, 101.2380],
         [12.7550, 101.2400],
-        [12.7350, 101.2420],
-        [12.7150, 101.2450],
-        [12.7050, 101.2580],
-        [12.6880, 101.2650],
-        [12.6780, 101.2750],
-        [12.6650, 101.2720],
-        [12.6580, 101.2680]
-      ],
-      rayongRiver: [
-        [12.9280, 101.2702],
-        [12.9100, 101.2720],
-        [12.8800, 101.2780],
-        [12.8500, 101.2850],
-        [12.8100, 101.2950],
-        [12.7750, 101.2920],
-        [12.7450, 101.2850],
-        [12.7180, 101.2700],
+        [12.7150, 101.2450], // สะพานท่าสถิตย์
         [12.7050, 101.2580],
         [12.6780, 101.2750],
-        [12.6650, 101.2720],
         [12.6580, 101.2680]
       ],
-      prasaeRiver: [
-        [12.9860, 101.5554],
-        [12.9650, 101.5650],
-        [12.9350, 101.5850],
-        [12.9050, 101.6100],
-        [12.8700, 101.6300],
-        [12.8350, 101.6500],
-        [12.7950, 101.6700],
-        [12.7550, 101.6850],
-        [12.7150, 101.7000],
-        [12.7000, 101.7080]
-      ],
+
+      // ท่อผันน้ำโครงข่าย EEC
       waterGrid: [
         [12.9860, 101.5554],
         [12.9750, 101.4400],
@@ -864,6 +897,8 @@ const officialReservoirCoords = {
         [12.9350, 101.2850],
         [12.9280, 101.2702]
       ],
+
+      // คลองผันน้ำเลี่ยงเมืองระยอง
       bypassCanal: [
         [12.7150, 101.2450],
         [12.7000, 101.2380],
@@ -1035,100 +1070,116 @@ const officialReservoirCoords = {
       const bypassCanalCoords = hydroOverrides.bypassCanal || officialRiverCoords.bypassCanal;
 
       // Base stroke underlays
-      L.polyline(dokkraiCanalCoords, { color: '#0369a1', weight: 8, opacity: 0.5 }).addTo(layers.flow);
-      L.polyline(rayongRiverCoords, { color: '#0369a1', weight: 9, opacity: 0.6 }).addTo(layers.flow);
-      L.polyline(khlongRaOkCoords, { color: '#0369a1', weight: 7, opacity: 0.5 }).addTo(layers.flow);
-      L.polyline(khlongPhoCoords, { color: '#0369a1', weight: 8, opacity: 0.5 }).addTo(layers.flow);
-      L.polyline(prasaeRiverCoords, { color: '#0369a1', weight: 9, opacity: 0.6 }).addTo(layers.flow);
-      L.polyline(thapMaCoords, { color: '#b45309', weight: 9, opacity: 0.6 }).addTo(layers.flow);
-      L.polyline(bypassCanalCoords, { color: '#059669', weight: 6, opacity: 0.5 }).addTo(layers.flow);
+      if (dokkraiCanalCoords && dokkraiCanalCoords.length > 0) L.polyline(dokkraiCanalCoords, { color: '#0369a1', weight: 8, opacity: 0.5 }).addTo(layers.flow);
+      if (rayongRiverCoords && rayongRiverCoords.length > 0) L.polyline(rayongRiverCoords, { color: '#0369a1', weight: 9, opacity: 0.6 }).addTo(layers.flow);
+      if (khlongRaOkCoords && khlongRaOkCoords.length > 0) L.polyline(khlongRaOkCoords, { color: '#0369a1', weight: 7, opacity: 0.5 }).addTo(layers.flow);
+      if (khlongPhoCoords && khlongPhoCoords.length > 0) L.polyline(khlongPhoCoords, { color: '#0369a1', weight: 8, opacity: 0.5 }).addTo(layers.flow);
+      if (prasaeRiverCoords && prasaeRiverCoords.length > 0) L.polyline(prasaeRiverCoords, { color: '#0369a1', weight: 9, opacity: 0.6 }).addTo(layers.flow);
+      if (thapMaCoords && thapMaCoords.length > 0) L.polyline(thapMaCoords, { color: '#b45309', weight: 9, opacity: 0.6 }).addTo(layers.flow);
+      if (bypassCanalCoords && bypassCanalCoords.length > 0) L.polyline(bypassCanalCoords, { color: '#059669', weight: 6, opacity: 0.5 }).addTo(layers.flow);
 
       // 1. คลองดอกกราย (INFOGRAPHIC 1): ประตูระบายน้ำอ่างฯ ดอกกราย -> แม่น้ำคู้ -> พนานิคม -> บรรจบ อ.บ้านค่าย
-      L.polyline(dokkraiCanalCoords, {
-        color: '#06b6d4', weight: 5, className: 'flow-stream-rayong', opacity: 0.95
-      }).bindTooltip("🌊 คลองดอกกราย: ทางน้ำระบายจากอ่างฯ ดอกกราย -> ต.แม่น้ำคู้ -> ต.พนานิคม -> อ.บ้านค่าย", { sticky: true })
-        .bindPopup(`
-          <div class="text-xs p-1">
-            <strong class="text-cyan-300 text-sm">🌊 คลองดอกกราย (Dok Krai Canal)</strong><br/>
-            <span class="text-slate-200">เส้นทางการไหลของน้ำจากอ่างเก็บน้ำดอกกราย:</span>
-            <ul class="list-disc pl-4 mt-1 space-y-0.5 text-slate-300 text-[11px]">
-              <li>🚪 <strong>Spillway/Outlet:</strong> ประตูระบายน้ำอ่างฯ ดอกกราย</li>
-              <li>🏡 <strong>ต.แม่น้ำคู้ อ.ปลวกแดง:</strong> ผ่านพื้นที่ชุมชนและที่อยู่อาศัย</li>
-              <li>🏭 <strong>ต.พนานิคม อ.นิคมพัฒนา:</strong> ผ่านพื้นที่เกษตรกรรมและนิคมอุตสาหกรรม</li>
-              <li>🔀 <strong>อ.บ้านค่าย (จุดบรรจบ):</strong> บรรจบแม่น้ำระยอง ก่อนไหลลงสู่อ่าวไทย</li>
-            </ul>
-            <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
-              <button onclick="startEditingDefaultFeature('dokkraiCanal')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
-                <span>✏️ ปรับแก้แนวคลองนี้</span>
-              </button>
+      if (dokkraiCanalCoords && dokkraiCanalCoords.length > 0) {
+        L.polyline(dokkraiCanalCoords, {
+          color: '#06b6d4', weight: 5, className: 'flow-stream-rayong', opacity: 0.95
+        }).bindTooltip("🌊 คลองดอกกราย: ทางน้ำระบายจากอ่างฯ ดอกกราย -> ต.แม่น้ำคู้ -> ต.พนานิคม -> อ.บ้านค่าย", { sticky: true })
+          .bindPopup(`
+            <div class="text-xs p-1">
+              <strong class="text-cyan-300 text-sm">🌊 คลองดอกกราย (Dok Krai Canal)</strong><br/>
+              <span class="text-slate-200">เส้นทางการไหลของน้ำจากอ่างเก็บน้ำดอกกราย:</span>
+              <ul class="list-disc pl-4 mt-1 space-y-0.5 text-slate-300 text-[11px]">
+                <li>🚪 <strong>Spillway/Outlet:</strong> ประตูระบายน้ำอ่างฯ ดอกกราย</li>
+                <li>🏡 <strong>ต.แม่น้ำคู้ อ.ปลวกแดง:</strong> ผ่านพื้นที่ชุมชนและที่อยู่อาศัย</li>
+                <li>🏭 <strong>ต.พนานิคม อ.นิคมพัฒนา:</strong> ผ่านพื้นที่เกษตรกรรมและนิคมอุตสาหกรรม</li>
+                <li>🔀 <strong>อ.บ้านค่าย (จุดบรรจบ):</strong> บรรจบแม่น้ำระยอง ก่อนไหลลงสู่อ่าวไทย</li>
+              </ul>
+              <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
+                <button onclick="startEditingDefaultFeature('dokkraiCanal')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
+                  <span>✏️ ปรับแก้แนวคลองนี้</span>
+                </button>
+              </div>
             </div>
-          </div>
-        `).addTo(layers.flow);
+          `).addTo(layers.flow);
+      }
 
       // 2. แม่น้ำระยอง (INFOGRAPHIC 1): ผ่าน อ.เมืองระยอง -> ทะเลอ่าวไทย
-      L.polyline(rayongRiverCoords, {
-        color: '#38bdf8', weight: 5.5, className: 'flow-stream-rayong', opacity: 0.95
-      }).bindTooltip("🌊 แม่น้ำระยอง: รับน้ำจากจุดบรรจบบ้านค่าย -> อ.เมืองระยอง -> ทะเลอ่าวไทย", { sticky: true })
-        .bindPopup(`
-          <div class="text-xs p-1">
-            <strong class="text-cyan-300 text-sm">🌊 แม่น้ำระยอง (Rayong River)</strong><br/>
-            <span class="text-slate-300">รับน้ำหลากจากหนองปลาไหลและคลองดอกกราย (จุดบรรจบ อ.บ้านค่าย) ผ่านตัวเมืองระยอง ออกสู่ทะเลอ่าวไทย</span>
-            <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
-              <button onclick="startEditingDefaultFeature('rayongRiver')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
-                <span>✏️ ปรับแก้แนวแม่น้ำนี้</span>
-              </button>
+      if (rayongRiverCoords && rayongRiverCoords.length > 0) {
+        L.polyline(rayongRiverCoords, {
+          color: '#38bdf8', weight: 5.5, className: 'flow-stream-rayong', opacity: 0.95
+        }).bindTooltip("🌊 แม่น้ำระยอง: รับน้ำจากจุดบรรจบบ้านค่าย -> อ.เมืองระยอง -> ทะเลอ่าวไทย", { sticky: true })
+          .bindPopup(`
+            <div class="text-xs p-1">
+              <strong class="text-cyan-300 text-sm">🌊 แม่น้ำระยอง (Rayong River)</strong><br/>
+              <span class="text-slate-300">รับน้ำหลากจากหนองปลาไหลและคลองดอกกราย (จุดบรรจบ อ.บ้านค่าย) ผ่านตัวเมืองระยอง ออกสู่ทะเลอ่าวไทย</span>
+              <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
+                <button onclick="startEditingDefaultFeature('rayongRiver')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
+                  <span>✏️ ปรับแก้แนวแม่น้ำนี้</span>
+                </button>
+              </div>
             </div>
-          </div>
-        `).addTo(layers.flow);
+          `).addTo(layers.flow);
+      }
 
       // 3. คลองระโอก (INFOGRAPHIC 2): อ่างฯ เขาจุก -> คลองโพล้
-      L.polyline(khlongRaOkCoords, {
-        color: '#38bdf8', weight: 4.5, className: 'flow-stream-rayong', opacity: 0.95
-      }).bindTooltip("🌊 คลองระโอก: รับน้ำล้นจากอ่างฯ เขาจุก ไหลลงคลองโพล้", { sticky: true })
-        .bindPopup(`
-          <div class="text-xs p-1">
-            <strong class="text-cyan-300 text-sm">🌊 คลองระโอก (อ.แกลง)</strong><br/>
-            <span class="text-slate-300">รับน้ำที่ระบายจากสปิลเวย์อ่างเก็บน้ำคลองระโอก (เขาจุก) ไหลมุ่งหน้าลงคลองโพล้</span>
-          </div>
-        `).addTo(layers.flow);
+      if (khlongRaOkCoords && khlongRaOkCoords.length > 0) {
+        L.polyline(khlongRaOkCoords, {
+          color: '#38bdf8', weight: 4.5, className: 'flow-stream-rayong', opacity: 0.95
+        }).bindTooltip("🌊 คลองระโอก: รับน้ำล้นจากอ่างฯ เขาจุก ไหลลงคลองโพล้", { sticky: true })
+          .bindPopup(`
+            <div class="text-xs p-1">
+              <strong class="text-cyan-300 text-sm">🌊 คลองระโอก (อ.แกลง)</strong><br/>
+              <span class="text-slate-300">รับน้ำที่ระบายจากสปิลเวย์อ่างเก็บน้ำคลองระโอก (เขาจุก) ไหลมุ่งหน้าลงคลองโพล้</span>
+            </div>
+          `).addTo(layers.flow);
+      }
 
       // 4. คลองโพล้ (INFOGRAPHIC 2): รับน้ำจากคลองระโอก -> แม่น้ำประแสร์
-      L.polyline(khlongPhoCoords, {
-        color: '#06b6d4', weight: 5, className: 'flow-stream-prasae', opacity: 0.95
-      }).bindTooltip("🌊 คลองโพล้ (อ.เขาชะเมา - อ.แกลง): เชื่อมลงแม่น้ำประแสร์", { sticky: true })
-        .bindPopup(`
-          <div class="text-xs p-1">
-            <strong class="text-cyan-300 text-sm">🌊 คลองโพล้ (Khlong Pho)</strong><br/>
-            <span class="text-slate-300">สายน้ำหลักเชื่อมโยงระหว่าง อ.เขาชะเมา และ อ.แกลง รับน้ำจากคลองระโอกแล้วไหลลงสู่แม่น้ำประแสร์</span>
-          </div>
-        `).addTo(layers.flow);
+      if (khlongPhoCoords && khlongPhoCoords.length > 0) {
+        L.polyline(khlongPhoCoords, {
+          color: '#06b6d4', weight: 5, className: 'flow-stream-prasae', opacity: 0.95
+        }).bindTooltip("🌊 คลองโพล้ (อ.เขาชะเมา - อ.แกลง): เชื่อมลงแม่น้ำประแสร์", { sticky: true })
+          .bindPopup(`
+            <div class="text-xs p-1">
+              <strong class="text-cyan-300 text-sm">🌊 คลองโพล้ (Khlong Pho)</strong><br/>
+              <span class="text-slate-300">สายน้ำหลักเชื่อมโยงระหว่าง อ.เขาชะเมา และ อ.แกลง รับน้ำจากคลองระโอกแล้วไหลลงสู่แม่น้ำประแสร์</span>
+            </div>
+          `).addTo(layers.flow);
+      }
 
       // 5. แม่น้ำประแสร์ (INFOGRAPHIC 2): จุดบรรจบคลองโพล้ -> อ.แกลง -> ปากน้ำประแสร์ สู่ทะเล
-      L.polyline(prasaeRiverCoords, {
-        color: '#38bdf8', weight: 5.5, className: 'flow-stream-prasae', opacity: 0.95
-      }).bindTooltip("🌊 แม่น้ำประแสร์: อ.แกลง -> ปากน้ำประแสร์ สู่ทะเลอ่าวไทย", { sticky: true })
-        .bindPopup(`
-          <div class="text-xs p-1">
-            <strong class="text-cyan-300 text-sm">🌊 แม่น้ำประแสร์ (Prasae River)</strong><br/>
-            <span class="text-slate-300">รับน้ำจากอ่างฯ ประแสร์ และคลองโพล้ (คลองระโอก) ไหลผ่านเทศบาลเมืองแกลง ออกสู่อ่าวไทยที่ปากน้ำประแสร์</span>
-            <div class="text-emerald-400 text-[10px] mt-1 font-medium">✓ ยืนยัน: น้ำระบายออกสู่อ่าวไทยที่ปากน้ำประแสร์โดยตรง ไม่ไหลไปทาง จ.ชลบุรี</div>
-          </div>
-        `).addTo(layers.flow);
+      if (prasaeRiverCoords && prasaeRiverCoords.length > 0) {
+        L.polyline(prasaeRiverCoords, {
+          color: '#38bdf8', weight: 5.5, className: 'flow-stream-prasae', opacity: 0.95
+        }).bindTooltip("🌊 แม่น้ำประแสร์: อ.แกลง -> ปากน้ำประแสร์ สู่ทะเลอ่าวไทย", { sticky: true })
+          .bindPopup(`
+            <div class="text-xs p-1">
+              <strong class="text-cyan-300 text-sm">🌊 แม่น้ำประแสร์ (Prasae River)</strong><br/>
+              <span class="text-slate-300">รับน้ำจากอ่างฯ ประแสร์ และคลองโพล้ (คลองระโอก) ไหลผ่านเทศบาลเมืองแกลง ออกสู่อ่าวไทยที่ปากน้ำประแสร์</span>
+              <div class="text-emerald-400 text-[10px] mt-1 font-medium">✓ ยืนยัน: น้ำระบายออกสู่อ่าวไทยที่ปากน้ำประแสร์โดยตรง ไม่ไหลไปทาง จ.ชลบุรี</div>
+            </div>
+          `).addTo(layers.flow);
+      }
 
       // คลองทับมา (สายน้ำเฝ้าระวังน้ำหลาก)
-      L.polyline(thapMaCoords, {
-        color: '#f59e0b', weight: 5.5, className: 'flow-stream-thapma', opacity: 0.95
-      }).bindTooltip("⚠️ คลองทับมา: กระแสน้ำหลากเร่งระบายจากอ่างฯ ดอกกราย", { sticky: true }).addTo(layers.flow);
+      if (thapMaCoords && thapMaCoords.length > 0) {
+        L.polyline(thapMaCoords, {
+          color: '#f59e0b', weight: 5.5, className: 'flow-stream-thapma', opacity: 0.95
+        }).bindTooltip("⚠️ คลองทับมา: กระแสน้ำหลากเร่งระบายจากอ่างฯ ดอกกราย", { sticky: true }).addTo(layers.flow);
+      }
 
       // ท่อผันน้ำโครงข่าย
-      L.polyline(waterGridCoords, {
-        color: '#c084fc', weight: 4, dashArray: '6, 10', className: 'flow-watergrid', opacity: 0.9
-      }).bindTooltip("🔄 โครงข่ายท่อผันน้ำ: ประแสร์ -> คลองใหญ่ -> หนองปลาไหล", { sticky: true }).addTo(layers.flow);
+      if (waterGridCoords && waterGridCoords.length > 0) {
+        L.polyline(waterGridCoords, {
+          color: '#c084fc', weight: 4, dashArray: '6, 10', className: 'flow-watergrid', opacity: 0.9
+        }).bindTooltip("🔄 โครงข่ายท่อผันน้ำ: ประแสร์ -> คลองใหญ่ -> หนองปลาไหล", { sticky: true }).addTo(layers.flow);
+      }
 
       // คลองผันน้ำเลี่ยงเมือง
-      L.polyline(bypassCanalCoords, {
-        color: '#34d399', weight: 4, dashArray: '6, 10', className: 'flow-watergrid', opacity: 0.9
-      }).bindTooltip("🔀 คลองผันน้ำเลี่ยงเมืองระยอง: ระบายตัดลงทะเล", { sticky: true }).addTo(layers.flow);
+      if (bypassCanalCoords && bypassCanalCoords.length > 0) {
+        L.polyline(bypassCanalCoords, {
+          color: '#34d399', weight: 4, dashArray: '6, 10', className: 'flow-watergrid', opacity: 0.9
+        }).bindTooltip("🔀 คลองผันน้ำเลี่ยงเมืองระยอง: ระบายตัดลงทะเล", { sticky: true }).addTo(layers.flow);
+      }
 
       // KEY CHECKPOINT BADGES (FROM USER INFOGRAPHICS 1 & 2)
       const checkpoints = [
@@ -1202,7 +1253,7 @@ const officialReservoirCoords = {
       L.marker([12.720, 101.248], { icon: pumpIcon }).addTo(layers.flow);
     }
 
-    drawDetailedRiverNetworks();
+        drawDetailedRiverNetworks();
 
     // 5. TELEMETRY & RIVER WATER LEVEL STATIONS
     const riverStations = [
@@ -1962,13 +2013,17 @@ const officialReservoirCoords = {
 
     // Quick Zoom Shortcuts
     function zoomTo(target) {
-      if (target === 'rayong') map.flyTo([12.835, 101.320], 11, { duration: 1.2 });
-      if (target === 'thailand') map.flyTo([14.2, 100.8], 6.5, { duration: 1.5 });
+      if (target === 'rayong') map.flyTo([12.830, 101.480], 10, { duration: 1.2 });
+      if (target === 'dokkrai') map.flyTo([12.898, 101.196], 13, { duration: 1 });
+      if (target === 'nongplalai') map.flyTo([12.955, 101.245], 13, { duration: 1 });
+      if (target === 'khlongyai') map.flyTo([12.980, 101.315], 13, { duration: 1 });
+      if (target === 'prasae') map.flyTo([13.012, 101.565], 12, { duration: 1 });
+      if (target === 'khlongraok') map.flyTo([12.870, 101.775], 13, { duration: 1 });
+      if (target === 'dokkraiCanal') map.flyTo([12.830, 101.260], 12, { duration: 1 });
+      if (target === 'khlongPho') map.flyTo([12.855, 101.700], 12.5, { duration: 1 });
       if (target === 'thapma') map.flyTo([12.715, 101.245], 14, { duration: 1 });
-      if (target === 'dokkrai') map.flyTo([12.885, 101.210], 13.5, { duration: 1 });
-      if (target === 'nongplalai') map.flyTo([12.928, 101.282], 13.5, { duration: 1 });
-      if (target === 'prasae') map.flyTo([12.975, 101.630], 13, { duration: 1 });
       if (target === 'estuary') map.flyTo([12.658, 101.268], 14, { duration: 1 });
+      if (target === 'prasaeEstuary') map.flyTo([12.700, 101.708], 13.5, { duration: 1 });
     }
 
     // Toggle Quick Zoom Panel (Collapsible)
