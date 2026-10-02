@@ -381,11 +381,15 @@
                     <option value="nongplalai">🏢 อ่างเก็บน้ำหนองปลาไหล</option>
                     <option value="khlongyai">🏢 อ่างเก็บน้ำคลองใหญ่</option>
                     <option value="prasae">🏢 อ่างเก็บน้ำประแสร์</option>
+                    <option value="khlongraok">🏢 อ่างเก็บน้ำคลองระโอก (เขาจุก)</option>
                   </optgroup>
                   <optgroup label="🌊 แม่น้ำ/คลองระบาย (ปรับแนวไหล)">
+                    <option value="dokkraiCanal">🌊 คลองดอกกราย (แม่น้ำคู้-บ้านค่าย)</option>
+                    <option value="rayongRiver">🌊 แม่น้ำระยอง (บ้านค่าย-เมืองระยอง)</option>
+                    <option value="khlongRaOk">🌊 คลองระโอก (เขาจุก-คลองโพล้)</option>
+                    <option value="khlongPho">🌊 คลองโพล้ (เขาชะเมา-แม่น้ำประแสร์)</option>
+                    <option value="prasaeRiver">🌊 แม่น้ำประแสร์ (อ.แกลง-อ่าวไทย)</option>
                     <option value="thapma">⚠️ คลองทับมา</option>
-                    <option value="rayongRiver">🌊 แม่น้ำระยอง</option>
-                    <option value="prasaeRiver">🌊 แม่น้ำประแสร์</option>
                     <option value="bypassCanal">🔀 คลองผันน้ำเลี่ยงเมือง</option>
                   </optgroup>
                 </select>
@@ -592,26 +596,26 @@
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center gap-2">
             <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">สถานะ 4 อ่างเก็บน้ำหลักระยอง (RID Real-Time)</h3>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider">สถานะ 5 อ่างเก็บน้ำหลักระยอง (RID & ThaiWater สด)</h3>
           </div>
           <span class="text-[11px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center gap-1 font-mono">
-            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"></span> RID SWOC
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"></span> RID & ThaiWater
           </span>
         </div>
 
-        <div class="space-y-3">
+        <div class="space-y-2.5">
           <!-- Dam 1: Dok Krai -->
           <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30">
             <div class="flex justify-between text-xs mb-1">
               <span class="font-bold text-rose-300">1. อ่างเก็บน้ำดอกกราย (71.4 ล้าน ลบ.ม.)</span>
-              <span class="font-mono text-rose-400 font-bold">116.98% (83.5M ลบ.ม.) ⚠️</span>
+              <span class="font-mono text-rose-400 font-bold">116.98% (83.52M) ⚠️ ล้น</span>
             </div>
-            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
-              <div class="h-2.5 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 100%"></div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 100%"></div>
             </div>
-            <div class="flex justify-between text-[11px] text-slate-300 mt-1">
-              <span>น้ำไหลเข้า: <strong>+3.23</strong> ล้าน ลบ.ม./วัน</span>
-              <span class="text-rose-300">ระบายออก: <strong>4.10</strong> ล้าน ลบ.ม./วัน</span>
+            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
+              <span>ระบายลง: <strong>คลองดอกกราย -> บ้านค่าย</strong></span>
+              <span class="text-rose-300">ออก: <strong>4.10M</strong> ลบ.ม./วัน</span>
             </div>
           </div>
 
@@ -619,44 +623,59 @@
           <div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
             <div class="flex justify-between text-xs mb-1">
               <span class="font-bold text-amber-200">2. อ่างเก็บน้ำคลองใหญ่ (50.8 ล้าน ลบ.ม.)</span>
-              <span class="font-mono text-amber-400 font-bold">94.72% (48.1M ลบ.ม.)</span>
+              <span class="font-mono text-amber-400 font-bold">94.72% (48.12M)</span>
             </div>
-            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
-              <div class="h-2.5 rounded-full liquid-bar bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600" style="width: 94.72%"></div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600" style="width: 94.72%"></div>
             </div>
-            <div class="flex justify-between text-[11px] text-slate-300 mt-1">
-              <span>ไหลเข้า: +0.63M ลบ.ม./วัน</span>
-              <span>ระบายออก: 1.30M ลบ.ม./วัน</span>
+            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
+              <span>เข้า: +0.63M ลบ.ม./วัน</span>
+              <span>ออก: 1.30M ลบ.ม./วัน</span>
             </div>
           </div>
 
           <!-- Dam 3: Nong Pla Lai -->
-          <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+          <div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
             <div class="flex justify-between text-xs mb-1">
-              <span class="font-medium text-slate-200">3. อ่างเก็บน้ำหนองปลาไหล (163.7 ล้าน ลบ.ม.)</span>
-              <span class="font-mono text-emerald-400 font-semibold">64.0% (104.8M ลบ.ม.)</span>
+              <span class="font-bold text-amber-300">3. อ่างเก็บน้ำหนองปลาไหล (163.7 ล้าน ลบ.ม.)</span>
+              <span class="font-mono text-amber-400 font-bold">96.12% (157.40M)</span>
             </div>
             <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" style="width: 64%"></div>
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600" style="width: 96.12%"></div>
             </div>
-            <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
-              <span>ไหลเข้า: +2.10M ลบ.ม./วัน</span>
-              <span>ระบายออก: 0.40M ลบ.ม./วัน (ปกติ)</span>
+            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
+              <span>เข้า: +2.68M ลบ.ม./วัน</span>
+              <span>ออก: 0.43M ลบ.ม./วัน</span>
             </div>
           </div>
 
           <!-- Dam 4: Prasae -->
-          <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+          <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30">
             <div class="flex justify-between text-xs mb-1">
-              <span class="font-medium text-slate-200">4. อ่างเก็บน้ำประแสร์ (295.0 ล้าน ลบ.ม.)</span>
-              <span class="font-mono text-emerald-400 font-semibold">69.0% (203.5M ลบ.ม.)</span>
+              <span class="font-bold text-rose-300">4. อ่างเก็บน้ำประแสร์ (295.0 ล้าน ลบ.ม.)</span>
+              <span class="font-mono text-rose-400 font-bold">102.16% (301.38M) ⚠️ ล้น</span>
             </div>
             <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" style="width: 69%"></div>
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 100%"></div>
             </div>
-            <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
-              <span>อ.แกลง ลุ่มน้ำประแสร์</span>
-              <span>ผันน้ำไปคลองใหญ่: 1.2 ลบ.ม./วินาที</span>
+            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
+              <span>เข้า: +8.42M ลบ.ม./วัน</span>
+              <span class="text-rose-300">ระบาย: 18.05M ลบ.ม./วัน</span>
+            </div>
+          </div>
+
+          <!-- Dam 5: Khlong Ra-ok (Khao Chuk) NEW -->
+          <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30">
+            <div class="flex justify-between text-xs mb-1">
+              <span class="font-bold text-rose-300">5. อ่างฯ คลองระโอก (เขาจุก) (19.65M)</span>
+              <span class="font-mono text-rose-400 font-bold">103.72% (20.38M) ⚠️ ล้น</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 100%"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
+              <span>ระบายลง: <strong>คลองระโอก -> คลองโพล้</strong></span>
+              <span class="text-rose-300">ระบาย: 1.06M ลบ.ม./วัน</span>
             </div>
           </div>
         </div>
@@ -790,6 +809,7 @@ const officialReservoirCoords = {
   dokkrai: [[12.91152,101.16308],[12.91164,101.16657],[12.91111,101.16777],[12.91126,101.17123],[12.90933,101.17248],[12.90888,101.17244],[12.9081,101.17474],[12.90587,101.17531],[12.90715,101.17706],[12.90515,101.17937],[12.90482,101.1799],[12.90517,101.18442],[12.90345,101.18844],[12.90201,101.18746],[12.90317,101.1917],[12.89897,101.19732],[12.89818,101.19946],[12.89536,101.20042],[12.89479,101.19794],[12.89339,101.19659],[12.89244,101.19549],[12.89234,101.19411],[12.89151,101.19343],[12.89197,101.19272],[12.89156,101.19216],[12.89125,101.19077],[12.88749,101.18826],[12.88532,101.18781],[12.88508,101.18763],[12.88495,101.18753],[12.88641,101.18411],[12.88681,101.18369],[12.88575,101.18288],[12.88632,101.17945],[12.88486,101.1826],[12.88436,101.18489],[12.88471,101.18755],[12.88538,101.18891],[12.88591,101.19007],[12.8864,101.19296],[12.88127,101.19052],[12.87973,101.18662],[12.87859,101.18884],[12.87762,101.18916],[12.87682,101.18936],[12.87777,101.19112],[12.88036,101.1919],[12.88072,101.19379],[12.88174,101.19381],[12.88344,101.19633],[12.886,101.19675],[12.88579,101.20126],[12.88181,101.20338],[12.88489,101.2033],[12.88767,101.2029],[12.88944,101.20407],[12.88967,101.20625],[12.88561,101.20726],[12.88451,101.2088],[12.88569,101.21219],[12.88489,101.2158],[12.88658,101.21702],[12.88709,101.2174],[12.88594,101.21814],[12.88511,101.21943],[12.88642,101.22061],[12.88686,101.22075],[12.88699,101.2207],[12.88696,101.22058],[12.88705,101.22048],[12.88867,101.2202],[12.89847,101.2181],[12.8981,101.2169],[12.89864,101.21427],[12.90109,101.21377],[12.90178,101.21349],[12.90436,101.21368],[12.9061,101.21352],[12.90611,101.21262],[12.90413,101.2118],[12.90239,101.21118],[12.901,101.21006],[12.90146,101.20909],[12.90183,101.20913],[12.90228,101.20877],[12.90261,101.20815],[12.90466,101.20699],[12.90682,101.2056],[12.90781,101.20537],[12.90961,101.205],[12.91078,101.20448],[12.91022,101.20404],[12.90808,101.20312],[12.90621,101.20169],[12.9077,101.19999],[12.90801,101.19656],[12.90931,101.19533],[12.91129,101.19428],[12.91129,101.19256],[12.9135,101.18851],[12.91855,101.18677],[12.9185,101.18316],[12.92078,101.17974],[12.92427,101.17549],[12.92478,101.17172],[12.92677,101.17254],[12.92369,101.16872],[12.92617,101.16486],[12.92376,101.16657],[12.92057,101.17114],[12.91602,101.17788],[12.91457,101.17965],[12.91273,101.18221],[12.91059,101.18158],[12.91115,101.17722],[12.91325,101.17302],[12.91228,101.16724],[12.91205,101.1657],[12.91152,101.16308]],
   nongplalai: [[12.9645,101.21163],[12.96243,101.2128],[12.96282,101.21356],[12.96239,101.21384],[12.96194,101.21424],[12.96133,101.21473],[12.9609,101.2143],[12.96057,101.21374],[12.96013,101.21427],[12.9589,101.21623],[12.95732,101.21601],[12.95602,101.21508],[12.95553,101.21578],[12.95603,101.21674],[12.9563,101.21801],[12.95628,101.21911],[12.95603,101.22125],[12.95524,101.22265],[12.95427,101.22282],[12.95423,101.22361],[12.95454,101.22481],[12.95382,101.22643],[12.95328,101.22721],[12.95248,101.22844],[12.95109,101.22951],[12.94801,101.22695],[12.9476,101.22716],[12.94778,101.22833],[12.94807,101.2294],[12.94874,101.23117],[12.94869,101.23234],[12.94828,101.23407],[12.94296,101.24434],[12.94143,101.24319],[12.93863,101.23863],[12.93818,101.23826],[12.93788,101.23784],[12.93763,101.23763],[12.93762,101.23805],[12.93768,101.2383],[12.93753,101.23835],[12.93746,101.23825],[12.93745,101.23813],[12.93737,101.23798],[12.93702,101.2379],[12.93691,101.23832],[12.93698,101.2387],[12.93732,101.23913],[12.93732,101.23883],[12.93733,101.23861],[12.93719,101.23841],[12.9373,101.23826],[12.93744,101.23859],[12.93747,101.23885],[12.93753,101.23913],[12.93794,101.23953],[12.93784,101.23963],[12.93753,101.23939],[12.93721,101.23949],[12.93761,101.23981],[12.93746,101.24034],[12.93633,101.24265],[12.93729,101.24371],[12.93861,101.24855],[12.93575,101.2545],[12.92992,101.25036],[12.92882,101.25294],[12.93166,101.25454],[12.93303,101.25592],[12.93335,101.25667],[12.93221,101.257],[12.93237,101.25809],[12.93062,101.25974],[12.93046,101.26008],[12.93033,101.26099],[12.92972,101.26168],[12.92893,101.26156],[12.92853,101.26274],[12.92884,101.26395],[12.92846,101.26434],[12.92896,101.26635],[12.92916,101.26793],[12.928,101.27016],[12.93363,101.2894],[12.93449,101.29331],[12.93643,101.2947],[12.93876,101.29293],[12.94044,101.2938],[12.94219,101.29234],[12.94357,101.29288],[12.94485,101.29097],[12.94581,101.29052],[12.94923,101.29128],[12.94899,101.29006],[12.94769,101.28878],[12.94652,101.28758],[12.94731,101.28704],[12.94779,101.28747],[12.94835,101.28793],[12.94944,101.28925],[12.95004,101.28893],[12.95078,101.2863],[12.95012,101.2845],[12.94942,101.28276],[12.94873,101.28206],[12.94782,101.2819],[12.94774,101.28141],[12.94873,101.281],[12.95128,101.27887],[12.95741,101.27958],[12.95797,101.2779],[12.95935,101.27338],[12.96133,101.26879],[12.96524,101.26846],[12.96842,101.26547],[12.97391,101.26387],[12.97708,101.26181],[12.98156,101.25688],[12.97988,101.24964],[12.98077,101.24744],[12.98368,101.24356],[12.98186,101.24128],[12.98055,101.24151],[12.9829,101.2321],[12.98424,101.22784],[12.98029,101.23471],[12.97857,101.24162],[12.97364,101.2408],[12.97062,101.24912],[12.9658,101.25438],[12.96457,101.25185],[12.95979,101.25114],[12.94964,101.25599],[12.95341,101.24811],[12.95565,101.24371],[12.96009,101.2371],[12.96013,101.23169],[12.96278,101.22579],[12.96338,101.22258],[12.9626,101.21833],[12.96248,101.21785],[12.96185,101.2175],[12.96126,101.21668],[12.96187,101.21621],[12.96153,101.21529],[12.96169,101.21463],[12.96257,101.21407],[12.96308,101.21395],[12.96356,101.21431],[12.96501,101.21332],[12.96598,101.21244],[12.96566,101.21175],[12.9645,101.21163]],
   khlongyai: [[12.99035,101.29189],[12.99008,101.29279],[12.9886,101.29648],[12.98586,101.29704],[12.98244,101.29471],[12.9819,101.29661],[12.97959,101.2966],[12.97834,101.29669],[12.97599,101.2975],[12.97479,101.29596],[12.9722,101.29873],[12.96894,101.30238],[12.9673,101.30367],[12.96662,101.3072],[12.96461,101.31067],[12.96542,101.32052],[12.96586,101.32209],[12.96633,101.326],[12.96428,101.3284],[12.96752,101.34068],[12.97192,101.33641],[12.97552,101.3374],[12.97557,101.33905],[12.9773,101.33715],[12.97914,101.33644],[12.9779,101.3346],[12.97693,101.33441],[12.97553,101.3339],[12.97608,101.33335],[12.97401,101.3331],[12.97228,101.33228],[12.97266,101.3306],[12.97515,101.33039],[12.97599,101.3301],[12.97446,101.32965],[12.9694,101.32764],[12.96871,101.32246],[12.97369,101.32118],[12.9747,101.32037],[12.98258,101.31815],[12.98134,101.31555],[12.98172,101.31359],[12.98386,101.31094],[12.98438,101.30796],[12.9888,101.30656],[12.99355,101.30803],[12.9965,101.30849],[12.99958,101.30717],[12.99542,101.30491],[12.99237,101.30396],[12.99254,101.30217],[12.99417,101.30226],[12.99574,101.30072],[12.99136,101.29634],[12.99185,101.29214],[12.99035,101.29189]],
+  khlongraok: [[12.87927,101.79344],[12.87725,101.7905],[12.87525,101.79075],[12.8755,101.78875],[12.87425,101.78725],[12.8735,101.7865],[12.87425,101.78525],[12.8735,101.78425],[12.87357,101.78267],[12.87238,101.78141],[12.86993,101.78122],[12.87146,101.78022],[12.86987,101.77796],[12.86825,101.77825],[12.868,101.7805],[12.868,101.78175],[12.86775,101.78275],[12.86625,101.78275],[12.865,101.784],[12.864,101.7855],[12.86198,101.78537],[12.86038,101.78425],[12.8615,101.7835],[12.86225,101.78225],[12.86325,101.77975],[12.86275,101.7785],[12.86229,101.7775],[12.86325,101.777],[12.86508,101.7765],[12.86424,101.77599],[12.86548,101.77494],[12.8646,101.77332],[12.86306,101.77321],[12.8615,101.773],[12.86075,101.772],[12.8615,101.77125],[12.86246,101.77146],[12.86275,101.77075],[12.86375,101.76975],[12.86525,101.76825],[12.86425,101.76775],[12.8635,101.76725],[12.86358,101.76558],[12.86375,101.76425],[12.861,101.761],[12.8605,101.7615],[12.86,101.7625],[12.8595,101.76375],[12.85875,101.7665],[12.85825,101.765],[12.85825,101.764],[12.8575,101.7635],[12.8585,101.76225],[12.8575,101.76025],[12.85875,101.76],[12.85975,101.75925],[12.86123,101.75829],[12.86275,101.75875],[12.864,101.75975],[12.86525,101.7605],[12.86725,101.76225],[12.8675,101.76425],[12.87,101.766],[12.87275,101.76675],[12.873,101.76825],[12.87225,101.768],[12.8705,101.76825],[12.86975,101.7695],[12.871,101.771],[12.872,101.7705],[12.87175,101.77125],[12.8715,101.77225],[12.873,101.774],[12.8755,101.77275],[12.876,101.772],[12.87725,101.773],[12.87675,101.774],[12.87625,101.7745],[12.875,101.77475],[12.87375,101.77575],[12.87425,101.77825],[12.87646,101.78013],[12.87795,101.78023],[12.87925,101.7795],[12.88058,101.77854],[12.88086,101.77935],[12.88224,101.78014],[12.88148,101.78037],[12.8799,101.78023],[12.87875,101.7815],[12.87761,101.78194],[12.87775,101.784],[12.879,101.78575],[12.88025,101.78625],[12.88225,101.78775],[12.883,101.78925],[12.88425,101.78975],[12.884,101.791],[12.88553,101.79253],[12.88122,101.79404],[12.87927,101.79344]],
   prasae: [[13.01944,101.53212],[13.01543,101.53534],[13.0141,101.5379],[13.00937,101.53998],[13.01017,101.54551],[13.00743,101.54115],[13.0073,101.54464],[13.0029,101.5473],[13.00928,101.54766],[13.01004,101.54944],[13.00852,101.54981],[13.00802,101.55175],[13.00711,101.55349],[13.0062,101.55579],[13.00437,101.5557],[13.00259,101.55724],[12.99545,101.55496],[12.99556,101.55392],[12.9965,101.55264],[12.99781,101.55181],[12.99796,101.5515],[12.99765,101.55132],[12.99736,101.55142],[12.99699,101.55175],[12.99627,101.55161],[12.99522,101.55196],[12.99248,101.5529],[12.99141,101.55173],[12.99142,101.55193],[12.99141,101.55246],[12.99174,101.55279],[12.99225,101.55324],[12.99254,101.55358],[12.99299,101.55367],[12.99381,101.55402],[12.99383,101.55473],[12.99329,101.5557],[12.99131,101.55443],[12.98601,101.55545],[12.98003,101.55441],[12.978,101.55192],[12.97751,101.55224],[12.979,101.55469],[12.98048,101.55672],[12.97853,101.5582],[12.97899,101.56431],[12.98192,101.57694],[12.98245,101.57842],[12.9835,101.57767],[12.98452,101.57833],[12.98604,101.57729],[12.98766,101.57719],[12.98816,101.57831],[12.9887,101.57835],[12.9894,101.57819],[12.99094,101.57859],[12.98979,101.57949],[12.99065,101.58016],[12.9913,101.58017],[12.99216,101.58172],[12.99185,101.58273],[12.99168,101.58326],[12.991,101.58411],[12.98939,101.58594],[12.98803,101.58608],[12.98629,101.58656],[12.98434,101.58609],[12.98366,101.58584],[12.9822,101.58723],[12.98302,101.58955],[12.9846,101.5891],[12.98901,101.59119],[12.98961,101.59236],[12.98974,101.59375],[12.99069,101.59227],[12.993,101.5924],[12.9935,101.59356],[12.9954,101.59399],[12.99548,101.59626],[12.99201,101.59678],[12.98833,101.59476],[12.98766,101.59725],[12.98871,101.59774],[12.99223,101.60028],[12.99445,101.60071],[12.9981,101.60196],[12.99129,101.60801],[12.99973,101.61295],[13.00753,101.61244],[13.00718,101.60815],[13.00787,101.59616],[13.01045,101.59414],[13.01464,101.60137],[13.02134,101.59106],[13.01739,101.58773],[13.02962,101.58388],[13.02667,101.57971],[13.03061,101.57903],[13.03261,101.57724],[13.03204,101.5749],[13.033,101.57295],[13.03604,101.57343],[13.03635,101.57255],[13.03745,101.5697],[13.03878,101.56618],[13.04354,101.56505],[13.04504,101.56599],[13.04583,101.56741],[13.04644,101.56891],[13.0466,101.56731],[13.04621,101.56616],[13.052,101.56134],[13.05991,101.55451],[13.05989,101.5526],[13.06196,101.55232],[13.06436,101.5532],[13.06558,101.55266],[13.06683,101.5547],[13.06627,101.5532],[13.06644,101.55144],[13.06738,101.55107],[13.06674,101.54906],[13.06646,101.5476],[13.0646,101.54453],[13.05649,101.54504],[13.04909,101.54603],[13.0429,101.54573],[13.04097,101.54438],[13.04014,101.54388],[13.03869,101.54307],[13.03788,101.54787],[13.03307,101.54746],[13.03228,101.55036],[13.0228,101.55273],[13.0217,101.54985],[13.01992,101.55256],[13.01544,101.55239],[13.0164,101.54664],[13.01766,101.54144],[13.02322,101.53776],[13.02467,101.53534],[13.02024,101.53243],[13.01944,101.53212]]
 };
 
@@ -860,8 +880,9 @@ const officialReservoirCoords = {
       const nongplalaiCoords = hydroOverrides.nongplalai || officialReservoirCoords.nongplalai;
       const khlongyaiCoords = hydroOverrides.khlongyai || officialReservoirCoords.khlongyai;
       const prasaeCoords = hydroOverrides.prasae || officialReservoirCoords.prasae;
+      const khlongraokCoords = hydroOverrides.khlongraok || officialReservoirCoords.khlongraok;
 
-      // Dok Krai
+      // 1. Dok Krai
       L.polygon(dokkraiCoords, {
         color: '#f43f5e',
         fillColor: '#0284c7',
@@ -872,7 +893,7 @@ const officialReservoirCoords = {
         <div class="text-xs p-1">
           <strong class="text-rose-400 text-sm">🏢 อ่างเก็บน้ำดอกกราย</strong><br/>
           <span class="text-white font-semibold">83.52 ล้าน ลบ.ม. (116.98%) - ล้นตลิ่ง</span>
-          <div class="text-slate-400 text-[11px] mt-1">${hydroOverrides.dokkrai ? '<span class="text-amber-300 font-semibold">✏️ ขอบเขตปรับแต่งโดยผู้ใช้</span>' : '📍 พิกัดมาตรฐาน OpenStreetMap (119 จุด)'}</div>
+          <div class="text-slate-300 text-[11px] mt-1">🌊 ระบายออกผ่าน <strong>คลองดอกกราย</strong> -> ต.แม่น้ำคู้ -> ต.พนานิคม -> บรรจบแม่น้ำระยองที่ อ.บ้านค่าย</div>
           <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
             <button onclick="startEditingDefaultFeature('dokkrai')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
               <span>✏️ ปรับแก้แนวอ่างฯ นี้</span>
@@ -882,7 +903,7 @@ const officialReservoirCoords = {
         </div>
       `).addTo(layers.lakes);
 
-      // Nong Pla Lai
+      // 2. Nong Pla Lai
       L.polygon(nongplalaiCoords, {
         color: '#0284c7',
         fillColor: '#0284c7',
@@ -892,7 +913,7 @@ const officialReservoirCoords = {
       }).bindPopup(`
         <div class="text-xs p-1">
           <strong class="text-cyan-300 text-sm">🏢 อ่างเก็บน้ำหนองปลาไหล</strong><br/>
-          <span class="text-white font-semibold">104.80 ล้าน ลบ.ม. (64.0%)</span>
+          <span class="text-white font-semibold">157.40 ล้าน ลบ.ม. (96.12%)</span>
           <div class="text-slate-400 text-[11px] mt-1">${hydroOverrides.nongplalai ? '<span class="text-amber-300 font-semibold">✏️ ขอบเขตปรับแต่งโดยผู้ใช้</span>' : '📍 พิกัดมาตรฐาน OpenStreetMap (153 จุด)'}</div>
           <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
             <button onclick="startEditingDefaultFeature('nongplalai')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
@@ -903,7 +924,7 @@ const officialReservoirCoords = {
         </div>
       `).addTo(layers.lakes);
 
-      // Khlong Yai
+      // 3. Khlong Yai
       L.polygon(khlongyaiCoords, {
         color: '#f59e0b',
         fillColor: '#0284c7',
@@ -924,7 +945,7 @@ const officialReservoirCoords = {
         </div>
       `).addTo(layers.lakes);
 
-      // Prasae
+      // 4. Prasae
       L.polygon(prasaeCoords, {
         color: '#0284c7',
         fillColor: '#0284c7',
@@ -934,7 +955,7 @@ const officialReservoirCoords = {
       }).bindPopup(`
         <div class="text-xs p-1">
           <strong class="text-cyan-300 text-sm">🏢 อ่างเก็บน้ำประแสร์</strong><br/>
-          <span class="text-white font-semibold">203.55 ล้าน ลบ.ม. (69.0%)</span>
+          <span class="text-white font-semibold">301.38 ล้าน ลบ.ม. (102.16% - เกินความจุ)</span>
           <div class="text-slate-400 text-[11px] mt-1">${hydroOverrides.prasae ? '<span class="text-amber-300 font-semibold">✏️ ขอบเขตปรับแต่งโดยผู้ใช้</span>' : '📍 พิกัดมาตรฐาน OpenStreetMap (143 จุด)'}</div>
           <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
             <button onclick="startEditingDefaultFeature('prasae')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
@@ -945,25 +966,54 @@ const officialReservoirCoords = {
         </div>
       `).addTo(layers.lakes);
 
+      // 5. Khlong Ra-ok (Khao Chuk) Reservoir (NEW FROM INFOGRAPHIC 2)
+      L.polygon(khlongraokCoords, {
+        color: '#f43f5e',
+        fillColor: '#0284c7',
+        fillOpacity: 0.65,
+        weight: 3.5,
+        className: 'lake-dokkrai'
+      }).bindPopup(`
+        <div class="text-xs p-1">
+          <strong class="text-rose-400 text-sm">🏢 อ่างเก็บน้ำคลองระโอก (เขาจุก)</strong><br/>
+          <span class="text-white font-semibold">20.38 ล้าน ลบ.ม. (103.72%) - ล้นสปิลเวย์</span>
+          <div class="text-amber-300 text-[11px] font-medium mt-1">⚠️ ทางระบายน้ำล้น (Spillway) มีน้ำล้น แจ้งเตือนประชาชนในพื้นที่เสี่ยง</div>
+          <div class="text-slate-300 text-[11px] mt-1">
+            <strong>เส้นทางน้ำ:</strong> ไหลลง <strong>คลองระโอก -> คลองโพล้ -> แม่น้ำประแสร์ -> ปากน้ำประแสร์ สู่ทะเล</strong>
+          </div>
+          <div class="text-slate-400 text-[10px] mt-0.5 italic">
+            *ยืนยัน: น้ำไม่ได้ไหลไป อ.บ่อทอง/บ้านบึง จ.ชลบุรี (ข้อมูล สนง.เกษตรฯ จ.ระยอง / สทนช.)
+          </div>
+          <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
+            <button onclick="startEditingDefaultFeature('khlongraok')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
+              <span>✏️ ปรับแก้แนวอ่างฯ นี้</span>
+            </button>
+            ${hydroOverrides.khlongraok ? `<button onclick="resetSpecificFeature('khlongraok')" class="text-rose-400 hover:text-rose-300 text-[11px] underline">คืนค่าเดิม</button>` : ''}
+          </div>
+        </div>
+      `).addTo(layers.lakes);
+
       // Centroids at accurate geographic centers
       const dokkraiCenter = getCentroid(dokkraiCoords);
       const nongplalaiCenter = getCentroid(nongplalaiCoords);
       const khlongyaiCenter = getCentroid(khlongyaiCoords);
       const prasaeCenter = getCentroid(prasaeCoords);
+      const khlongraokCenter = getCentroid(khlongraokCoords);
 
       const lakeLabels = [
-        { name: "🌊 ผืนน้ำอ่างฯ ดอกกราย (117% ล้น)", lat: dokkraiCenter[0], lng: dokkraiCenter[1], border: "#f43f5e" },
-        { name: "🌊 ผืนน้ำอ่างฯ หนองปลาไหล (64%)", lat: nongplalaiCenter[0], lng: nongplalaiCenter[1], border: "#38bdf8" },
-        { name: "🌊 ผืนน้ำอ่างฯ คลองใหญ่ (95%)", lat: khlongyaiCenter[0], lng: khlongyaiCenter[1], border: "#f59e0b" },
-        { name: "🌊 ผืนน้ำอ่างฯ ประแสร์ (69%)", lat: prasaeCenter[0], lng: prasaeCenter[1], border: "#38bdf8" }
+        { name: "🌊 อ่างฯ ดอกกราย (117% ล้น)", lat: dokkraiCenter[0], lng: dokkraiCenter[1], border: "#f43f5e" },
+        { name: "🌊 อ่างฯ หนองปลาไหล (96%)", lat: nongplalaiCenter[0], lng: nongplalaiCenter[1], border: "#38bdf8" },
+        { name: "🌊 อ่างฯ คลองใหญ่ (95%)", lat: khlongyaiCenter[0], lng: khlongyaiCenter[1], border: "#f59e0b" },
+        { name: "🌊 อ่างฯ ประแสร์ (102% ล้น)", lat: prasaeCenter[0], lng: prasaeCenter[1], border: "#f43f5e" },
+        { name: "🌊 อ่างฯ คลองระโอก (เขาจุก) (104% ล้น)", lat: khlongraokCenter[0], lng: khlongraokCenter[1], border: "#f43f5e" }
       ];
 
       lakeLabels.forEach(l => {
         const icon = L.divIcon({
           className: 'custom-lake-label',
           html: `<div class="dam-label-badge" style="border-color:${l.border}"><span>${l.name}</span></div>`,
-          iconSize: [170, 28],
-          iconAnchor: [85, 14]
+          iconSize: [180, 28],
+          iconAnchor: [90, 14]
         });
         L.marker([l.lat, l.lng], { icon: icon }).addTo(layers.lakes);
       });
@@ -975,90 +1025,167 @@ const officialReservoirCoords = {
     function drawDetailedRiverNetworks() {
       layers.flow.clearLayers();
 
-      const thapMaCoords = hydroOverrides.thapma || officialRiverCoords.thapma;
+      const dokkraiCanalCoords = hydroOverrides.dokkraiCanal || officialRiverCoords.dokkraiCanal;
       const rayongRiverCoords = hydroOverrides.rayongRiver || officialRiverCoords.rayongRiver;
+      const khlongRaOkCoords = hydroOverrides.khlongRaOk || officialRiverCoords.khlongRaOk;
+      const khlongPhoCoords = hydroOverrides.khlongPho || officialRiverCoords.khlongPho;
       const prasaeRiverCoords = hydroOverrides.prasaeRiver || officialRiverCoords.prasaeRiver;
+      const thapMaCoords = hydroOverrides.thapma || officialRiverCoords.thapma;
       const waterGridCoords = officialRiverCoords.waterGrid;
       const bypassCanalCoords = hydroOverrides.bypassCanal || officialRiverCoords.bypassCanal;
 
-      // Base paths
+      // Base stroke underlays
+      L.polyline(dokkraiCanalCoords, { color: '#0369a1', weight: 8, opacity: 0.5 }).addTo(layers.flow);
       L.polyline(rayongRiverCoords, { color: '#0369a1', weight: 9, opacity: 0.6 }).addTo(layers.flow);
-      L.polyline(thapMaCoords, { color: '#b45309', weight: 9, opacity: 0.6 }).addTo(layers.flow);
+      L.polyline(khlongRaOkCoords, { color: '#0369a1', weight: 7, opacity: 0.5 }).addTo(layers.flow);
+      L.polyline(khlongPhoCoords, { color: '#0369a1', weight: 8, opacity: 0.5 }).addTo(layers.flow);
       L.polyline(prasaeRiverCoords, { color: '#0369a1', weight: 9, opacity: 0.6 }).addTo(layers.flow);
+      L.polyline(thapMaCoords, { color: '#b45309', weight: 9, opacity: 0.6 }).addTo(layers.flow);
       L.polyline(bypassCanalCoords, { color: '#059669', weight: 6, opacity: 0.5 }).addTo(layers.flow);
 
-      // Animated Flow Paths with editable Popups
-      L.polyline(rayongRiverCoords, {
-        color: '#38bdf8', weight: 5, className: 'flow-stream-rayong', opacity: 0.95
-      }).bindTooltip("🌊 แม่น้ำระยอง: กระแสน้ำระบายลงอ่าวไทย", { sticky: true })
+      // 1. คลองดอกกราย (INFOGRAPHIC 1): ประตูระบายน้ำอ่างฯ ดอกกราย -> แม่น้ำคู้ -> พนานิคม -> บรรจบ อ.บ้านค่าย
+      L.polyline(dokkraiCanalCoords, {
+        color: '#06b6d4', weight: 5, className: 'flow-stream-rayong', opacity: 0.95
+      }).bindTooltip("🌊 คลองดอกกราย: ทางน้ำระบายจากอ่างฯ ดอกกราย -> ต.แม่น้ำคู้ -> ต.พนานิคม -> อ.บ้านค่าย", { sticky: true })
         .bindPopup(`
           <div class="text-xs p-1">
-            <strong class="text-cyan-300 text-sm">🌊 แม่น้ำระยอง</strong><br/>
-            <span class="text-slate-300">ระบายน้ำจากอ่างฯ หนองปลาไหล ออกสู่ปากน้ำระยอง</span>
-            <div class="text-slate-400 text-[11px] mt-1">${hydroOverrides.rayongRiver ? '<span class="text-amber-300 font-semibold">✏️ แนวลำน้ำปรับแต่งโดยผู้ใช้</span>' : '📍 พิกัดมาตรฐาน'}</div>
+            <strong class="text-cyan-300 text-sm">🌊 คลองดอกกราย (Dok Krai Canal)</strong><br/>
+            <span class="text-slate-200">เส้นทางการไหลของน้ำจากอ่างเก็บน้ำดอกกราย:</span>
+            <ul class="list-disc pl-4 mt-1 space-y-0.5 text-slate-300 text-[11px]">
+              <li>🚪 <strong>Spillway/Outlet:</strong> ประตูระบายน้ำอ่างฯ ดอกกราย</li>
+              <li>🏡 <strong>ต.แม่น้ำคู้ อ.ปลวกแดง:</strong> ผ่านพื้นที่ชุมชนและที่อยู่อาศัย</li>
+              <li>🏭 <strong>ต.พนานิคม อ.นิคมพัฒนา:</strong> ผ่านพื้นที่เกษตรกรรมและนิคมอุตสาหกรรม</li>
+              <li>🔀 <strong>อ.บ้านค่าย (จุดบรรจบ):</strong> บรรจบแม่น้ำระยอง ก่อนไหลลงสู่อ่าวไทย</li>
+            </ul>
+            <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
+              <button onclick="startEditingDefaultFeature('dokkraiCanal')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
+                <span>✏️ ปรับแก้แนวคลองนี้</span>
+              </button>
+            </div>
+          </div>
+        `).addTo(layers.flow);
+
+      // 2. แม่น้ำระยอง (INFOGRAPHIC 1): ผ่าน อ.เมืองระยอง -> ทะเลอ่าวไทย
+      L.polyline(rayongRiverCoords, {
+        color: '#38bdf8', weight: 5.5, className: 'flow-stream-rayong', opacity: 0.95
+      }).bindTooltip("🌊 แม่น้ำระยอง: รับน้ำจากจุดบรรจบบ้านค่าย -> อ.เมืองระยอง -> ทะเลอ่าวไทย", { sticky: true })
+        .bindPopup(`
+          <div class="text-xs p-1">
+            <strong class="text-cyan-300 text-sm">🌊 แม่น้ำระยอง (Rayong River)</strong><br/>
+            <span class="text-slate-300">รับน้ำหลากจากหนองปลาไหลและคลองดอกกราย (จุดบรรจบ อ.บ้านค่าย) ผ่านตัวเมืองระยอง ออกสู่ทะเลอ่าวไทย</span>
             <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
               <button onclick="startEditingDefaultFeature('rayongRiver')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
                 <span>✏️ ปรับแก้แนวแม่น้ำนี้</span>
               </button>
-              ${hydroOverrides.rayongRiver ? `<button onclick="resetSpecificFeature('rayongRiver')" class="text-rose-400 hover:text-rose-300 text-[11px] underline">คืนค่าเดิม</button>` : ''}
             </div>
           </div>
         `).addTo(layers.flow);
 
+      // 3. คลองระโอก (INFOGRAPHIC 2): อ่างฯ เขาจุก -> คลองโพล้
+      L.polyline(khlongRaOkCoords, {
+        color: '#38bdf8', weight: 4.5, className: 'flow-stream-rayong', opacity: 0.95
+      }).bindTooltip("🌊 คลองระโอก: รับน้ำล้นจากอ่างฯ เขาจุก ไหลลงคลองโพล้", { sticky: true })
+        .bindPopup(`
+          <div class="text-xs p-1">
+            <strong class="text-cyan-300 text-sm">🌊 คลองระโอก (อ.แกลง)</strong><br/>
+            <span class="text-slate-300">รับน้ำที่ระบายจากสปิลเวย์อ่างเก็บน้ำคลองระโอก (เขาจุก) ไหลมุ่งหน้าลงคลองโพล้</span>
+          </div>
+        `).addTo(layers.flow);
+
+      // 4. คลองโพล้ (INFOGRAPHIC 2): รับน้ำจากคลองระโอก -> แม่น้ำประแสร์
+      L.polyline(khlongPhoCoords, {
+        color: '#06b6d4', weight: 5, className: 'flow-stream-prasae', opacity: 0.95
+      }).bindTooltip("🌊 คลองโพล้ (อ.เขาชะเมา - อ.แกลง): เชื่อมลงแม่น้ำประแสร์", { sticky: true })
+        .bindPopup(`
+          <div class="text-xs p-1">
+            <strong class="text-cyan-300 text-sm">🌊 คลองโพล้ (Khlong Pho)</strong><br/>
+            <span class="text-slate-300">สายน้ำหลักเชื่อมโยงระหว่าง อ.เขาชะเมา และ อ.แกลง รับน้ำจากคลองระโอกแล้วไหลลงสู่แม่น้ำประแสร์</span>
+          </div>
+        `).addTo(layers.flow);
+
+      // 5. แม่น้ำประแสร์ (INFOGRAPHIC 2): จุดบรรจบคลองโพล้ -> อ.แกลง -> ปากน้ำประแสร์ สู่ทะเล
+      L.polyline(prasaeRiverCoords, {
+        color: '#38bdf8', weight: 5.5, className: 'flow-stream-prasae', opacity: 0.95
+      }).bindTooltip("🌊 แม่น้ำประแสร์: อ.แกลง -> ปากน้ำประแสร์ สู่ทะเลอ่าวไทย", { sticky: true })
+        .bindPopup(`
+          <div class="text-xs p-1">
+            <strong class="text-cyan-300 text-sm">🌊 แม่น้ำประแสร์ (Prasae River)</strong><br/>
+            <span class="text-slate-300">รับน้ำจากอ่างฯ ประแสร์ และคลองโพล้ (คลองระโอก) ไหลผ่านเทศบาลเมืองแกลง ออกสู่อ่าวไทยที่ปากน้ำประแสร์</span>
+            <div class="text-emerald-400 text-[10px] mt-1 font-medium">✓ ยืนยัน: น้ำระบายออกสู่อ่าวไทยที่ปากน้ำประแสร์โดยตรง ไม่ไหลไปทาง จ.ชลบุรี</div>
+          </div>
+        `).addTo(layers.flow);
+
+      // คลองทับมา (สายน้ำเฝ้าระวังน้ำหลาก)
       L.polyline(thapMaCoords, {
         color: '#f59e0b', weight: 5.5, className: 'flow-stream-thapma', opacity: 0.95
-      }).bindTooltip("⚠️ คลองทับมา: กระแสน้ำหลากเร่งระบายจากอ่างฯ ดอกกราย", { sticky: true })
-        .bindPopup(`
-          <div class="text-xs p-1">
-            <strong class="text-amber-400 text-sm">⚠️ คลองทับมา</strong><br/>
-            <span class="text-slate-300">สายน้ำหลักระบายน้ำหลากจากอ่างฯ ดอกกราย ผ่านจุดเสี่ยงทับมา</span>
-            <div class="text-slate-400 text-[11px] mt-1">${hydroOverrides.thapma ? '<span class="text-amber-300 font-semibold">✏️ แนวลำน้ำปรับแต่งโดยผู้ใช้</span>' : '📍 พิกัดมาตรฐาน'}</div>
-            <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
-              <button onclick="startEditingDefaultFeature('thapma')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
-                <span>✏️ ปรับแก้แนวคลองนี้</span>
-              </button>
-              ${hydroOverrides.thapma ? `<button onclick="resetSpecificFeature('thapma')" class="text-rose-400 hover:text-rose-300 text-[11px] underline">คืนค่าเดิม</button>` : ''}
-            </div>
-          </div>
-        `).addTo(layers.flow);
+      }).bindTooltip("⚠️ คลองทับมา: กระแสน้ำหลากเร่งระบายจากอ่างฯ ดอกกราย", { sticky: true }).addTo(layers.flow);
 
-      L.polyline(prasaeRiverCoords, {
-        color: '#38bdf8', weight: 5, className: 'flow-stream-prasae', opacity: 0.95
-      }).bindTooltip("🌊 แม่น้ำประแสร์ (อ.แกลง)", { sticky: true })
-        .bindPopup(`
-          <div class="text-xs p-1">
-            <strong class="text-cyan-300 text-sm">🌊 แม่น้ำประแสร์</strong><br/>
-            <span class="text-slate-300">ลุ่มน้ำประแสร์และอ่างฯ ประแสร์ ไหลลงอ่าวไทยที่ปากน้ำประแสร์</span>
-            <div class="text-slate-400 text-[11px] mt-1">${hydroOverrides.prasaeRiver ? '<span class="text-amber-300 font-semibold">✏️ แนวลำน้ำปรับแต่งโดยผู้ใช้</span>' : '📍 พิกัดมาตรฐาน'}</div>
-            <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
-              <button onclick="startEditingDefaultFeature('prasaeRiver')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
-                <span>✏️ ปรับแก้แนวแม่น้ำนี้</span>
-              </button>
-              ${hydroOverrides.prasaeRiver ? `<button onclick="resetSpecificFeature('prasaeRiver')" class="text-rose-400 hover:text-rose-300 text-[11px] underline">คืนค่าเดิม</button>` : ''}
-            </div>
-          </div>
-        `).addTo(layers.flow);
-
+      // ท่อผันน้ำโครงข่าย
       L.polyline(waterGridCoords, {
         color: '#c084fc', weight: 4, dashArray: '6, 10', className: 'flow-watergrid', opacity: 0.9
       }).bindTooltip("🔄 โครงข่ายท่อผันน้ำ: ประแสร์ -> คลองใหญ่ -> หนองปลาไหล", { sticky: true }).addTo(layers.flow);
 
+      // คลองผันน้ำเลี่ยงเมือง
       L.polyline(bypassCanalCoords, {
         color: '#34d399', weight: 4, dashArray: '6, 10', className: 'flow-watergrid', opacity: 0.9
-      }).bindTooltip("🔀 คลองผันน้ำเลี่ยงเมืองระยอง: ระบายตัดลงทะเล", { sticky: true })
-        .bindPopup(`
-          <div class="text-xs p-1">
-            <strong class="text-emerald-400 text-sm">🔀 คลองผันน้ำเลี่ยงเมืองระยอง</strong><br/>
-            <span class="text-slate-300">ผันน้ำตัดจากคลองทับมาตรงลงสู่ทะเล</span>
-            <div class="text-slate-400 text-[11px] mt-1">${hydroOverrides.bypassCanal ? '<span class="text-amber-300 font-semibold">✏️ แนวคลองปรับแต่งโดยผู้ใช้</span>' : '📍 พิกัดมาตรฐาน'}</div>
-            <div class="mt-2 pt-2 border-t border-slate-700/80 flex items-center justify-between gap-2">
-              <button onclick="startEditingDefaultFeature('bypassCanal')" class="px-2 py-1 bg-sky-900/80 hover:bg-sky-700 text-sky-200 rounded text-[11px] font-semibold border border-sky-600/50 flex items-center gap-1">
-                <span>✏️ ปรับแก้แนวคลองนี้</span>
-              </button>
-              ${hydroOverrides.bypassCanal ? `<button onclick="resetSpecificFeature('bypassCanal')" class="text-rose-400 hover:text-rose-300 text-[11px] underline">คืนค่าเดิม</button>` : ''}
+      }).bindTooltip("🔀 คลองผันน้ำเลี่ยงเมืองระยอง: ระบายตัดลงทะเล", { sticky: true }).addTo(layers.flow);
+
+      // KEY CHECKPOINT BADGES (FROM USER INFOGRAPHICS 1 & 2)
+      const checkpoints = [
+        {
+          name: "🏡 ต.แม่น้ำคู้ อ.ปลวกแดง",
+          sub: "ชุมชนริมคลองดอกกราย",
+          lat: 12.8750, lng: 101.2420,
+          bg: "#0369a1", border: "#38bdf8"
+        },
+        {
+          name: "🏭 ต.พนานิคม อ.นิคมพัฒนา",
+          sub: "เขตอุตสาหกรรม/เกษตร คลองดอกกราย",
+          lat: 12.8300, lng: 101.2620,
+          bg: "#0f766e", border: "#2dd4bf"
+        },
+        {
+          name: "🔀 อ.บ้านค่าย (จุดบรรจบ Confluence)",
+          sub: "คลองดอกกราย + แม่น้ำระยอง รวมสายน้ำ",
+          lat: 12.7750, lng: 101.2880,
+          bg: "#1d4ed8", border: "#60a5fa"
+        },
+        {
+          name: "🏙️ อ.เมืองระยอง",
+          sub: "แม่น้ำระยองไหลผ่านเมืองลงอ่าวไทย",
+          lat: 12.6780, lng: 101.2750,
+          bg: "#4338ca", border: "#818cf8"
+        },
+        {
+          name: "🌊 จุดบรรจบคลองโพล้-แม่น้ำประแสร์",
+          sub: "รับน้ำจากคลองระโอก (เขาจุก) สู่แม่น้ำประแสร์",
+          lat: 12.8350, lng: 101.6480,
+          bg: "#0369a1", border: "#38bdf8"
+        },
+        {
+          name: "⚓ ปากน้ำประแสร์ สู่ทะเล",
+          sub: "จุดระบายน้ำออกอ่าวไทย (อ.แกลง)",
+          lat: 12.7000, lng: 101.7080,
+          bg: "#0284c7", border: "#38bdf8"
+        }
+      ];
+
+      checkpoints.forEach(cp => {
+        const cpIcon = L.divIcon({
+          className: 'custom-checkpoint-icon',
+          html: `
+            <div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold text-white shadow-md border" style="background:${cp.bg}; border-color:${cp.border}">
+              <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+              <span>${cp.name}</span>
             </div>
-          </div>
-        `).addTo(layers.flow);
+          `,
+          iconSize: [160, 24],
+          iconAnchor: [80, 12]
+        });
+        L.marker([cp.lat, cp.lng], { icon: cpIcon })
+          .bindTooltip(`<strong>${cp.name}</strong><br/>${cp.sub}`, { sticky: true })
+          .addTo(layers.flow);
+      });
 
       // Active Water Discharge effect at Pumping Station
       const pumpIcon = L.divIcon({
@@ -1303,9 +1430,13 @@ const officialReservoirCoords = {
       nongplalai: { name: 'อ่างเก็บน้ำหนองปลาไหล', type: 'polygon', center: [12.955, 101.245], zoom: 13 },
       khlongyai: { name: 'อ่างเก็บน้ำคลองใหญ่', type: 'polygon', center: [12.980, 101.315], zoom: 13 },
       prasae: { name: 'อ่างเก็บน้ำประแสร์', type: 'polygon', center: [13.012, 101.565], zoom: 12 },
+      khlongraok: { name: 'อ่างเก็บน้ำคลองระโอก (เขาจุก)', type: 'polygon', center: [12.870, 101.775], zoom: 13 },
+      dokkraiCanal: { name: 'คลองดอกกราย (แม่น้ำคู้-พนานิคม-บ้านค่าย)', type: 'line', center: [12.830, 101.260], zoom: 12 },
+      rayongRiver: { name: 'แม่น้ำระยอง (บ้านค่าย-เมืองระยอง-อ่าวไทย)', type: 'line', center: [12.750, 101.280], zoom: 13 },
+      khlongRaOk: { name: 'คลองระโอก (เขาจุก-คลองโพล้)', type: 'line', center: [12.855, 101.735], zoom: 13 },
+      khlongPho: { name: 'คลองโพล้ (เขาชะเมา-แม่น้ำประแสร์)', type: 'line', center: [12.865, 101.665], zoom: 13 },
+      prasaeRiver: { name: 'แม่น้ำประแสร์ (อ.แกลง-ปากน้ำประแสร์)', type: 'line', center: [12.800, 101.660], zoom: 12 },
       thapma: { name: 'คลองทับมา', type: 'line', center: [12.730, 101.242], zoom: 13 },
-      rayongRiver: { name: 'แม่น้ำระยอง', type: 'line', center: [12.750, 101.280], zoom: 13 },
-      prasaeRiver: { name: 'แม่น้ำประแสร์', type: 'line', center: [12.835, 101.650], zoom: 12 },
       bypassCanal: { name: 'คลองผันน้ำเลี่ยงเมืองระยอง', type: 'line', center: [12.695, 101.240], zoom: 14 }
     };
 
