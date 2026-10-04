@@ -4573,15 +4573,24 @@ const officialReservoirCoords = {
     function openCctvModal(stationCode = 'TA170203') {
       const modal = document.getElementById('cctv-modal');
       const pip = document.getElementById('cctv-pip');
-      if (pip) pip.classList.add('hidden');
-      if (modal) modal.classList.remove('hidden');
+      if (pip) {
+        pip.classList.add('hidden');
+        pip.style.display = 'none';
+      }
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+      }
 
       switchCctvStation(stationCode);
     }
 
     function closeCctvModal() {
       const modal = document.getElementById('cctv-modal');
-      if (modal) modal.classList.add('hidden');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
       if (modalHlsInstance) {
         modalHlsInstance.destroy();
         modalHlsInstance = null;
@@ -4598,13 +4607,19 @@ const officialReservoirCoords = {
     function openCctvPiP() {
       closeCctvModal();
       const pip = document.getElementById('cctv-pip');
-      if (pip) pip.classList.remove('hidden');
+      if (pip) {
+        pip.classList.remove('hidden');
+        pip.style.display = 'flex';
+      }
       lucide.createIcons();
     }
 
     function closeCctvPiP() {
       const pip = document.getElementById('cctv-pip');
-      if (pip) pip.classList.add('hidden');
+      if (pip) {
+        pip.classList.add('hidden');
+        pip.style.display = 'none';
+      }
       if (pipHlsInstance) {
         pipHlsInstance.destroy();
         pipHlsInstance = null;
@@ -4937,6 +4952,8 @@ const officialReservoirCoords = {
           </button>
         </div>
       </form>
+    </div>
+  </div>
 
   <!-- ======================================================== -->
   <!-- 📹 DWR TELEMETRY LIVE CCTV STREAMING MONITOR MODAL        -->
