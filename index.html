@@ -4456,7 +4456,7 @@ const officialReservoirCoords = {
     }
 
     async function refreshAllCctvFeeds() {
-      cctvCountdownSeconds = 10;
+      cctvCountdownSeconds = 15;
       updateCctvCountdowns();
       const dwrStations = cctvStations.filter(st => st.source === 'DWR');
       await Promise.allSettled(dwrStations.map(st => fetchCctvSnapshot(st.code)));
@@ -4464,13 +4464,13 @@ const officialReservoirCoords = {
 
     function startCctvAutoRefresh() {
       if (cctvIntervalTimer) clearInterval(cctvIntervalTimer);
-      cctvCountdownSeconds = 10;
+      cctvCountdownSeconds = 15;
       updateCctvCountdowns();
 
       cctvIntervalTimer = setInterval(() => {
         cctvCountdownSeconds--;
         if (cctvCountdownSeconds <= 0) {
-          cctvCountdownSeconds = 10;
+          cctvCountdownSeconds = 15;
           refreshAllCctvFeeds();
         }
         updateCctvCountdowns();
