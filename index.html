@@ -919,9 +919,9 @@
 
           <!-- Controls: Auto-refresh Countdown & View Switcher -->
           <div class="flex items-center gap-2">
-            <span class="text-[10px] font-mono text-cyan-300 bg-slate-900/90 border border-slate-700/80 px-2 py-0.5 rounded flex items-center gap-1">
-              <i data-lucide="refresh-cw" class="w-3 h-3 text-cyan-400"></i>
-              <span>รีเฟรชใน: <strong id="cctv-gallery-countdown" class="text-amber-300">15</strong>s</span>
+            <span class="text-[10px] font-mono text-emerald-300 bg-slate-900/90 border border-emerald-500/40 px-2.5 py-0.5 rounded flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>ถ่ายทอดสดตรง</span>
             </span>
             <button onclick="refreshAllCctvFeeds()" title="รีเฟรชภาพสดกล้องแม่น้ำทันที" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 text-xs transition">
               <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
@@ -4958,68 +4958,11 @@ const officialReservoirCoords = {
   <!-- ======================================================== -->
   <!-- 📹 DWR TELEMETRY LIVE CCTV STREAMING MONITOR MODAL        -->
   <!-- ======================================================== -->
-  <div id="cctv-modal" class="fixed inset-0 z-[10002] bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto pointer-events-auto" onclick="if (event.target === this) closeCctvModal()">
-    <div class="glass-panel w-full max-w-4xl bg-slate-900/98 border border-rose-500/60 rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-100 space-y-4">
+  <div id="cctv-modal" class="fixed inset-0 z-[10002] bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto pointer-events-auto" onclick="if (event.target === this) closeCctvModal()">
+    <div class="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl flex flex-col group">
       
-      <!-- Modal Header -->
-      <div class="flex items-start justify-between border-b border-slate-800 pb-3 gap-2">
-        <div class="flex items-center gap-2.5">
-          <div class="p-2 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40">
-            <i data-lucide="video" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-                <span>ระบบถ่ายทอดสดกล้องวงจรปิดเฝ้าระวังระดับน้ำและชายฝั่ง</span>
-                <span class="text-rose-400 font-mono">(Live CCTV 5 จุด)</span>
-              </h3>
-              <span id="cctv-modal-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/30 text-rose-200 border border-rose-500/60 flex items-center gap-1 animate-pulse">
-                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-                <span>🔴 LIVE ถ่ายทอดสดสัญญาณจริง</span>
-              </span>
-            </div>
-            <p class="text-xs text-slate-400">
-              เชื่อมต่อสัญญาณสด 5 จุด: กล้องโทรมาตรลุ่มน้ำ (DWR) 2 จุด และกล้องเรดาร์ชายฝั่ง/น้ำขึ้น-ลง (GISTDA) 3 จุด
-            </p>
-          </div>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <button onclick="openCctvPiP()" class="text-slate-400 hover:text-cyan-300 p-1.5 rounded-lg hover:bg-slate-800 transition text-xs font-semibold flex items-center gap-1 border border-slate-700/60" title="ย่อเป็นหน้าต่างลอยจอเล็ก (PiP) เพื่อดูขณะเปิดแผนที่">
-            <i data-lucide="picture-in-picture-2" class="w-4 h-4"></i>
-            <span class="hidden sm:inline">ย่อจอเล็ก PiP</span>
-          </button>
-          <button onclick="closeCctvModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
-            ✕
-          </button>
-        </div>
-      </div>
-
-      <!-- Station Selector Tabs -->
-      <div class="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-800/80 text-xs">
-        <button id="tab-cctv-TA170203" onclick="switchCctvStation('TA170203')" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-rose-600 text-white shadow">
-          <i data-lucide="camera" class="w-3.5 h-3.5"></i>
-          <span>คลองใหญ่ (TA170203 - DWR)</span>
-        </button>
-        <button id="tab-cctv-TA170406" onclick="switchCctvStation('TA170406')" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-slate-800 text-slate-300 hover:bg-slate-700">
-          <i data-lucide="camera" class="w-3.5 h-3.5"></i>
-          <span>คลองสะพานดำ (TA170406 - DWR)</span>
-        </button>
-        <button id="tab-cctv-GISTDA_S031" onclick="switchCctvStation('GISTDA_S031')" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-slate-800 text-slate-300 hover:bg-slate-700">
-          <i data-lucide="anchor" class="w-3.5 h-3.5"></i>
-          <span>ท่าเรือบ้านเพ (S031 - GISTDA)</span>
-        </button>
-        <button id="tab-cctv-GISTDA_S042" onclick="switchCctvStation('GISTDA_S042')" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-slate-800 text-slate-300 hover:bg-slate-700">
-          <i data-lucide="anchor" class="w-3.5 h-3.5"></i>
-          <span>หาดพยูน (S042 - GISTDA)</span>
-        </button>
-        <button id="tab-cctv-GISTDA_S046" onclick="switchCctvStation('GISTDA_S046')" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-slate-800 text-slate-300 hover:bg-slate-700">
-          <i data-lucide="anchor" class="w-3.5 h-3.5"></i>
-          <span>แหลมแม่พิมพ์ (S046 - GISTDA)</span>
-        </button>
-      </div>
-
       <!-- Video Feed Screen & HUD -->
-      <div class="relative bg-black rounded-xl overflow-hidden border border-slate-700/80 aspect-video flex items-center justify-center shadow-inner group">
+      <div class="relative w-full aspect-video flex items-center justify-center bg-black">
         
         <!-- Live Stream Image / Video -->
         <img id="cctv-live-feed" src="" alt="CCTV Stream Live" class="w-full h-full object-contain" />
@@ -5032,9 +4975,9 @@ const officialReservoirCoords = {
           <span class="text-xs font-mono text-rose-300 animate-pulse">กำลังดึงสัญญาณภาพสดจากกล้อง...</span>
         </div>
 
-        <!-- Top HUD Overlay: Live Info & Refresh Status -->
+        <!-- Top HUD Overlay: Live Info & Quick Action Icons (No countdown text) -->
         <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between z-10 pointer-events-none">
-          <div class="flex items-center gap-2 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-700/70 text-xs shadow pointer-events-auto">
+          <div class="flex items-center gap-2 bg-slate-950/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/70 text-xs shadow pointer-events-auto">
             <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
             <span class="font-bold text-rose-400 font-mono tracking-wider">REC LIVE</span>
             <span class="text-slate-500">|</span>
@@ -5042,15 +4985,17 @@ const officialReservoirCoords = {
           </div>
 
           <div class="flex items-center gap-1.5 pointer-events-auto">
-            <div class="bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-700/70 text-xs font-mono text-cyan-300 flex items-center gap-1.5 shadow">
-              <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-cyan-400"></i>
-              <span>รีเฟรชใน: <strong id="cctv-countdown-sec" class="text-amber-300">15</strong>s</span>
-            </div>
+            <button onclick="openCctvPiP()" title="ย่อเป็นหน้าต่างลอยจอเล็ก (PiP)" class="bg-slate-900/90 hover:bg-slate-800 p-1.5 rounded-lg border border-slate-700 text-slate-200 transition">
+              <i data-lucide="picture-in-picture-2" class="w-4 h-4"></i>
+            </button>
             <button onclick="fetchCctvSnapshot(activeCctvCode)" title="รีเฟรชภาพสดทันที" class="bg-slate-900/90 hover:bg-slate-800 p-1.5 rounded-lg border border-slate-700 text-slate-200 transition">
-              <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+              <i data-lucide="rotate-cw" class="w-4 h-4"></i>
             </button>
             <button onclick="toggleCctvFullscreen()" title="ดูภาพขยายเต็มจอ" class="bg-slate-900/90 hover:bg-slate-800 p-1.5 rounded-lg border border-slate-700 text-slate-200 transition">
-              <i data-lucide="maximize" class="w-3.5 h-3.5"></i>
+              <i data-lucide="maximize" class="w-4 h-4"></i>
+            </button>
+            <button onclick="closeCctvModal()" title="ปิดหน้าต่าง" class="bg-slate-900/90 hover:bg-rose-900 p-1.5 rounded-lg border border-slate-700 hover:border-rose-600 text-slate-300 hover:text-white transition">
+              <i data-lucide="x" class="w-4 h-4"></i>
             </button>
           </div>
         </div>
@@ -5072,73 +5017,12 @@ const officialReservoirCoords = {
             </div>
           </div>
 
-          <div class="bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-700/80 text-[11px] font-mono text-slate-300 shadow pointer-events-auto flex items-center gap-1.5">
+          <div class="bg-slate-950/85 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-700/80 text-[11px] font-mono text-slate-300 shadow pointer-events-auto flex items-center gap-1.5">
             <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
             <span>ภาพล่าสุด: <strong id="cctv-stat-time" class="text-white font-bold">กำลังโหลด...</strong></span>
           </div>
         </div>
 
-      </div>
-
-      <!-- Real-Time Telemetry & Risk Metrics Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
-        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
-          <span class="text-slate-400 text-[11px]">🌊 ระดับน้ำ / คลื่นปัจจุบัน:</span>
-          <div class="flex items-baseline gap-1 mt-1">
-            <span id="cctv-detail-wl" class="text-lg font-bold text-cyan-300">1.73</span>
-            <span id="cctv-detail-wl-unit" class="text-[10px] text-slate-400">ม. รทก.</span>
-          </div>
-          <span id="cctv-detail-status" class="text-[10px] text-emerald-400 font-semibold mt-0.5">● สภาวะปกติ/ปลอดภัย</span>
-        </div>
-
-        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
-          <span class="text-slate-400 text-[11px]">⚡ อัตราการไหล / สภาวะหนุน:</span>
-          <div class="flex items-baseline gap-1 mt-1">
-            <span id="cctv-detail-fr" class="text-lg font-bold text-amber-300">35.49</span>
-            <span class="text-[10px] text-slate-400"></span>
-          </div>
-          <span id="cctv-detail-fr-sub" class="text-[10px] text-slate-400 mt-0.5">คำนวณจาก Rating Curve</span>
-        </div>
-
-        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
-          <span class="text-slate-400 text-[11px]">🛡️ เกณฑ์เฝ้าระวัง / ข้อมูลจุดติดตั้ง:</span>
-          <div class="text-xs font-bold text-rose-300 mt-1">
-            <span id="cctv-detail-threshold">เฝ้าระวัง: 2.72 ม. / วิกฤต: 3.02 ม.</span>
-          </div>
-          <span class="text-[10px] text-slate-400 mt-0.5">ระบบเฝ้าระวังน้ำระยอง</span>
-        </div>
-
-        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
-          <span class="text-slate-400 text-[11px]">📍 พิกัดสถานี:</span>
-          <div class="text-[11px] font-bold text-white mt-1">
-            <span id="cctv-detail-coords">12.6800° N, 101.2928° E</span>
-          </div>
-          <span id="cctv-detail-sub" class="text-[10px] text-slate-400 truncate mt-0.5">ต.เชิงเนิน อ.เมืองระยอง</span>
-        </div>
-      </div>
-
-      <!-- Action Buttons & External Stream Links -->
-      <div class="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-800 text-xs">
-        <div class="flex flex-wrap items-center gap-2">
-          <a id="btn-cctv-direct-stream" href="http://live:Live2025!@ta170203.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sky-950/80 hover:bg-sky-800 text-sky-200 border border-sky-500/50 font-bold flex items-center gap-1.5 transition shadow">
-            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-            <span>เปิดลิงก์สตรีมตรง (Direct Player)</span>
-          </a>
-          <a href="https://telemetry.dwr.go.th/reportCctv" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition font-semibold">
-            <i data-lucide="globe" class="w-3.5 h-3.5 text-cyan-400"></i>
-            <span>DWR Telemetry</span>
-          </a>
-          <a href="https://coastalradar.gistda.or.th/" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition font-semibold">
-            <i data-lucide="radar" class="w-3.5 h-3.5 text-rose-400"></i>
-            <span>GISTDA Coastal Radar</span>
-          </a>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="closeCctvModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold transition">
-            ปิด
-          </button>
-        </div>
       </div>
 
     </div>

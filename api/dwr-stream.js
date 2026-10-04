@@ -24,7 +24,7 @@ const CAMERAS = {
   }
 };
 
-// Global in-memory cache to prevent redundant round-trips
+// Global in-memory cache
 const frameCache = {
   TA170203: { buffer: null, source: null, time: 0 },
   TA170406: { buffer: null, source: null, time: 0 }
@@ -44,7 +44,7 @@ function md5(str) {
   return crypto.createHash('md5').update(str).digest('hex');
 }
 
-function fetchDirectCameraImage(cam, maxTimeoutMs = 2800) {
+function fetchDirectCameraImage(cam, maxTimeoutMs = 6800) {
   return new Promise((resolve, reject) => {
     let finished = false;
     let activeReq1 = null;
@@ -82,7 +82,7 @@ function fetchDirectCameraImage(cam, maxTimeoutMs = 2800) {
         hostname: cam.host,
         port: cam.port,
         path: '/snap.jpg',
-        timeout: 2000
+        timeout: 4500
       }, (res1) => {
         if (res1.statusCode !== 401 || !res1.headers['www-authenticate']) {
           return cleanupAndReject(new Error('Expected 401 Digest Auth, got ' + res1.statusCode));
@@ -106,7 +106,7 @@ function fetchDirectCameraImage(cam, maxTimeoutMs = 2800) {
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
               'Authorization': auth
             },
-            timeout: 2200
+            timeout: 6000
           }, (res2) => {
             if (res2.statusCode !== 200) {
               return cleanupAndReject(new Error('Camera responded with ' + res2.statusCode));
@@ -134,8 +134,8 @@ function fetchDirectCameraImage(cam, maxTimeoutMs = 2800) {
   });
 }
 
-// Fast fallback to DWR Central API repository
-async function fetchDwrApiFallback(cam, maxTimeoutMs = 3000) {
+// Fallback to DWR Central API repository
+async function fetchDwrApiFallback(cam, maxTimeoutMs = 2500) {
   let snapPath = '';
   try {
     const snapData = await new Promise((resolve, reject) => {
@@ -196,17 +196,17 @@ module.exports = async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const { station = 'TA170203', mode = 'image' } = req.query;
+  const { station = 'TA170203', mode = 'image', force = '0' } = req.query;
   const cam = CAMERAS[station];
 
   if (!cam) {
     return res.status(404).json({ error: 'Station not found', validStations: Object.keys(CAMERAS) });
   }
 
-  // 1. Check in-memory cache (fresh within 6 seconds)
+  // 1. Check in-memory cache (fresh within 4 seconds)
   const cached = frameCache[station];
   const now = Date.now();
-  if (cached && cached.buffer && (now - cached.time < 6000)) {
+  if (force !== '1' && cached && cached.buffer && (now - cached.time < 4000)) {
     if (mode === 'json') {
       return res.status(200).json({
         station: cam.code,
@@ -218,25 +218,27 @@ module.exports = async function handler(req, res) {
     }
     res.setHeader('Content-Type', 'image/jpeg');
     res.setHeader('X-CCTV-Source', cached.source + '-cached');
-    res.setHeader('Cache-Control', 'public, max-age=5');
+    res.setHeader('Cache-Control', 'public, max-age=3');
     return res.status(200).send(cached.buffer);
   }
 
   try {
     let result = null;
+    let directError = null;
     try {
-      // 2. Try real-time direct camera fetch (hard 2.8s budget)
-      result = await fetchDirectCameraImage(cam, 2800);
-    } catch (directErr) {
+      // 2. Try real-time direct camera fetch (6.8s budget to guarantee fresh current frame)
+      result = await fetchDirectCameraImage(cam, 6800);
+    } catch (err) {
+      directError = err.message;
       // 3. Fallback to DWR Central API repository
-      result = await fetchDwrApiFallback(cam, 3000);
+      result = await fetchDwrApiFallback(cam, 2500);
     }
 
     if (!result || !result.buffer) {
       if (cached && cached.buffer) {
         result = cached;
       } else {
-        return res.status(502).json({ error: 'Failed to retrieve camera frame' });
+        return res.status(502).json({ error: 'Failed to retrieve camera frame', directError });
       }
     } else {
       // Update cache
@@ -253,13 +255,14 @@ module.exports = async function handler(req, res) {
         name: cam.name,
         source: result.source,
         bytes: result.buffer.length,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        directError
       });
     }
 
     res.setHeader('Content-Type', 'image/jpeg');
     res.setHeader('X-CCTV-Source', result.source);
-    res.setHeader('Cache-Control', 'public, max-age=5');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
     return res.status(200).send(result.buffer);
 
   } catch (err) {
