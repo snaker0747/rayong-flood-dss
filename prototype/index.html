@@ -973,9 +973,9 @@
               </div>
 
               <!-- Live HUD On Image -->
-              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/75 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-rose-300 border border-slate-700">
-                <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
-                <span>DWR LIVE</span>
+              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-rose-300 border border-slate-700 z-10">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
+                <span>🔴 DWR DIRECT LIVE</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800">
@@ -1036,9 +1036,9 @@
               </div>
 
               <!-- Live HUD On Image -->
-              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/75 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-amber-300 border border-slate-700">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                <span>DWR LIVE</span>
+              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-amber-300 border border-slate-700 z-10">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
+                <span>🔴 DWR DIRECT LIVE</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800">
@@ -3856,7 +3856,8 @@ const officialReservoirCoords = {
         wlFc: 3.02,
         fr: 35.49,
         status: "online",
-        statusText: "🟢 ปกติ / ระดับน้ำปลอดภัย",
+        statusText: "🟢 ปกติ / ระดับน้ำปลอดภัย (สดตรงจากกล้อง)",
+        streamUrl: "/api/dwr-stream?station=TA170203",
         defaultPath: "/TA170203/2026/10/4/20_17.jpg",
         videoLink: "http://live:Live2025!@ta170203.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true",
         lastTime: "20:17 น."
@@ -3877,7 +3878,8 @@ const officialReservoirCoords = {
         wlFc: 3.19,
         fr: 92.92,
         status: "watch",
-        statusText: "⚠️ เฝ้าระวังน้ำสูง (+2.98 ม.)",
+        statusText: "⚠️ เฝ้าระวังน้ำสูง (+2.98 ม.) (สดตรงจากกล้อง)",
+        streamUrl: "/api/dwr-stream?station=TA170406",
         defaultPath: "/TA170406/2026/10/4/20_0.jpg",
         videoLink: "http://live:Live2025!@ta170406.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true",
         lastTime: "20:00 น."
@@ -4272,48 +4274,65 @@ const officialReservoirCoords = {
       if (activeCctvCode === code && loaderEl) loaderEl.classList.remove('hidden');
 
       try {
-        let snapshotPath = station.defaultPath;
+        let currentUrl = null;
+        let isDirect = false;
+
+        // 1. Try real-time camera direct proxy
         try {
-          const snapRes = await fetch('https://telemetry.dwr.go.th/api/public/reportCctv/snapshot/' + station.id);
-          if (snapRes.ok) {
-            const snapData = await snapRes.json();
-            if (snapData && snapData.value) {
-              snapshotPath = snapData.value;
-            }
+          const directRes = await fetch(`/api/dwr-stream?station=${code}&t=${Date.now()}`);
+          if (directRes.ok) {
+            const blob = await directRes.blob();
+            if (cctvBlobUrls[code]) URL.revokeObjectURL(cctvBlobUrls[code]);
+            cctvBlobUrls[code] = URL.createObjectURL(blob);
+            currentUrl = cctvBlobUrls[code];
+            isDirect = true;
           }
-        } catch (e) {
-          console.warn('DWR snapshot path fetch fallback:', e);
+        } catch (dirErr) {
+          console.warn('Direct cam stream error for ' + code + ':', dirErr);
         }
 
-        const imgRes = await fetch('https://telemetry.dwr.go.th/api/file/image/cctv', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path: snapshotPath })
-        });
+        // 2. If direct cam failed, fallback to DWR public API
+        if (!currentUrl) {
+          let snapshotPath = station.defaultPath;
+          try {
+            const snapRes = await fetch('https://telemetry.dwr.go.th/api/public/reportCctv/snapshot/' + station.id);
+            if (snapRes.ok) {
+              const snapData = await snapRes.json();
+              if (snapData && snapData.value) snapshotPath = snapData.value;
+            }
+          } catch (e) {}
 
-        if (imgRes.ok) {
-          const blob = await imgRes.blob();
-          if (cctvBlobUrls[code]) {
-            URL.revokeObjectURL(cctvBlobUrls[code]);
+          const imgRes = await fetch('https://telemetry.dwr.go.th/api/file/image/cctv', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: snapshotPath })
+          });
+
+          if (imgRes.ok) {
+            const blob = await imgRes.blob();
+            if (cctvBlobUrls[code]) URL.revokeObjectURL(cctvBlobUrls[code]);
+            cctvBlobUrls[code] = URL.createObjectURL(blob);
+            currentUrl = cctvBlobUrls[code];
           }
-          cctvBlobUrls[code] = URL.createObjectURL(blob);
-          const currentUrl = cctvBlobUrls[code];
+        }
 
+        if (currentUrl) {
           const now = new Date();
           const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')} น.`;
+          const suffix = isDirect ? ' (สดตรง)' : ' (DWR)';
 
           // Update gallery card below map
           if (galleryImg) galleryImg.src = currentUrl;
-          if (galleryTime) galleryTime.innerText = timeStr;
+          if (galleryTime) galleryTime.innerText = timeStr + suffix;
 
           // If active in modal or PiP, update them too
           if (activeCctvCode === code) {
             if (imgEl) imgEl.src = currentUrl;
             if (pipImgEl) pipImgEl.src = currentUrl;
-            if (timeEl) timeEl.innerText = timeStr;
+            if (timeEl) timeEl.innerText = `${timeStr} ${isDirect ? '(สดตรงจากกล้อง)' : '(สถานีโทรมาตร)'}`;
           }
         } else {
-          throw new Error('Image fetch status ' + imgRes.status);
+          throw new Error('All image fetch attempts failed');
         }
       } catch (err) {
         console.warn('Live DWR CCTV image fetch error for ' + code + ':', err);
@@ -4437,7 +4456,7 @@ const officialReservoirCoords = {
     }
 
     async function refreshAllCctvFeeds() {
-      cctvCountdownSeconds = 15;
+      cctvCountdownSeconds = 10;
       updateCctvCountdowns();
       const dwrStations = cctvStations.filter(st => st.source === 'DWR');
       await Promise.allSettled(dwrStations.map(st => fetchCctvSnapshot(st.code)));
@@ -4445,13 +4464,13 @@ const officialReservoirCoords = {
 
     function startCctvAutoRefresh() {
       if (cctvIntervalTimer) clearInterval(cctvIntervalTimer);
-      cctvCountdownSeconds = 15;
+      cctvCountdownSeconds = 10;
       updateCctvCountdowns();
 
       cctvIntervalTimer = setInterval(() => {
         cctvCountdownSeconds--;
         if (cctvCountdownSeconds <= 0) {
-          cctvCountdownSeconds = 15;
+          cctvCountdownSeconds = 10;
           refreshAllCctvFeeds();
         }
         updateCctvCountdowns();
