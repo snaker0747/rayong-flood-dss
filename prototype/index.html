@@ -96,11 +96,12 @@
       padding: 4px 10px;
       border-radius: 9999px;
       font-size: 11px;
-      font-weight: 700;
-      color: #ffffff;
+      font-weight: 800;
+      color: #ffffff !important;
       white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-      border: 2px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.75), 0 0 0 1.5px rgba(0, 0, 0, 0.35);
+      border: 2px solid #ffffff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
       transition: all 0.2s ease;
     }
 
@@ -144,22 +145,50 @@
       box-shadow: 0 6px 18px rgba(56, 189, 248, 0.6);
     }
 
-    /* 🌊 COMPACT RESERVOIR BADGES */
-    .compact-lake-badge {
-      background: rgba(15, 23, 42, 0.94);
-      border: 1.5px solid #38bdf8;
-      color: #e0f2fe;
-      padding: 3px 8px;
+    /* 🌊 PROFESSIONAL GIS RESERVOIR CALLOUT BADGES (100% OPAQUE SOLID & HIGH CONTRAST) */
+    .gis-lake-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #090e1a !important; /* 100% Solid Opaque Dark Slate - Zero Transparency */
+      border: 2px solid #38bdf8;
       border-radius: 9999px;
-      font-size: 10.5px;
+      padding: 3px 5px 3px 9px;
+      font-size: 11px;
       font-weight: 700;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.65);
+      color: #ffffff !important;
       white-space: nowrap;
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85), 0 0 0 1.5px rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
     }
-    .compact-lake-badge:hover {
-      transform: scale(1.08);
-      z-index: 9998 !important;
+    .gis-lake-badge:hover {
+      transform: scale(1.08) translateY(-2px);
+      z-index: 9999 !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.95), 0 0 14px rgba(56, 189, 248, 0.6);
+    }
+    .gis-lake-title {
+      color: #ffffff !important;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    }
+    .gis-lake-vol {
+      color: #cbd5e1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .gis-lake-chip {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 10px;
+      font-weight: 800;
+      color: #ffffff !important;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
     }
 
     /* 📏 COMPACT STATION MARKER PINS */
@@ -1311,27 +1340,112 @@ const officialReservoirCoords = {
 
       // STRATEGIC NON-OVERLAPPING LAKE BADGE POSITIONS (AWAY FROM SURROUNDING TOWNS & RIVERS)
       const lakeLabels = [
-        // Dok Krai: Positioned Northwest near dam crest (away from Mae Nam Khu to the southeast)
-        { name: "🌊 ดอกกราย (117% ล้น)", fullName: "🏢 อ่างฯ ดอกกราย (83.52M / 117% ล้น)", lat: 12.915, lng: 101.175, border: "#f43f5e", bg: "rgba(244, 63, 94, 0.2)" },
+        // Dok Krai: Positioned Northwest near dam crest
+        {
+          id: "dokkrai",
+          title: "อ่างฯ ดอกกราย",
+          compactTitle: "ดอกกราย",
+          vol: "83.52M",
+          pct: "117% ล้น",
+          statusDesc: "116.98% ล้นตลิ่ง",
+          border: "#f43f5e",
+          chipBg: "linear-gradient(135deg, #be123c, #ef4444)",
+          lat: 12.915, lng: 101.175
+        },
         // Nong Pla Lai: Positioned Northwest (away from Khlong Yai to the east)
-        { name: "🌊 หนองปลาไหล (96%)", fullName: "🏢 อ่างฯ หนองปลาไหล (157.4M / 96%)", lat: 12.975, lng: 101.220, border: "#38bdf8", bg: "rgba(56, 189, 248, 0.2)" },
+        {
+          id: "nongplalai",
+          title: "อ่างฯ หนองปลาไหล",
+          compactTitle: "หนองปลาไหล",
+          vol: "157.4M",
+          pct: "96%",
+          statusDesc: "96.12% ปกติ/เฝ้าระวัง",
+          border: "#38bdf8",
+          chipBg: "linear-gradient(135deg, #0284c7, #0ea5e9)",
+          lat: 12.975, lng: 101.220
+        },
         // Khlong Yai: Positioned East/Northeast (separated from Nong Pla Lai)
-        { name: "🌊 คลองใหญ่ (95%)", fullName: "🏢 อ่างฯ คลองใหญ่ (48.12M / 95%)", lat: 12.990, lng: 101.350, border: "#f59e0b", bg: "rgba(245, 158, 11, 0.2)" },
+        {
+          id: "khlongyai",
+          title: "อ่างฯ คลองใหญ่",
+          compactTitle: "คลองใหญ่",
+          vol: "48.12M",
+          pct: "95%",
+          statusDesc: "95.83% เฝ้าระวัง",
+          border: "#f59e0b",
+          chipBg: "linear-gradient(135deg, #d97706, #f59e0b)",
+          lat: 12.990, lng: 101.350
+        },
         // Prasae: Positioned North of reservoir
-        { name: "🌊 ประแสร์ (102% ล้น)", fullName: "🏢 อ่างฯ ประแสร์ (301.4M / 102% ล้น)", lat: 13.030, lng: 101.565, border: "#f43f5e", bg: "rgba(244, 63, 94, 0.2)" },
+        {
+          id: "prasae",
+          title: "อ่างฯ ประแสร์",
+          compactTitle: "ประแสร์",
+          vol: "301.4M",
+          pct: "102% ล้น",
+          statusDesc: "102.17% ล้นตลิ่ง",
+          border: "#f43f5e",
+          chipBg: "linear-gradient(135deg, #be123c, #ef4444)",
+          lat: 13.030, lng: 101.565
+        },
         // Khlong Ra-ok (Khao Chuk): Positioned Southeast (away from Khlong Pho to northwest)
-        { name: "🌊 คลองระโอก (104% ล้น)", fullName: "🏢 อ่างฯ คลองระโอก (เขาจุก) (20.38M / 104%)", lat: 12.865, lng: 101.805, border: "#f43f5e", bg: "rgba(244, 63, 94, 0.2)" }
+        {
+          id: "khlongraok",
+          title: "อ่างฯ คลองระโอก (เขาจุก)",
+          compactTitle: "คลองระโอก",
+          vol: "20.38M",
+          pct: "104% ล้น",
+          statusDesc: "104.51% ล้นตลิ่ง",
+          border: "#f43f5e",
+          chipBg: "linear-gradient(135deg, #be123c, #ef4444)",
+          lat: 12.865, lng: 101.805
+        }
       ];
 
       lakeLabels.forEach(l => {
         if (currentLabelMode === 'hide') return;
+
+        let badgeHtml = '';
+        let badgeW = 215;
+
+        if (currentLabelMode === 'compact') {
+          badgeW = 155;
+          badgeHtml = `
+            <div class="gis-lake-badge" style="border-color:${l.border};">
+              <span class="text-xs">🏢</span>
+              <span class="gis-lake-title">${l.compactTitle}</span>
+              <span class="gis-lake-chip" style="background:${l.chipBg};">${l.pct}</span>
+            </div>
+          `;
+        } else {
+          // Smart / Full mode (Professional Cartographic Dual-Chip Badge)
+          badgeW = l.id === 'khlongraok' ? 255 : 215;
+          badgeHtml = `
+            <div class="gis-lake-badge" style="border-color:${l.border};">
+              <span class="text-xs">🏢</span>
+              <span class="gis-lake-title">${l.title}</span>
+              <span class="gis-lake-vol">${l.vol}</span>
+              <span class="gis-lake-chip" style="background:${l.chipBg};">${l.pct}</span>
+            </div>
+          `;
+        }
+
         const icon = L.divIcon({
           className: 'custom-lake-label',
-          html: `<div class="compact-lake-badge" style="border-color:${l.border}; background:${l.bg};"><span>${currentLabelMode === 'compact' ? l.name : l.fullName}</span></div>`,
-          iconSize: [currentLabelMode === 'compact' ? 135 : 185, 24],
-          iconAnchor: [currentLabelMode === 'compact' ? 67 : 92, 12]
+          html: badgeHtml,
+          iconSize: [badgeW, 28],
+          iconAnchor: [Math.floor(badgeW / 2), 14]
         });
-        L.marker([l.lat, l.lng], { icon: icon }).bindTooltip(`<strong>${l.fullName}</strong><br/>รอบรายงาน 06:00 น. (RID)`, { sticky: true }).addTo(layers.lakes);
+
+        L.marker([l.lat, l.lng], { icon: icon })
+          .bindTooltip(`
+            <div class="text-xs p-1">
+              <strong class="text-cyan-300">${l.title}</strong><br/>
+              <span class="text-white">ปริมาตรน้ำ ${l.vol} (${l.statusDesc})</span>
+              <div class="text-[10px] text-slate-400 font-mono mt-1 border-t border-slate-700/80 pt-0.5">🕒 รอบรายงาน RID 06:00 น.</div>
+            </div>
+          `, { sticky: true })
+          .addTo(layers.lakes);
       });
     }
 
