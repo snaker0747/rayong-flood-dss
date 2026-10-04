@@ -964,7 +964,7 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer" onclick="openCctvModal('TA170203')">
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('TA170203')">
               <img id="cctv-gallery-img-TA170203" src="" alt="Live Camera TA170203" class="w-full h-full object-contain group-hover:scale-105 transition duration-300" />
               
               <!-- Loader -->
@@ -978,7 +978,15 @@
                 <span>🔴 DWR DIRECT LIVE</span>
               </div>
 
-              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800">
+              <!-- Hover prompt overlay to trigger popup -->
+              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+                <span class="p-2 rounded-full bg-rose-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
+                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                </span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-rose-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
+              </div>
+
+              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
                 <span>WL: <strong class="text-cyan-300">1.73 ม.</strong> | FR: <strong class="text-amber-300">35.5 m³/s</strong></span>
                 <span class="text-[9px] text-slate-300" id="cctv-time-TA170203">กำลังโหลด...</span>
               </div>
@@ -1027,7 +1035,7 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer" onclick="openCctvModal('TA170406')">
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('TA170406')">
               <img id="cctv-gallery-img-TA170406" src="" alt="Live Camera TA170406" class="w-full h-full object-contain group-hover:scale-105 transition duration-300" />
               
               <!-- Loader -->
@@ -1041,7 +1049,15 @@
                 <span>🔴 DWR DIRECT LIVE</span>
               </div>
 
-              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800">
+              <!-- Hover prompt overlay to trigger popup -->
+              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+                <span class="p-2 rounded-full bg-amber-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
+                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                </span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-amber-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
+              </div>
+
+              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
                 <span>WL: <strong class="text-amber-300">2.98 ม.</strong> | FR: <strong class="text-amber-300">92.9 m³/s</strong></span>
                 <span class="text-[9px] text-slate-300" id="cctv-time-TA170406">กำลังโหลด...</span>
               </div>
@@ -1090,7 +1106,7 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group" onclick="openCctvModal('GISTDA_S031')">
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('GISTDA_S031')">
               <video id="cctv-gallery-video-GISTDA_S031" autoplay muted playsinline loop class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
               <img id="cctv-gallery-img-GISTDA_S031" src="https://cdn.webcamera24.com/static/image/camera/detail/7195-ban-phae-ban-phe-uastreaming/thumbnail/968x545/7195_1692098373_akppxhhpujpxmjwusxuisnlxzcosdeaomxqqqudz.webp" alt="Live Camera Ban Phe Pier" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 hidden" />
               
@@ -1103,6 +1119,14 @@
               <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-cyan-300 border border-slate-700 z-10">
                 <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
                 <span>🔴 GISTDA STREAM LIVE</span>
+              </div>
+
+              <!-- Hover prompt overlay to trigger popup -->
+              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+                <span class="p-2 rounded-full bg-cyan-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
+                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                </span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-cyan-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
@@ -1154,7 +1178,7 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group" onclick="openCctvModal('GISTDA_S042')">
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('GISTDA_S042')">
               <video id="cctv-gallery-video-GISTDA_S042" autoplay muted playsinline loop class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
               <img id="cctv-gallery-img-GISTDA_S042" src="https://cdn.webcamera24.com/static/image/camera/detail/7196-hat-pyun-plaz-paun-uastreaming/thumbnail/968x545/7196_1692098271_eqqrulucvbmdtfzsnolwbblayvsuvmnasulnjwwb.webp" alt="Live Camera Phayun Beach" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 hidden" />
               
@@ -1167,6 +1191,14 @@
               <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-cyan-300 border border-slate-700 z-10">
                 <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
                 <span>🔴 GISTDA STREAM LIVE</span>
+              </div>
+
+              <!-- Hover prompt overlay to trigger popup -->
+              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+                <span class="p-2 rounded-full bg-cyan-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
+                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                </span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-cyan-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
@@ -1218,7 +1250,7 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group" onclick="openCctvModal('GISTDA_S046')">
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('GISTDA_S046')">
               <img id="cctv-gallery-img-GISTDA_S046" src="https://cdn.webcamera24.com/static/image/camera/detail/7197-hat-phim-plaz-mae-phim-uastreaming/thumbnail/968x545/7197_1692098082_ywbneekworijlimsodyoiaeoujqewuleoiomvemn.webp" alt="Live Camera Laem Mae Phim" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-60" />
               
               <!-- Offline Alert Overlay -->
@@ -1234,6 +1266,14 @@
               <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-amber-300 border border-slate-700 z-10">
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                 <span>ภาพบันทึกก่อนหน้า</span>
+              </div>
+
+              <!-- Hover prompt overlay to trigger popup -->
+              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+                <span class="p-2 rounded-full bg-amber-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
+                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                </span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-amber-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
@@ -4240,10 +4280,16 @@ const officialReservoirCoords = {
         if (pipImgEl) pipImgEl.classList.remove('hidden');
         if (pipBadge) pipBadge.innerText = '🔴 LIVE DWR';
 
-        // Show cached blob
+        // Show existing frame immediately (zero wait time for popup view)
+        const galleryImg = document.getElementById('cctv-gallery-img-' + code);
         if (cctvBlobUrls[code]) {
           if (imgEl) imgEl.src = cctvBlobUrls[code];
           if (pipImgEl) pipImgEl.src = cctvBlobUrls[code];
+          if (loaderEl) loaderEl.classList.add('hidden');
+        } else if (galleryImg && galleryImg.src && !galleryImg.src.endsWith('/')) {
+          if (imgEl) imgEl.src = galleryImg.src;
+          if (pipImgEl) pipImgEl.src = galleryImg.src;
+          if (loaderEl) loaderEl.classList.add('hidden');
         }
         fetchCctvSnapshot(code);
       }
@@ -4270,8 +4316,8 @@ const officialReservoirCoords = {
         return;
       }
 
-      if (galleryLoader) galleryLoader.classList.remove('hidden');
-      if (activeCctvCode === code && loaderEl) loaderEl.classList.remove('hidden');
+      if (galleryLoader && (!galleryImg || !galleryImg.src)) galleryLoader.classList.remove('hidden');
+      if (activeCctvCode === code && loaderEl && (!imgEl || !imgEl.src)) loaderEl.classList.remove('hidden');
 
       try {
         let currentUrl = null;
@@ -4895,7 +4941,7 @@ const officialReservoirCoords = {
   <!-- ======================================================== -->
   <!-- 📹 DWR TELEMETRY LIVE CCTV STREAMING MONITOR MODAL        -->
   <!-- ======================================================== -->
-  <div id="cctv-modal" class="fixed inset-0 z-[10002] bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto pointer-events-auto">
+  <div id="cctv-modal" class="fixed inset-0 z-[10002] bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto pointer-events-auto" onclick="if (event.target === this) closeCctvModal()">
     <div class="glass-panel w-full max-w-4xl bg-slate-900/98 border border-rose-500/60 rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-100 space-y-4">
       
       <!-- Modal Header -->
