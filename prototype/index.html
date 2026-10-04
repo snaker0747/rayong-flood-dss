@@ -13,6 +13,8 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- HLS.js Video Streaming -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap');
     * { font-family: 'Sarabun', sans-serif; }
@@ -1088,18 +1090,24 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer" onclick="openCctvModal('GISTDA_S031')">
-              <img id="cctv-gallery-img-GISTDA_S031" src="https://cdn.webcamera24.com/static/image/camera/detail/7195-ban-phae-ban-phe-uastreaming/thumbnail/968x545/7195_1692098373_akppxhhpujpxmjwusxuisnlxzcosdeaomxqqqudz.webp" alt="Live Camera Ban Phe Pier" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group" onclick="openCctvModal('GISTDA_S031')">
+              <video id="cctv-gallery-video-GISTDA_S031" autoplay muted playsinline loop class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
+              <img id="cctv-gallery-img-GISTDA_S031" src="https://cdn.webcamera24.com/static/image/camera/detail/7195-ban-phae-ban-phe-uastreaming/thumbnail/968x545/7195_1692098373_akppxhhpujpxmjwusxuisnlxzcosdeaomxqqqudz.webp" alt="Live Camera Ban Phe Pier" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 hidden" />
               
-              <!-- Live HUD On Image -->
-              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/75 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-cyan-300 border border-slate-700">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span>GISTDA LIVE</span>
+              <!-- Loader -->
+              <div id="cctv-loader-GISTDA_S031" class="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
+                <div class="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
               </div>
 
-              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800">
-                <span>คลื่น: <strong class="text-cyan-300">0.4-0.7 ม.</strong> | น้ำทะเลหนุน: <strong class="text-emerald-300">ปกติ</strong></span>
-                <span class="text-[9px] text-slate-300" id="cctv-time-GISTDA_S031">สด (Live)</span>
+              <!-- Live HUD On Image -->
+              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-cyan-300 border border-slate-700 z-10">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>🔴 GISTDA STREAM LIVE</span>
+              </div>
+
+              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
+                <span>คลื่น: <strong class="text-cyan-300">0.4-0.7 ม.</strong> | ทะเล: <strong class="text-emerald-300">ปกติ</strong></span>
+                <span class="text-[9px] text-cyan-300 font-bold" id="cctv-time-GISTDA_S031">● สดต่อเนื่อง</span>
               </div>
             </div>
 
@@ -1146,18 +1154,24 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer" onclick="openCctvModal('GISTDA_S042')">
-              <img id="cctv-gallery-img-GISTDA_S042" src="https://cdn.webcamera24.com/static/image/camera/detail/7196-hat-pyun-plaz-paun-uastreaming/thumbnail/968x545/7196_1692098271_eqqrulucvbmdtfzsnolwbblayvsuvmnasulnjwwb.webp" alt="Live Camera Phayun Beach" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group" onclick="openCctvModal('GISTDA_S042')">
+              <video id="cctv-gallery-video-GISTDA_S042" autoplay muted playsinline loop class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
+              <img id="cctv-gallery-img-GISTDA_S042" src="https://cdn.webcamera24.com/static/image/camera/detail/7196-hat-pyun-plaz-paun-uastreaming/thumbnail/968x545/7196_1692098271_eqqrulucvbmdtfzsnolwbblayvsuvmnasulnjwwb.webp" alt="Live Camera Phayun Beach" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 hidden" />
               
-              <!-- Live HUD On Image -->
-              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/75 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-cyan-300 border border-slate-700">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span>GISTDA LIVE</span>
+              <!-- Loader -->
+              <div id="cctv-loader-GISTDA_S042" class="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
+                <div class="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
               </div>
 
-              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800">
-                <span>คลื่น: <strong class="text-cyan-300">0.3-0.6 ม.</strong> | น้ำทะเลหนุน: <strong class="text-emerald-300">ปกติ</strong></span>
-                <span class="text-[9px] text-slate-300" id="cctv-time-GISTDA_S042">สด (Live)</span>
+              <!-- Live HUD On Image -->
+              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-cyan-300 border border-slate-700 z-10">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>🔴 GISTDA STREAM LIVE</span>
+              </div>
+
+              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
+                <span>คลื่น: <strong class="text-cyan-300">0.3-0.6 ม.</strong> | ทะเล: <strong class="text-emerald-300">ปกติ</strong></span>
+                <span class="text-[9px] text-cyan-300 font-bold" id="cctv-time-GISTDA_S042">● สดต่อเนื่อง</span>
               </div>
             </div>
 
@@ -1204,18 +1218,27 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer" onclick="openCctvModal('GISTDA_S046')">
-              <img id="cctv-gallery-img-GISTDA_S046" src="https://cdn.webcamera24.com/static/image/camera/detail/7197-hat-phim-plaz-mae-phim-uastreaming/thumbnail/968x545/7197_1692098082_ywbneekworijlimsodyoiaeoujqewuleoiomvemn.webp" alt="Live Camera Laem Mae Phim" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group" onclick="openCctvModal('GISTDA_S046')">
+              <img id="cctv-gallery-img-GISTDA_S046" src="https://cdn.webcamera24.com/static/image/camera/detail/7197-hat-phim-plaz-mae-phim-uastreaming/thumbnail/968x545/7197_1692098082_ywbneekworijlimsodyoiaeoujqewuleoiomvemn.webp" alt="Live Camera Laem Mae Phim" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-60" />
               
-              <!-- Live HUD On Image -->
-              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/75 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-amber-300 border border-slate-700">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                <span>ภาพสแนปช็อต</span>
+              <!-- Offline Alert Overlay -->
+              <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center p-3 text-center pointer-events-none z-10">
+                <span class="px-2 py-1 rounded bg-amber-500/30 text-amber-300 text-[10px] font-bold border border-amber-500/50 flex items-center gap-1 shadow">
+                  <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                  <span>ต้นทาง GISTDA กำลังซ่อมบำรุงสัญญาณ</span>
+                </span>
+                <span class="text-[9px] text-slate-300 mt-1">แสดงภาพบันทึกก่อนหน้า (รอเชื่อมต่อใหม่อัตโนมัติ)</span>
               </div>
 
-              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800">
+              <!-- Live HUD On Image -->
+              <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-amber-300 border border-slate-700 z-10">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <span>ภาพบันทึกก่อนหน้า</span>
+              </div>
+
+              <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
                 <span>คลื่น: <strong class="text-amber-300">0.5-0.8 ม.</strong> | ปากน้ำประแสร์</span>
-                <span class="text-[9px] text-amber-300" id="cctv-time-GISTDA_S046">ปรับปรุงสัญญาณ</span>
+                <span class="text-[9px] text-amber-300 font-bold" id="cctv-time-GISTDA_S046">รอสัญญาณสด</span>
               </div>
             </div>
 
@@ -3871,9 +3894,10 @@ const officialReservoirCoords = {
         lng: 101.4435,
         anchorOffset: [95, 13],
         status: "online",
-        statusText: "🟢 คลื่นลมปกติ • น้ำหนุนปากอ่าวต่ำ",
+        statusText: "🟢 คลื่นลมปกติ • สตรีมสดต่อเนื่อง (Live HLS)",
         tideStatus: "น้ำลงต่ำสุด (-0.1 ม.) • ไหลลงสะดวก",
         waveHeight: "0.4 - 0.7 ม.",
+        streamUrl: "/api/gistda-stream?station=S031&type=m3u8",
         embedUrl: "https://coastalradar.gistda.or.th/cctvlive/100352499133831682028641249087836640405/live.html",
         thumbnail: "https://cdn.webcamera24.com/static/image/camera/detail/7195-ban-phae-ban-phe-uastreaming/thumbnail/968x545/7195_1692098373_akppxhhpujpxmjwusxuisnlxzcosdeaomxqqqudz.webp",
         videoLink: "https://coastalradar.gistda.or.th/cctvlive/100352499133831682028641249087836640405/live.html",
@@ -3892,9 +3916,10 @@ const officialReservoirCoords = {
         lng: 101.0664,
         anchorOffset: [95, 13],
         status: "online",
-        statusText: "🟢 คลื่นลมสงบ • ชายฝั่งตะวันตก",
+        statusText: "🟢 คลื่นลมสงบ • สตรีมสดต่อเนื่อง (Live HLS)",
         tideStatus: "น้ำลง (-0.2 ม.) • ปากคลองพยูนไม่อั้น",
         waveHeight: "0.3 - 0.6 ม.",
+        streamUrl: "/api/gistda-stream?station=S042&type=m3u8",
         embedUrl: "https://coastalradar.gistda.or.th/cctvlive/106503982638575697228475930513862621829/live.html",
         thumbnail: "https://cdn.webcamera24.com/static/image/camera/detail/7196-hat-pyun-plaz-paun-uastreaming/thumbnail/968x545/7196_1692098271_eqqrulucvbmdtfzsnolwbblayvsuvmnasulnjwwb.webp",
         videoLink: "https://coastalradar.gistda.or.th/cctvlive/106503982638575697228475930513862621829/live.html",
@@ -3912,15 +3937,16 @@ const officialReservoirCoords = {
         lat: 12.6450,
         lng: 101.6370,
         anchorOffset: [95, 13],
-        status: "watch",
-        statusText: "🟡 ปรับปรุงสัญญาณชั่วคราว (แสดงภาพล่าสุด)",
+        status: "offline",
+        statusText: "🟡 ต้นทาง GISTDA ปรับปรุงสัญญาณ (แสดงภาพล่าสุด)",
         tideStatus: "น้ำลง • คลื่นลมปากน้ำประแสร์ปกติ",
         waveHeight: "0.5 - 0.8 ม.",
+        streamUrl: null,
         embedUrl: "https://coastalradar.gistda.or.th/cctvlive/116185462407234580845451996571834281111/live.html",
         thumbnail: "https://cdn.webcamera24.com/static/image/camera/detail/7197-hat-phim-plaz-mae-phim-uastreaming/thumbnail/968x545/7197_1692098082_ywbneekworijlimsodyoiaeoujqewuleoiomvemn.webp",
         videoLink: "https://coastalradar.gistda.or.th/cctvlive/116185462407234580845451996571834281111/live.html",
         externalLink: "https://webcamera24.com/camera/thailand/7197-hat-phim-plaz-mae-phim/",
-        description: "เฝ้าระวังคลื่นลมชายฝั่งโซนตะวันออก ใกล้จุดระบายน้ำออกทะเลของแม่น้ำประแสร์"
+        description: "เฝ้าระวังน้ำทะเลหนุนและแนวมรสุมชายฝั่งตะวันออก ปากน้ำประแสร์"
       }
     ];
 
@@ -4104,6 +4130,11 @@ const officialReservoirCoords = {
       const imgEl = document.getElementById('cctv-live-feed');
       const pipImgEl = document.getElementById('cctv-pip-feed');
       const iframeEl = document.getElementById('cctv-live-iframe');
+      const loaderEl = document.getElementById('cctv-feed-loader');
+      const timeEl = document.getElementById('cctv-stat-time');
+      const videoEl = document.getElementById('cctv-live-video');
+      const pipVideoEl = document.getElementById('cctv-pip-video');
+      const pipBadge = document.getElementById('cctv-pip-badge');
 
       if (hudTitle) hudTitle.innerText = `${st.name} (${st.streamName})`;
 
@@ -4131,13 +4162,48 @@ const officialReservoirCoords = {
         }
         if (pipTitle) pipTitle.innerText = `CCTV: ${st.streamName}`;
 
-        // Screen: show iframe
-        if (iframeEl) {
-          iframeEl.classList.remove('hidden');
-          iframeEl.src = st.embedUrl;
+        if (st.streamUrl) {
+          // Stream online: Play live HLS in modal
+          if (imgEl) imgEl.classList.add('hidden');
+          if (iframeEl) { iframeEl.classList.add('hidden'); iframeEl.src = ''; }
+          if (videoEl) {
+            videoEl.classList.remove('hidden');
+            if (modalHlsInstance) {
+              modalHlsInstance.destroy();
+              modalHlsInstance = null;
+            }
+            modalHlsInstance = playHlsStream(videoEl, st.streamUrl, () => {
+              if (loaderEl) loaderEl.classList.add('hidden');
+            });
+          }
+          if (pipImgEl) pipImgEl.classList.add('hidden');
+          if (pipVideoEl) {
+            pipVideoEl.classList.remove('hidden');
+            if (pipHlsInstance) { pipHlsInstance.destroy(); pipHlsInstance = null; }
+            pipHlsInstance = playHlsStream(pipVideoEl, st.streamUrl);
+          }
+          if (pipBadge) pipBadge.innerText = '🔴 LIVE GISTDA';
+          const now = new Date();
+          const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')} น.`;
+          if (timeEl) timeEl.innerText = `${timeStr} (Live HLS)`;
+        } else {
+          // Stream offline: fallback to latest archived thumbnail
+          if (modalHlsInstance) { modalHlsInstance.destroy(); modalHlsInstance = null; }
+          if (videoEl) { videoEl.classList.add('hidden'); videoEl.src = ''; }
+          if (iframeEl) { iframeEl.classList.add('hidden'); iframeEl.src = ''; }
+          if (imgEl) {
+            imgEl.classList.remove('hidden');
+            imgEl.src = st.thumbnail;
+          }
+          if (pipVideoEl) { pipVideoEl.classList.add('hidden'); pipVideoEl.src = ''; }
+          if (pipImgEl) {
+            pipImgEl.classList.remove('hidden');
+            pipImgEl.src = st.thumbnail;
+          }
+          if (pipBadge) pipBadge.innerText = '🟡 ภาพบันทึก';
+          if (timeEl) timeEl.innerText = 'ภาพบันทึกก่อนหน้า (รอสัญญาณสด)';
+          if (loaderEl) loaderEl.classList.add('hidden');
         }
-        if (imgEl) imgEl.classList.add('hidden');
-        if (pipImgEl) pipImgEl.src = st.thumbnail;
 
       } else {
         // River telemetry display
@@ -4163,11 +4229,14 @@ const officialReservoirCoords = {
         }
         if (pipTitle) pipTitle.innerText = `CCTV: ${st.code} ${st.streamName}`;
 
-        if (iframeEl) {
-          iframeEl.classList.add('hidden');
-          iframeEl.src = '';
-        }
+        if (modalHlsInstance) { modalHlsInstance.destroy(); modalHlsInstance = null; }
+        if (videoEl) { videoEl.classList.add('hidden'); videoEl.src = ''; }
+        if (iframeEl) { iframeEl.classList.add('hidden'); iframeEl.src = ''; }
         if (imgEl) imgEl.classList.remove('hidden');
+
+        if (pipVideoEl) { pipVideoEl.classList.add('hidden'); pipVideoEl.src = ''; }
+        if (pipImgEl) pipImgEl.classList.remove('hidden');
+        if (pipBadge) pipBadge.innerText = '🔴 LIVE DWR';
 
         // Show cached blob
         if (cctvBlobUrls[code]) {
@@ -4254,11 +4323,117 @@ const officialReservoirCoords = {
       }
     }
 
+    const galleryHlsMap = {};
+    let modalHlsInstance = null;
+    let pipHlsInstance = null;
+
+    function playHlsStream(videoEl, url, onLoaded) {
+      if (!videoEl || !url) return null;
+      if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+        const hls = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true,
+          backBufferLength: 20,
+          liveSyncDurationCount: 3,
+          liveMaxLatencyDurationCount: 6
+        });
+        hls.loadSource(url);
+        hls.attachMedia(videoEl);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          videoEl.play().catch(() => {});
+          if (onLoaded) onLoaded();
+        });
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          if (data.fatal) {
+            console.warn('HLS Fatal Error for', url, data);
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                hls.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                hls.recoverMediaError();
+                break;
+              default:
+                hls.destroy();
+                break;
+            }
+          }
+        });
+        return hls;
+      } else if (videoEl.canPlayType && videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+        videoEl.src = url;
+        videoEl.addEventListener('loadedmetadata', () => {
+          videoEl.play().catch(() => {});
+          if (onLoaded) onLoaded();
+        });
+        return null;
+      }
+      return null;
+    }
+
+    function initGistdaGalleryStreams() {
+      // Station 3: Ban Phe Pier (S031)
+      const v31 = document.getElementById('cctv-gallery-video-GISTDA_S031');
+      if (v31 && !galleryHlsMap['GISTDA_S031']) {
+        galleryHlsMap['GISTDA_S031'] = playHlsStream(v31, '/api/gistda-stream?station=S031&type=m3u8', () => {
+          const ldr = document.getElementById('cctv-loader-GISTDA_S031');
+          if (ldr) ldr.classList.add('hidden');
+        });
+      }
+
+      // Station 4: Phayun Beach (S042)
+      const v42 = document.getElementById('cctv-gallery-video-GISTDA_S042');
+      if (v42 && !galleryHlsMap['GISTDA_S042']) {
+        galleryHlsMap['GISTDA_S042'] = playHlsStream(v42, '/api/gistda-stream?station=S042&type=m3u8', () => {
+          const ldr = document.getElementById('cctv-loader-GISTDA_S042');
+          if (ldr) ldr.classList.add('hidden');
+        });
+      }
+
+      // Station 5: Diagnostic check
+      checkGistdaStationStatus('S046');
+    }
+
+    async function checkGistdaStationStatus(code) {
+      try {
+        const res = await fetch('/api/gistda-stream?station=' + code + '&type=status');
+        if (res.ok) {
+          const data = await res.json();
+          const timeEl = document.getElementById('cctv-time-GISTDA_' + code);
+          if (timeEl) {
+            if (data.online) {
+              timeEl.innerText = '● สตรีมสด';
+              timeEl.className = 'text-[9px] text-emerald-300 font-bold';
+            } else {
+              timeEl.innerText = 'รอสัญญาณสด';
+              timeEl.className = 'text-[9px] text-amber-300 font-bold';
+            }
+          }
+        }
+      } catch (e) {}
+    }
+
     function updateCctvCountdowns() {
       const modalCountEl = document.getElementById('cctv-countdown-sec');
       const galleryCountEl = document.getElementById('cctv-gallery-countdown');
       if (modalCountEl) modalCountEl.innerText = cctvCountdownSeconds;
       if (galleryCountEl) galleryCountEl.innerText = cctvCountdownSeconds;
+
+      // Update live clock for active coastal streams
+      const now = new Date();
+      const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')} น.`;
+      const t31 = document.getElementById('cctv-time-GISTDA_S031');
+      if (t31) t31.innerText = `${timeStr} (สด)`;
+      const t42 = document.getElementById('cctv-time-GISTDA_S042');
+      if (t42) t42.innerText = `${timeStr} (สด)`;
+
+      const modalStatTime = document.getElementById('cctv-stat-time');
+      if (modalStatTime && activeCctvCode.startsWith('GISTDA_')) {
+        const activeSt = cctvStations.find(s => s.code === activeCctvCode);
+        if (activeSt && activeSt.streamUrl) {
+          modalStatTime.innerText = `${timeStr} (Live HLS)`;
+        }
+      }
     }
 
     async function refreshAllCctvFeeds() {
@@ -4342,6 +4517,15 @@ const officialReservoirCoords = {
     function closeCctvModal() {
       const modal = document.getElementById('cctv-modal');
       if (modal) modal.classList.add('hidden');
+      if (modalHlsInstance) {
+        modalHlsInstance.destroy();
+        modalHlsInstance = null;
+      }
+      const videoEl = document.getElementById('cctv-live-video');
+      if (videoEl) {
+        videoEl.pause();
+        videoEl.src = '';
+      }
       const iframeEl = document.getElementById('cctv-live-iframe');
       if (iframeEl) iframeEl.src = '';
     }
@@ -4356,6 +4540,15 @@ const officialReservoirCoords = {
     function closeCctvPiP() {
       const pip = document.getElementById('cctv-pip');
       if (pip) pip.classList.add('hidden');
+      if (pipHlsInstance) {
+        pipHlsInstance.destroy();
+        pipHlsInstance = null;
+      }
+      const pipVideoEl = document.getElementById('cctv-pip-video');
+      if (pipVideoEl) {
+        pipVideoEl.pause();
+        pipVideoEl.src = '';
+      }
     }
 
     function toggleCctvLayer() {
@@ -4369,11 +4562,13 @@ const officialReservoirCoords = {
     }
 
     function toggleCctvFullscreen() {
-      const feed = document.getElementById('cctv-live-feed');
-      if (!feed) return;
+      const activeVideo = document.getElementById('cctv-live-video');
+      const activeFeed = document.getElementById('cctv-live-feed');
+      const targetEl = (activeVideo && !activeVideo.classList.contains('hidden')) ? activeVideo : activeFeed;
+      if (!targetEl) return;
       if (!document.fullscreenElement) {
-        if (feed.requestFullscreen) feed.requestFullscreen();
-        else if (feed.webkitRequestFullscreen) feed.webkitRequestFullscreen();
+        if (targetEl.requestFullscreen) targetEl.requestFullscreen();
+        else if (targetEl.webkitRequestFullscreen) targetEl.webkitRequestFullscreen();
       } else {
         if (document.exitFullscreen) document.exitFullscreen();
       }
@@ -4383,6 +4578,7 @@ const officialReservoirCoords = {
     renderCctvMarkers();
     refreshAllCctvFeeds();
     startCctvAutoRefresh();
+    initGistdaGalleryStreams();
 
     // Close CCTV modal on Escape
     document.addEventListener('keydown', (e) => {
@@ -4745,6 +4941,7 @@ const officialReservoirCoords = {
         
         <!-- Live Stream Image / Video -->
         <img id="cctv-live-feed" src="" alt="CCTV Stream Live" class="w-full h-full object-contain" />
+        <video id="cctv-live-video" autoplay muted playsinline controls class="w-full h-full object-contain hidden"></video>
         <iframe id="cctv-live-iframe" src="" class="w-full h-full border-0 hidden" allow="autoplay; fullscreen" loading="lazy"></iframe>
         
         <!-- Loading Overlay -->
@@ -4884,8 +5081,9 @@ const officialReservoirCoords = {
       </div>
     </div>
     <div class="relative bg-black aspect-video flex items-center justify-center">
+      <video id="cctv-pip-video" autoplay muted playsinline loop class="w-full h-full object-contain hidden"></video>
       <img id="cctv-pip-feed" src="" alt="CCTV PiP Stream" class="w-full h-full object-contain" />
-      <div class="absolute bottom-1.5 left-2 bg-black/75 px-1.5 py-0.5 rounded text-[10px] font-mono text-rose-300 border border-slate-700">
+      <div id="cctv-pip-badge" class="absolute bottom-1.5 left-2 bg-black/75 px-1.5 py-0.5 rounded text-[10px] font-mono text-rose-300 border border-slate-700">
         🔴 LIVE DWR
       </div>
     </div>
