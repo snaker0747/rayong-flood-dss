@@ -269,6 +269,61 @@
       flex: 1 1 auto;
       min-height: 0;
     }
+    /* 📹 LIVE CCTV CAMERA MARKERS & BADGES (DWR TELEMETRY) */
+    @keyframes cctv-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.85); transform: scale(1); }
+      50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); transform: scale(1.05); }
+    }
+    .cctv-lens-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #1e1b4b, #0f172a);
+      border: 2px solid #f43f5e;
+      color: #ffffff !important;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.85), 0 0 12px rgba(244, 63, 94, 0.45);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cctv-lens-badge:hover {
+      transform: scale(1.1) translateY(-2px);
+      border-color: #fb7185;
+      box-shadow: 0 6px 20px rgba(244, 63, 94, 0.8);
+      z-index: 10000 !important;
+    }
+    .cctv-pin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #e11d48, #9f1239);
+      border: 2px solid #ffffff;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), 0 0 10px rgba(225, 29, 72, 0.6);
+      cursor: pointer;
+      animation: cctv-pulse 2s infinite;
+      transition: all 0.2s ease;
+    }
+    .cctv-pin:hover {
+      transform: scale(1.25);
+      box-shadow: 0 6px 22px rgba(244, 63, 94, 0.9);
+      z-index: 10000 !important;
+    }
+    .cctv-rec-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background-color: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+      animation: cctv-pulse 1.2s infinite;
+    }
     body.fs-lock { overflow: hidden; }
   </style>
 </head>
@@ -445,6 +500,11 @@
           </button>
         </div>
         <div class="flex items-center gap-1.5">
+          <button onclick="openCctvModal('TA170203')" title="เปิดดูกล้องวงจรปิด CCTV ถ่ายทอดสดระดับน้ำ กรมทรัพยากรน้ำ" class="flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-200 border border-rose-500/60 transition shadow">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            <i data-lucide="video" class="w-3.5 h-3.5 text-rose-400"></i>
+            <span>กล้อง CCTV สด (2 จุด)</span>
+          </button>
           <button onclick="toggleTmdPiP()" id="btn-pip" class="hidden sm:flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700">
             <i data-lucide="picture-in-picture-2" class="w-3.5 h-3.5"></i>
             <span>หน้าต่างจอเล็ก TMD PiP</span>
@@ -533,6 +593,19 @@
                   <span>แจ้งน้ำท่วม (+)</span>
                 </button>
               </div>
+
+              <!-- CCTV LIVESTREAM CAMERA TOGGLE (DWR TELEMETRY) -->
+              <div class="flex items-center gap-1.5 pl-2 border-l border-slate-700/80">
+                <label class="flex items-center gap-1.5 cursor-pointer px-2 py-0.5 rounded border border-rose-500/60 bg-rose-950/50 hover:bg-rose-900/50 text-rose-300 hover:text-white transition select-none text-[11px] font-bold" title="เปิด/ปิด กล้องวงจรปิด CCTV ถ่ายทอดสดระดับน้ำ กรมทรัพยากรน้ำ (DWR Telemetry)">
+                  <input type="checkbox" id="chk-cctv" checked onchange="toggleCctvLayer()" class="rounded bg-slate-900 border-rose-500 text-rose-500 focus:ring-0">
+                  <span class="flex items-center gap-1"><i data-lucide="video" class="w-3.5 h-3.5 text-rose-400"></i> กล้องสด CCTV</span>
+                  <span id="badge-cctv-count" class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-rose-600 text-white animate-pulse">LIVE (2)</span>
+                </label>
+                <button onclick="openCctvModal('TA170203')" class="px-2 py-0.5 rounded bg-rose-600 hover:bg-rose-500 text-white font-bold text-[11px] flex items-center gap-1 transition shadow" title="เปิดหน้าต่างดูกล้องวงจรปิด CCTV ถ่ายทอดสด">
+                  <i data-lucide="tv" class="w-3 h-3"></i>
+                  <span>ดูกล้องสด</span>
+                </button>
+              </div>
             </div>
 
             <!-- RIGHT: QUICK ZOOM DROPDOWN & BASEMAP SELECTOR -->
@@ -542,6 +615,8 @@
                 <i data-lucide="crosshair" class="w-3.5 h-3.5 text-blue-400 shrink-0"></i>
                 <select onchange="zoomTo(this.value); this.value='';" class="bg-transparent text-slate-200 text-xs font-semibold focus:outline-none cursor-pointer">
                   <option value="" class="bg-slate-900 text-slate-400 font-normal">🎯 ซูมจุดสำคัญ...</option>
+                  <option value="cctv_khlongyai" class="bg-slate-900 text-rose-300">📹 กล้อง CCTV สะพานคลองใหญ่ (เมืองระยอง)</option>
+                  <option value="cctv_prasae" class="bg-slate-900 text-rose-300">📹 กล้อง CCTV สะพานคลองสะพานดำ (อ.แกลง)</option>
                   <option value="dokkrai" class="bg-slate-900 text-rose-300">🔴 อ่างฯ ดอกกราย (117% ล้น)</option>
                   <option value="nongplalai" class="bg-slate-900 text-emerald-300">🟢 อ่างฯ หนองปลาไหล (96%)</option>
                   <option value="khlongyai" class="bg-slate-900 text-amber-300">🟡 อ่างฯ คลองใหญ่ (95%)</option>
@@ -1039,6 +1114,7 @@
     // 2. LAYER GROUPS
     const layers = {
       reports: L.layerGroup().addTo(map),      // จุดแจ้งเหตุน้ำท่วมขังภาคประชาชน (Traffy / LINE)
+      cctv: L.layerGroup().addTo(map),         // กล้องวงจรปิด CCTV สด กรมทรัพยากรน้ำ (DWR Telemetry)
       lakes: L.layerGroup().addTo(map),        // ผืนน้ำอ่างเก็บน้ำหลัก
       flow: L.layerGroup().addTo(map),         // เส้นทางน้ำ/คลองหลัก
       stations: L.layerGroup().addTo(map),     // สถานีวัดน้ำ
@@ -2648,6 +2724,8 @@ const officialReservoirCoords = {
       drawReservoirWaterBodies();
       drawDetailedRiverNetworks();
       renderStations();
+      if (typeof renderCctvMarkers === 'function') renderCctvMarkers();
+      if (typeof renderCitizenReports === 'function') renderCitizenReports();
     }
 
     // Auto-adapt label density on zoom level change
@@ -2661,8 +2739,16 @@ const officialReservoirCoords = {
       }
     });
 
-        function zoomTo(target) {
+    function zoomTo(target) {
       if (target === 'rayong') map.flyTo([12.830, 101.480], 10, { duration: 1.2 });
+      if (target === 'cctv_khlongyai') {
+        map.flyTo([12.6800, 101.2928], 15, { duration: 1.2 });
+        if (typeof openCctvModal === 'function') openCctvModal('TA170203');
+      }
+      if (target === 'cctv_prasae') {
+        map.flyTo([12.7834, 101.6540], 15, { duration: 1.2 });
+        if (typeof openCctvModal === 'function') openCctvModal('TA170406');
+      }
       if (target === 'dokkrai') map.flyTo([12.898, 101.196], 13, { duration: 1 });
       if (target === 'nongplalai') map.flyTo([12.955, 101.245], 13, { duration: 1 });
       if (target === 'khlongyai') map.flyTo([12.980, 101.315], 13, { duration: 1 });
@@ -3348,6 +3434,312 @@ const officialReservoirCoords = {
     }
     fetchLiveMarineData();
 
+    // ========================================================
+    // 15. DWR TELEMETRY LIVE CCTV STREAMING ENGINE (จ.ระยอง)
+    // ========================================================
+    const cctvStations = [
+      {
+        code: "TA170203",
+        id: "ec06a49c-a335-4e8d-a6cf-39a8aa0d1687",
+        name: "สะพานข้ามคลองใหญ่ที่ระยอง",
+        streamName: "คลองใหญ่ (เชื่อมแม่น้ำระยอง)",
+        district: "ต.เชิงเนิน อ.เมืองระยอง จ.ระยอง",
+        lat: 12.6800,
+        lng: 101.2928,
+        anchorOffset: [90, 13],
+        wl: 1.73,
+        wlFw: 2.72,
+        wlFc: 3.02,
+        fr: 35.49,
+        status: "online",
+        statusText: "🟢 ปกติ / ระดับน้ำปลอดภัย",
+        defaultPath: "/TA170203/2026/10/4/20_17.jpg",
+        videoLink: "http://live:Live2025!@ta170203.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true",
+        lastTime: "20:17 น."
+      },
+      {
+        code: "TA170406",
+        id: "82406bf4-b432-4db5-8423-4bbb40360fd5",
+        name: "สะพานข้ามคลองประแสร์ที่คลองสะพานดำ",
+        streamName: "แม่น้ำประแสร์ (คลองสะพานดำ)",
+        district: "ต.ทางเกวียน อ.แกลง จ.ระยอง",
+        lat: 12.7834,
+        lng: 101.6540,
+        anchorOffset: [90, 13],
+        wl: 2.98,
+        wlFw: 2.89,
+        wlFc: 3.19,
+        fr: 92.92,
+        status: "watch",
+        statusText: "⚠️ เฝ้าระวังน้ำสูง (+2.98 ม.)",
+        defaultPath: "/TA170406/2026/10/4/20_0.jpg",
+        videoLink: "http://live:Live2025!@ta170406.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true",
+        lastTime: "20:00 น."
+      }
+    ];
+
+    let activeCctvCode = "TA170203";
+    let cctvIntervalTimer = null;
+    let cctvCountdownSeconds = 15;
+    let cctvBlobUrl = null;
+
+    function renderCctvMarkers() {
+      if (!layers.cctv) return;
+      layers.cctv.clearLayers();
+      if (currentLabelMode === 'hide') return;
+
+      cctvStations.forEach(st => {
+        let icon;
+        if (currentLabelMode === 'compact') {
+          icon = L.divIcon({
+            className: 'custom-cctv-compact',
+            html: `
+              <div class="cctv-pin" onclick="openCctvModal('${st.code}')" title="${st.name} (${st.code}) - คลิกเพื่อดูภาพสด">
+                <span class="text-xs">📹</span>
+              </div>
+            `,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
+          });
+        } else {
+          icon = L.divIcon({
+            className: 'custom-cctv-badge',
+            html: `
+              <div class="cctv-lens-badge" onclick="openCctvModal('${st.code}')">
+                <span class="cctv-rec-dot"></span>
+                <span>📹 ${st.code}: ${st.code === 'TA170203' ? 'คลองใหญ่ (เมือง)' : 'สะพานดำ (แกลง)'}</span>
+                <span class="bg-rose-500/30 border border-rose-400 text-rose-200 px-1 py-0.2 rounded text-[9px] font-mono">LIVE</span>
+              </div>
+            `,
+            iconSize: [180, 26],
+            iconAnchor: st.anchorOffset || [90, 13]
+          });
+        }
+
+        const marker = L.marker([st.lat, st.lng], { icon: icon }).addTo(layers.cctv);
+
+        marker.bindPopup(`
+          <div class="text-xs p-2 max-w-[280px]">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-1 mb-2">
+              <strong class="text-rose-400 text-sm flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                <span>📹 กล้อง CCTV สด (${st.code})</span>
+              </strong>
+              <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">DWR LIVE</span>
+            </div>
+            <div class="font-bold text-white text-xs mb-1">${st.name}</div>
+            <div class="text-slate-300 text-[11px]">${st.district}</div>
+            <div class="mt-2 p-1.5 rounded bg-slate-900/80 border border-slate-800 space-y-1 font-mono text-[11px]">
+              <div class="flex justify-between">
+                <span class="text-slate-400">🌊 ระดับน้ำ (WL):</span>
+                <strong class="text-cyan-300">${st.wl} ม. รทก.</strong>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">⚡ อัตราไหล (FR):</span>
+                <strong class="text-amber-300">${st.fr} m³/s</strong>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">🛡️ ตลิ่งวิกฤต:</span>
+                <strong class="text-rose-400">${st.wlFc} ม.</strong>
+              </div>
+            </div>
+            <div class="mt-2.5 flex flex-col gap-1.5">
+              <button onclick="openCctvModal('${st.code}')" class="w-full py-1.5 px-3 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-lg transition">
+                <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
+                <span>เปิดหน้าต่างดูสด (Live Monitor)</span>
+              </button>
+            </div>
+            <div class="text-[9px] text-slate-400 mt-2 text-center">
+              ระบบโทรมาตร กรมทรัพยากรน้ำ (DWR Telemetry)
+            </div>
+          </div>
+        `);
+      });
+    }
+
+    function switchCctvStation(code) {
+      activeCctvCode = code;
+      const st = cctvStations.find(s => s.code === code) || cctvStations[0];
+
+      // Update tab styles
+      cctvStations.forEach(s => {
+        const tab = document.getElementById('tab-cctv-' + s.code);
+        if (tab) {
+          if (s.code === code) {
+            tab.className = "px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-rose-600 text-white shadow";
+          } else {
+            tab.className = "px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-slate-800 text-slate-300 hover:bg-slate-700";
+          }
+        }
+      });
+
+      // Update HUD elements
+      const hudTitle = document.getElementById('cctv-hud-title');
+      const hudWl = document.getElementById('cctv-hud-wl');
+      const hudFr = document.getElementById('cctv-hud-fr');
+      const hudBank = document.getElementById('cctv-hud-bank');
+      const detailWl = document.getElementById('cctv-detail-wl');
+      const detailFr = document.getElementById('cctv-detail-fr');
+      const detailStatus = document.getElementById('cctv-detail-status');
+      const detailThresh = document.getElementById('cctv-detail-threshold');
+      const detailCoords = document.getElementById('cctv-detail-coords');
+      const detailSub = document.getElementById('cctv-detail-sub');
+      const directBtn = document.getElementById('btn-cctv-direct-stream');
+      const pipTitle = document.getElementById('cctv-pip-title');
+
+      if (hudTitle) hudTitle.innerText = `${st.name} (${st.code})`;
+      if (hudWl) hudWl.innerText = `${st.wl} ม. รทก.`;
+      if (hudFr) hudFr.innerText = `${st.fr} m³/s`;
+      if (hudBank) hudBank.innerText = `${st.wlFc} ม.`;
+      if (detailWl) detailWl.innerText = st.wl;
+      if (detailFr) detailFr.innerText = st.fr;
+      if (detailStatus) {
+        detailStatus.innerText = st.statusText;
+        detailStatus.className = st.status === 'watch' ? 'text-[10px] text-amber-400 font-semibold mt-0.5' : 'text-[10px] text-emerald-400 font-semibold mt-0.5';
+      }
+      if (detailThresh) detailThresh.innerText = `เฝ้าระวัง: ${st.wlFw} ม. / วิกฤต: ${st.wlFc} ม.`;
+      if (detailCoords) detailCoords.innerText = `${st.lat.toFixed(4)}° N, ${st.lng.toFixed(4)}° E`;
+      if (detailSub) detailSub.innerText = st.district;
+      if (directBtn) directBtn.href = st.videoLink;
+      if (pipTitle) pipTitle.innerText = `CCTV: ${st.code} ${st.streamName}`;
+
+      fetchCctvSnapshot(code);
+      startCctvAutoRefresh();
+      lucide.createIcons();
+    }
+
+    async function fetchCctvSnapshot(code) {
+      const station = cctvStations.find(s => s.code === code) || cctvStations[0];
+      const imgEl = document.getElementById('cctv-live-feed');
+      const pipImgEl = document.getElementById('cctv-pip-feed');
+      const loaderEl = document.getElementById('cctv-feed-loader');
+      const timeEl = document.getElementById('cctv-stat-time');
+
+      if (loaderEl) loaderEl.classList.remove('hidden');
+
+      try {
+        let snapshotPath = station.defaultPath;
+        try {
+          const snapRes = await fetch('https://telemetry.dwr.go.th/api/public/reportCctv/snapshot/' + station.id);
+          if (snapRes.ok) {
+            const snapData = await snapRes.json();
+            if (snapData && snapData.value) {
+              snapshotPath = snapData.value;
+            }
+          }
+        } catch (e) {
+          console.warn('DWR snapshot path fetch fallback:', e);
+        }
+
+        const imgRes = await fetch('https://telemetry.dwr.go.th/api/file/image/cctv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path: snapshotPath })
+        });
+
+        if (imgRes.ok) {
+          const blob = await imgRes.blob();
+          if (cctvBlobUrl) URL.revokeObjectURL(cctvBlobUrl);
+          cctvBlobUrl = URL.createObjectURL(blob);
+
+          if (imgEl) imgEl.src = cctvBlobUrl;
+          if (pipImgEl) pipImgEl.src = cctvBlobUrl;
+
+          const now = new Date();
+          const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')} น.`;
+          if (timeEl) timeEl.innerText = timeStr;
+        } else {
+          throw new Error('Image fetch status ' + imgRes.status);
+        }
+      } catch (err) {
+        console.warn('Live DWR CCTV image fetch error:', err);
+      } finally {
+        if (loaderEl) loaderEl.classList.add('hidden');
+      }
+    }
+
+    function startCctvAutoRefresh() {
+      stopCctvAutoRefresh();
+      cctvCountdownSeconds = 15;
+      const countEl = document.getElementById('cctv-countdown-sec');
+      if (countEl) countEl.innerText = cctvCountdownSeconds;
+
+      cctvIntervalTimer = setInterval(() => {
+        cctvCountdownSeconds--;
+        if (countEl) countEl.innerText = cctvCountdownSeconds;
+        if (cctvCountdownSeconds <= 0) {
+          cctvCountdownSeconds = 15;
+          fetchCctvSnapshot(activeCctvCode);
+        }
+      }, 1000);
+    }
+
+    function stopCctvAutoRefresh() {
+      if (cctvIntervalTimer) clearInterval(cctvIntervalTimer);
+      cctvIntervalTimer = null;
+    }
+
+    function openCctvModal(stationCode = 'TA170203') {
+      const modal = document.getElementById('cctv-modal');
+      const pip = document.getElementById('cctv-pip');
+      if (pip) pip.classList.add('hidden');
+      if (modal) modal.classList.remove('hidden');
+
+      switchCctvStation(stationCode);
+    }
+
+    function closeCctvModal() {
+      const modal = document.getElementById('cctv-modal');
+      if (modal) modal.classList.add('hidden');
+      stopCctvAutoRefresh();
+    }
+
+    function openCctvPiP() {
+      closeCctvModal();
+      const pip = document.getElementById('cctv-pip');
+      if (pip) pip.classList.remove('hidden');
+      startCctvAutoRefresh();
+      lucide.createIcons();
+    }
+
+    function closeCctvPiP() {
+      const pip = document.getElementById('cctv-pip');
+      if (pip) pip.classList.add('hidden');
+      stopCctvAutoRefresh();
+    }
+
+    function toggleCctvLayer() {
+      const chk = document.getElementById('chk-cctv');
+      if (!chk) return;
+      if (chk.checked) {
+        map.addLayer(layers.cctv);
+      } else {
+        map.removeLayer(layers.cctv);
+      }
+    }
+
+    function toggleCctvFullscreen() {
+      const feed = document.getElementById('cctv-live-feed');
+      if (!feed) return;
+      if (!document.fullscreenElement) {
+        if (feed.requestFullscreen) feed.requestFullscreen();
+        else if (feed.webkitRequestFullscreen) feed.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // Auto-initialize CCTV layer markers on load
+    renderCctvMarkers();
+
+    // Close CCTV modal on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('cctv-modal');
+        if (modal && !modal.classList.contains('hidden')) closeCctvModal();
+      }
+    });
+
   </script>
 
   <!-- ======================================================== -->
@@ -3633,6 +4025,200 @@ const officialReservoirCoords = {
         </div>
       </form>
 
+  <!-- ======================================================== -->
+  <!-- 📹 DWR TELEMETRY LIVE CCTV STREAMING MONITOR MODAL        -->
+  <!-- ======================================================== -->
+  <div id="cctv-modal" class="fixed inset-0 z-[10002] bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto pointer-events-auto">
+    <div class="glass-panel w-full max-w-4xl bg-slate-900/98 border border-rose-500/60 rounded-2xl p-4 sm:p-5 shadow-2xl text-slate-100 space-y-4">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 pb-3 gap-2">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40">
+            <i data-lucide="video" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h3 class="text-base font-bold text-white flex items-center gap-1.5">
+                <span>ระบบถ่ายทอดสดกล้องวงจรปิดเฝ้าระวังระดับน้ำ</span>
+                <span class="text-rose-400 font-mono">(DWR Live CCTV)</span>
+              </h3>
+              <span id="cctv-modal-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/30 text-rose-200 border border-rose-500/60 flex items-center gap-1 animate-pulse">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                <span>🔴 LIVE ถ่ายทอดสดสัญญาณจริง</span>
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">
+              เชื่อมต่อสัญญาณกล้องวงจรปิดและสถานีโทรมาตร กรมทรัพยากรน้ำ กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button onclick="openCctvPiP()" class="text-slate-400 hover:text-cyan-300 p-1.5 rounded-lg hover:bg-slate-800 transition text-xs font-semibold flex items-center gap-1 border border-slate-700/60" title="ย่อเป็นหน้าต่างลอยจอเล็ก (PiP) เพื่อดูขณะเปิดแผนที่">
+            <i data-lucide="picture-in-picture-2" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">ย่อจอเล็ก PiP</span>
+          </button>
+          <button onclick="closeCctvModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Station Selector Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-800/80 text-xs">
+        <button id="tab-cctv-TA170203" onclick="switchCctvStation('TA170203')" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-rose-600 text-white shadow">
+          <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+          <span>สะพานข้ามคลองใหญ่ (TA170203) - อ.เมืองระยอง</span>
+        </button>
+        <button id="tab-cctv-TA170406" onclick="switchCctvStation('TA170406')" class="px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1.5 shrink-0 bg-slate-800 text-slate-300 hover:bg-slate-700">
+          <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+          <span>สะพานคลองสะพานดำ (TA170406) - อ.แกลง</span>
+        </button>
+      </div>
+
+      <!-- Video Feed Screen & HUD -->
+      <div class="relative bg-black rounded-xl overflow-hidden border border-slate-700/80 aspect-video flex items-center justify-center shadow-inner group">
+        
+        <!-- Live Stream Image / Video -->
+        <img id="cctv-live-feed" src="" alt="CCTV Stream Live" class="w-full h-full object-contain" />
+        
+        <!-- Loading Overlay -->
+        <div id="cctv-feed-loader" class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-2.5 z-20">
+          <div class="w-8 h-8 border-3 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
+          <span class="text-xs font-mono text-rose-300 animate-pulse">กำลังดึงสัญญาณภาพสดจากกล้อง กรมทรัพยากรน้ำ...</span>
+        </div>
+
+        <!-- Top HUD Overlay: Live Info & Refresh Status -->
+        <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between z-10 pointer-events-none">
+          <div class="flex items-center gap-2 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-700/70 text-xs shadow pointer-events-auto">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+            <span class="font-bold text-rose-400 font-mono tracking-wider">REC LIVE</span>
+            <span class="text-slate-500">|</span>
+            <span id="cctv-hud-title" class="text-white font-semibold truncate max-w-[200px] sm:max-w-none">สะพานข้ามคลองใหญ่ที่ระยอง</span>
+          </div>
+
+          <div class="flex items-center gap-1.5 pointer-events-auto">
+            <div class="bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-700/70 text-xs font-mono text-cyan-300 flex items-center gap-1.5 shadow">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-cyan-400"></i>
+              <span>รีเฟรชใน: <strong id="cctv-countdown-sec" class="text-amber-300">15</strong>s</span>
+            </div>
+            <button onclick="fetchCctvSnapshot(activeCctvCode)" title="รีเฟรชภาพสดทันที" class="bg-slate-900/90 hover:bg-slate-800 p-1.5 rounded-lg border border-slate-700 text-slate-200 transition">
+              <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="toggleCctvFullscreen()" title="ดูภาพขยายเต็มจอ" class="bg-slate-900/90 hover:bg-slate-800 p-1.5 rounded-lg border border-slate-700 text-slate-200 transition">
+              <i data-lucide="maximize" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom HUD Overlay: Water Level telemetry on live screen -->
+        <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between z-10 pointer-events-none">
+          <div class="bg-slate-950/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 text-xs flex items-center gap-3 font-mono shadow pointer-events-auto">
+            <div>
+              <span class="text-[10px] text-slate-400 block">ระดับน้ำ (WL):</span>
+              <strong id="cctv-hud-wl" class="text-cyan-300 text-sm font-bold">1.73 ม. รทก.</strong>
+            </div>
+            <div class="border-l border-slate-700 pl-3">
+              <span class="text-[10px] text-slate-400 block">อัตราการไหล (FR):</span>
+              <strong id="cctv-hud-fr" class="text-amber-300 text-sm font-bold">35.49 m³/s</strong>
+            </div>
+            <div class="border-l border-slate-700 pl-3 hidden sm:block">
+              <span class="text-[10px] text-slate-400 block">ระดับวิกฤตตลิ่ง:</span>
+              <strong id="cctv-hud-bank" class="text-rose-400 text-sm font-bold">3.02 ม.</strong>
+            </div>
+          </div>
+
+          <div class="bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-700/80 text-[11px] font-mono text-slate-300 shadow pointer-events-auto flex items-center gap-1.5">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
+            <span>ภาพล่าสุด: <strong id="cctv-stat-time" class="text-white font-bold">กำลังโหลด...</strong></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Real-Time Telemetry & Risk Metrics Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
+        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
+          <span class="text-slate-400 text-[11px]">🌊 ระดับน้ำปัจจุบัน:</span>
+          <div class="flex items-baseline gap-1 mt-1">
+            <span id="cctv-detail-wl" class="text-lg font-bold text-cyan-300">1.73</span>
+            <span class="text-[10px] text-slate-400">ม. รทก.</span>
+          </div>
+          <span id="cctv-detail-status" class="text-[10px] text-emerald-400 font-semibold mt-0.5">● สภาวะปกติ/ปลอดภัย</span>
+        </div>
+
+        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
+          <span class="text-slate-400 text-[11px]">⚡ อัตราการไหล (Discharge):</span>
+          <div class="flex items-baseline gap-1 mt-1">
+            <span id="cctv-detail-fr" class="text-lg font-bold text-amber-300">35.49</span>
+            <span class="text-[10px] text-slate-400">ลบ.ม./วินาที</span>
+          </div>
+          <span class="text-[10px] text-slate-400 mt-0.5">คำนวณจาก Rating Curve</span>
+        </div>
+
+        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
+          <span class="text-slate-400 text-[11px]">🛡️ เกณฑ์เฝ้าระวัง / วิกฤต:</span>
+          <div class="text-xs font-bold text-rose-300 mt-1">
+            <span id="cctv-detail-threshold">เฝ้าระวัง: 2.72 ม. / วิกฤต: 3.02 ม.</span>
+          </div>
+          <span class="text-[10px] text-slate-400 mt-0.5">เกณฑ์เตือนภัย กรมทรัพยากรน้ำ</span>
+        </div>
+
+        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col justify-between">
+          <span class="text-slate-400 text-[11px]">📍 พิกัดสถานีโทรมาตร:</span>
+          <div class="text-[11px] font-bold text-white mt-1">
+            <span id="cctv-detail-coords">12.6800° N, 101.2928° E</span>
+          </div>
+          <span id="cctv-detail-sub" class="text-[10px] text-slate-400 truncate mt-0.5">ต.เชิงเนิน อ.เมืองระยอง</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons & External Stream Links -->
+      <div class="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-800 text-xs">
+        <div class="flex flex-wrap items-center gap-2">
+          <a id="btn-cctv-direct-stream" href="http://live:Live2025!@ta170203.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sky-950/80 hover:bg-sky-800 text-sky-200 border border-sky-500/50 font-bold flex items-center gap-1.5 transition shadow">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>เปิดลิงก์สตรีมตรง (Direct Player: DynDNS)</span>
+          </a>
+          <a href="https://telemetry.dwr.go.th/reportCctv" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition font-semibold">
+            <i data-lucide="globe" class="w-3.5 h-3.5 text-cyan-400"></i>
+            <span>เปิดเว็บหลัก กรมทรัพยากรน้ำ (DWR Telemetry)</span>
+          </a>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeCctvModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold transition">
+            ปิด
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- 📌 FLOATING PICTURE-IN-PICTURE (PiP) CCTV MINI MONITOR   -->
+  <!-- ======================================================== -->
+  <div id="cctv-pip" class="fixed bottom-12 right-4 z-[9990] w-80 md:w-96 rounded-2xl overflow-hidden glass-panel border border-rose-500/60 shadow-2xl hidden flex flex-col pointer-events-auto">
+    <div class="bg-slate-900/95 border-b border-slate-800 px-3 py-2 flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+        <strong id="cctv-pip-title" class="text-white text-xs truncate max-w-[180px]">CCTV: TA170203 คลองใหญ่</strong>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="openCctvModal(activeCctvCode)" title="ขยายกลับเป็นหน้าต่างใหญ่" class="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800">
+          <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+        </button>
+        <button onclick="closeCctvPiP()" title="ปิดหน้าต่างลอย" class="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800">
+          ✕
+        </button>
+      </div>
+    </div>
+    <div class="relative bg-black aspect-video flex items-center justify-center">
+      <img id="cctv-pip-feed" src="" alt="CCTV PiP Stream" class="w-full h-full object-contain" />
+      <div class="absolute bottom-1.5 left-2 bg-black/75 px-1.5 py-0.5 rounded text-[10px] font-mono text-rose-300 border border-slate-700">
+        🔴 LIVE DWR
+      </div>
     </div>
   </div>
 
