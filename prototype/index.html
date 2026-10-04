@@ -1561,6 +1561,21 @@
       customTemp: L.layerGroup().addTo(map)    // พรีวิวขณะกำลังวาด
     };
 
+    // 🌐 Real-time Government Data Cache & Helper Utilities (DWR & ThaiWater ONWR)
+    var liveGovData = null;
+
+    function safeNum(val, def = 0) {
+      if (val === null || val === undefined || val === '') return def;
+      const n = parseFloat(val);
+      return isNaN(n) ? def : n;
+    }
+
+    function safeFixed(val, digits = 1, def = '0.0') {
+      if (val === null || val === undefined || val === '') return def;
+      const n = parseFloat(val);
+      return isNaN(n) ? def : n.toFixed(digits);
+    }
+
     // 1. HYDRO OVERRIDES & ACCURATE OSM RESERVOIR COORDINATES
     let hydroOverrides = {};
     function loadHydroOverrides() {
@@ -1739,6 +1754,7 @@ const officialReservoirCoords = {
 
     // 3. DRAW RESERVOIR WATER BODY POLYGONS (GEOGRAPHIC REALITY + CUSTOM EDITABLE)
     function drawReservoirWaterBodies() {
+      if (!layers || !layers.lakes) return;
       layers.lakes.clearLayers();
 
       const dk = liveGovData?.reservoirs?.dokkrai;
@@ -1763,7 +1779,7 @@ const officialReservoirCoords = {
       }).bindPopup(`
         <div class="text-xs p-1">
           <strong class="text-rose-400 text-sm">🏢 อ่างเก็บน้ำดอกกราย</strong><br/>
-          <span class="text-white font-semibold">${dk ? `${dk.storage.toFixed(2)} ล้าน ลบ.ม. (${dk.percent.toFixed(1)}%) ${dk.percent >= 100 ? '- เกินความจุ 🔴' : '- ปกติ 🟢'}` : '83.15 ล้าน ลบ.ม. (116.46%) - เกินความจุ 🔴'}</span>
+          <span class="text-white font-semibold">${dk ? `${safeFixed(dk.storage, 2)} ล้าน ลบ.ม. (${safeFixed(dk.percent, 1)}%) ${safeNum(dk.percent) >= 100 ? '- เกินความจุ 🔴' : '- ปกติ 🟢'}` : '83.15 ล้าน ลบ.ม. (116.46%) - เกินความจุ 🔴'}</span>
           <div class="text-slate-300 text-[11px] mt-1">🌊 ระบายออกผ่าน <strong>คลองดอกกราย</strong> -> ต.แม่น้ำคู้ -> ต.พนานิคม -> บรรจบแม่น้ำระยองที่ อ.บ้านค่าย</div>
           <div class="mt-2 pt-1.5 border-t border-slate-700/80 flex items-center justify-between text-[11px] font-mono">
             <span class="text-slate-400">🕒 วัน-เวลาตรวจวัด:</span>
@@ -1784,7 +1800,7 @@ const officialReservoirCoords = {
 
       // 2. Nong Pla Lai
       L.polygon(nongplalaiCoords, {
-        color: (npl ? npl.percent >= 100 : true) ? '#f43f5e' : '#0284c7',
+        color: (npl ? safeNum(npl.percent) >= 100 : true) ? '#f43f5e' : '#0284c7',
         fillColor: '#0284c7',
         fillOpacity: 0.60,
         weight: 3,
@@ -1792,8 +1808,8 @@ const officialReservoirCoords = {
       }).bindPopup(`
         <div class="text-xs p-1">
           <strong class="text-cyan-300 text-sm">🏢 อ่างเก็บน้ำหนองปลาไหล</strong><br/>
-          <span class="text-white font-semibold">${npl ? `${npl.storage.toFixed(2)} ล้าน ลบ.ม. (${npl.percent.toFixed(1)}%) ${npl.percent >= 100 ? '- เกินความจุ 🔴' : '- ปกติ 🟢'}` : '168.29 ล้าน ลบ.ม. (102.77%) - เกินความจุ 🔴'}</span>
-          ${npl && npl.inflow !== undefined ? `<div class="text-slate-300 text-[11px] mt-1 font-mono">🌊 น้ำเข้า: <strong>${npl.inflow}</strong> M/วัน | ระบาย: <strong>${npl.released}</strong> M/วัน</div>` : ''}
+          <span class="text-white font-semibold">${npl ? `${safeFixed(npl.storage, 2)} ล้าน ลบ.ม. (${safeFixed(npl.percent, 1)}%) ${safeNum(npl.percent) >= 100 ? '- เกินความจุ 🔴' : '- ปกติ 🟢'}` : '168.29 ล้าน ลบ.ม. (102.77%) - เกินความจุ 🔴'}</span>
+          ${npl && npl.inflow !== undefined ? `<div class="text-slate-300 text-[11px] mt-1 font-mono">🌊 น้ำเข้า: <strong>${safeFixed(npl.inflow, 2)}</strong> M/วัน | ระบาย: <strong>${safeFixed(npl.released, 2)}</strong> M/วัน</div>` : ''}
           <div class="mt-2 pt-1.5 border-t border-slate-700/80 flex items-center justify-between text-[11px] font-mono">
             <span class="text-slate-400">🕒 วัน-เวลาตรวจวัด:</span>
             <strong class="text-cyan-300">${npl ? npl.date : getRidReportTimestamp()}</strong>
@@ -1822,7 +1838,7 @@ const officialReservoirCoords = {
       }).bindPopup(`
         <div class="text-xs p-1">
           <strong class="text-amber-400 text-sm">🏢 อ่างเก็บน้ำคลองใหญ่</strong><br/>
-          <span class="text-white font-semibold">${ky ? `${ky.storage.toFixed(2)} ล้าน ลบ.ม. (${ky.percent.toFixed(1)}%)` : '46.57 ล้าน ลบ.ม. (91.66%)'}</span>
+          <span class="text-white font-semibold">${ky ? `${safeFixed(ky.storage, 2)} ล้าน ลบ.ม. (${safeFixed(ky.percent, 1)}%)` : '46.57 ล้าน ลบ.ม. (91.66%)'}</span>
           <div class="mt-2 pt-1.5 border-t border-slate-700/80 flex items-center justify-between text-[11px] font-mono">
             <span class="text-slate-400">🕒 วัน-เวลาตรวจวัด:</span>
             <strong class="text-cyan-300">${ky ? ky.date : getRidReportTimestamp()}</strong>
@@ -1843,7 +1859,7 @@ const officialReservoirCoords = {
 
       // 4. Prasae
       L.polygon(prasaeCoords, {
-        color: (ps ? ps.percent >= 99 : true) ? '#f97316' : '#0284c7',
+        color: (ps ? safeNum(ps.percent) >= 99 : true) ? '#f97316' : '#0284c7',
         fillColor: '#0284c7',
         fillOpacity: 0.60,
         weight: 3,
@@ -1851,8 +1867,8 @@ const officialReservoirCoords = {
       }).bindPopup(`
         <div class="text-xs p-1">
           <strong class="text-cyan-300 text-sm">🏢 อ่างเก็บน้ำประแสร์</strong><br/>
-          <span class="text-white font-semibold">${ps ? `${ps.storage.toFixed(2)} ล้าน ลบ.ม. (${ps.percent.toFixed(1)}%) ${ps.percent >= 99 ? '- เฝ้าระวังสูงสุด 🟠' : '- ปกติ 🟢'}` : '293.97 ล้าน ลบ.ม. (99.65%) - เฝ้าระวังสูงสุด 🟠'}</span>
-          ${ps && ps.inflow !== undefined ? `<div class="text-slate-300 text-[11px] mt-1 font-mono">🌊 น้ำเข้า: <strong>${ps.inflow}</strong> M/วัน | ระบาย: <strong>${ps.released}</strong> M/วัน</div>` : ''}
+          <span class="text-white font-semibold">${ps ? `${safeFixed(ps.storage, 2)} ล้าน ลบ.ม. (${safeFixed(ps.percent, 1)}%) ${safeNum(ps.percent) >= 99 ? '- เฝ้าระวังสูงสุด 🟠' : '- ปกติ 🟢'}` : '293.97 ล้าน ลบ.ม. (99.65%) - เฝ้าระวังสูงสุด 🟠'}</span>
+          ${ps && ps.inflow !== undefined ? `<div class="text-slate-300 text-[11px] mt-1 font-mono">🌊 น้ำเข้า: <strong>${safeFixed(ps.inflow, 2)}</strong> M/วัน | ระบาย: <strong>${safeFixed(ps.released, 2)}</strong> M/วัน</div>` : ''}
           <div class="mt-2 pt-1.5 border-t border-slate-700/80 flex items-center justify-between text-[11px] font-mono">
             <span class="text-slate-400">🕒 วัน-เวลาตรวจวัด:</span>
             <strong class="text-cyan-300">${ps ? ps.date : getRidReportTimestamp()}</strong>
@@ -1881,7 +1897,7 @@ const officialReservoirCoords = {
       }).bindPopup(`
         <div class="text-xs p-1">
           <strong class="text-rose-400 text-sm">🏢 อ่างเก็บน้ำคลองระโอก (เขาจุก)</strong><br/>
-          <span class="text-white font-semibold">${kro ? `${kro.storage.toFixed(2)} ล้าน ลบ.ม. (${kro.percent.toFixed(1)}%) - ล้นสปิลเวย์ 🔴` : '20.30 ล้าน ลบ.ม. (103.28%) - ล้นสปิลเวย์ 🔴'}</span>
+          <span class="text-white font-semibold">${kro ? `${safeFixed(kro.storage, 2)} ล้าน ลบ.ม. (${safeFixed(kro.percent, 1)}%) - ล้นสปิลเวย์ 🔴` : '20.30 ล้าน ลบ.ม. (103.28%) - ล้นสปิลเวย์ 🔴'}</span>
           <div class="text-amber-300 text-[11px] font-medium mt-1">⚠️ ทางระบายน้ำล้น (Spillway) มีน้ำล้น แจ้งเตือนประชาชนในพื้นที่เสี่ยง</div>
           <div class="text-slate-300 text-[11px] mt-1">
             <strong>เส้นทางน้ำ:</strong> ไหลลง <strong>คลองระโอก -> คลองโพล้ -> แม่น้ำประแสร์ -> ปากน้ำประแสร์ สู่ทะเล</strong>
@@ -1913,11 +1929,11 @@ const officialReservoirCoords = {
           id: "dokkrai",
           title: "อ่างฯ ดอกกราย",
           compactTitle: "ดอกกราย",
-          vol: dk ? `${dk.storage.toFixed(1)}M` : "83.2M",
-          pct: dk ? `${dk.percent.toFixed(0)}% ${dk.percent >= 100 ? 'ล้น' : ''}` : "116% ล้น",
-          statusDesc: dk ? `${dk.percent.toFixed(1)}% ${dk.percent >= 100 ? 'ล้นตลิ่ง' : 'ปกติ'}` : "116.46% ล้นตลิ่ง",
-          border: (dk ? dk.percent >= 100 : true) ? "#f43f5e" : "#0284c7",
-          chipBg: (dk ? dk.percent >= 100 : true) ? "linear-gradient(135deg, #be123c, #ef4444)" : "linear-gradient(135deg, #0284c7, #0ea5e9)",
+          vol: dk ? `${safeFixed(dk.storage, 1)}M` : "83.2M",
+          pct: dk ? `${safeFixed(dk.percent, 0)}% ${safeNum(dk.percent) >= 100 ? 'ล้น' : ''}` : "116% ล้น",
+          statusDesc: dk ? `${safeFixed(dk.percent, 1)}% ${safeNum(dk.percent) >= 100 ? 'ล้นตลิ่ง' : 'ปกติ'}` : "116.46% ล้นตลิ่ง",
+          border: (dk ? safeNum(dk.percent) >= 100 : true) ? "#f43f5e" : "#0284c7",
+          chipBg: (dk ? safeNum(dk.percent) >= 100 : true) ? "linear-gradient(135deg, #be123c, #ef4444)" : "linear-gradient(135deg, #0284c7, #0ea5e9)",
           lat: 12.915, lng: 101.175
         },
         // Nong Pla Lai: Positioned Northwest (away from Khlong Yai to the east)
@@ -1925,11 +1941,11 @@ const officialReservoirCoords = {
           id: "nongplalai",
           title: "อ่างฯ หนองปลาไหล",
           compactTitle: "หนองปลาไหล",
-          vol: npl ? `${npl.storage.toFixed(1)}M` : "168.3M",
-          pct: npl ? `${npl.percent.toFixed(0)}% ${npl.percent >= 100 ? 'ล้น' : ''}` : "103% ล้น",
-          statusDesc: npl ? `${npl.percent.toFixed(1)}% ${npl.percent >= 100 ? 'ล้นความจุ' : 'ปกติ'}` : "102.77% ล้นความจุ",
-          border: (npl ? npl.percent >= 100 : true) ? "#f43f5e" : "#38bdf8",
-          chipBg: (npl ? npl.percent >= 100 : true) ? "linear-gradient(135deg, #be123c, #ef4444)" : "linear-gradient(135deg, #0284c7, #0ea5e9)",
+          vol: npl ? `${safeFixed(npl.storage, 1)}M` : "168.3M",
+          pct: npl ? `${safeFixed(npl.percent, 0)}% ${safeNum(npl.percent) >= 100 ? 'ล้น' : ''}` : "103% ล้น",
+          statusDesc: npl ? `${safeFixed(npl.percent, 1)}% ${safeNum(npl.percent) >= 100 ? 'ล้นความจุ' : 'ปกติ'}` : "102.77% ล้นความจุ",
+          border: (npl ? safeNum(npl.percent) >= 100 : true) ? "#f43f5e" : "#38bdf8",
+          chipBg: (npl ? safeNum(npl.percent) >= 100 : true) ? "linear-gradient(135deg, #be123c, #ef4444)" : "linear-gradient(135deg, #0284c7, #0ea5e9)",
           lat: 12.975, lng: 101.220
         },
         // Khlong Yai: Positioned East/Northeast (separated from Nong Pla Lai)
@@ -1937,9 +1953,9 @@ const officialReservoirCoords = {
           id: "khlongyai",
           title: "อ่างฯ คลองใหญ่",
           compactTitle: "คลองใหญ่",
-          vol: ky ? `${ky.storage.toFixed(1)}M` : "46.6M",
-          pct: ky ? `${ky.percent.toFixed(0)}%` : "92%",
-          statusDesc: ky ? `${ky.percent.toFixed(1)}% ปกติ` : "91.66% ปกติ",
+          vol: ky ? `${safeFixed(ky.storage, 1)}M` : "46.6M",
+          pct: ky ? `${safeFixed(ky.percent, 0)}%` : "92%",
+          statusDesc: ky ? `${safeFixed(ky.percent, 1)}% ปกติ` : "91.66% ปกติ",
           border: "#f59e0b",
           chipBg: "linear-gradient(135deg, #d97706, #f59e0b)",
           lat: 12.990, lng: 101.350
@@ -1949,11 +1965,11 @@ const officialReservoirCoords = {
           id: "prasae",
           title: "อ่างฯ ประแสร์",
           compactTitle: "ประแสร์",
-          vol: ps ? `${ps.storage.toFixed(1)}M` : "294.0M",
-          pct: ps ? `${ps.percent.toFixed(0)}%` : "100%",
-          statusDesc: ps ? `${ps.percent.toFixed(1)}% เฝ้าระวังสูงสุด` : "99.65% เฝ้าระวังสูงสุด",
-          border: (ps ? ps.percent >= 99 : true) ? "#f97316" : "#0284c7",
-          chipBg: (ps ? ps.percent >= 99 : true) ? "linear-gradient(135deg, #c2410c, #ea580c)" : "linear-gradient(135deg, #0284c7, #0ea5e9)",
+          vol: ps ? `${safeFixed(ps.storage, 1)}M` : "294.0M",
+          pct: ps ? `${safeFixed(ps.percent, 0)}%` : "100%",
+          statusDesc: ps ? `${safeFixed(ps.percent, 1)}% เฝ้าระวังสูงสุด` : "99.65% เฝ้าระวังสูงสุด",
+          border: (ps ? safeNum(ps.percent) >= 99 : true) ? "#f97316" : "#0284c7",
+          chipBg: (ps ? safeNum(ps.percent) >= 99 : true) ? "linear-gradient(135deg, #c2410c, #ea580c)" : "linear-gradient(135deg, #0284c7, #0ea5e9)",
           lat: 13.030, lng: 101.565
         },
         // Khlong Ra-ok (Khao Chuk): Positioned Southeast (away from Khlong Pho to northwest)
@@ -1961,9 +1977,9 @@ const officialReservoirCoords = {
           id: "khlongraok",
           title: "อ่างฯ คลองระโอก (เขาจุก)",
           compactTitle: "คลองระโอก",
-          vol: kro ? `${kro.storage.toFixed(1)}M` : "20.3M",
-          pct: kro ? `${kro.percent.toFixed(0)}% ${kro.percent >= 100 ? 'ล้น' : ''}` : "103% ล้น",
-          statusDesc: kro ? `${kro.percent.toFixed(1)}% ล้นสปิลเวย์` : "103.28% ล้นสปิลเวย์",
+          vol: kro ? `${safeFixed(kro.storage, 1)}M` : "20.3M",
+          pct: kro ? `${safeFixed(kro.percent, 0)}% ${safeNum(kro.percent) >= 100 ? 'ล้น' : ''}` : "103% ล้น",
+          statusDesc: kro ? `${safeFixed(kro.percent, 1)}% ล้นสปิลเวย์` : "103.28% ล้นสปิลเวย์",
           border: "#f43f5e",
           chipBg: "linear-gradient(135deg, #be123c, #ef4444)",
           lat: 12.865, lng: 101.805
@@ -3696,18 +3712,17 @@ const officialReservoirCoords = {
     // ========================================================
     // 🌐 REAL-TIME GOVERNMENT DATA INGESTION (DWR & THAIWATER)
     // ========================================================
-    let liveGovData = null;
-
     function renderLiveRainfallStations() {
-      if (!layers.rainfall) return;
+      if (!layers || !layers.rainfall) return;
       layers.rainfall.clearLayers();
       const chk = document.getElementById('chk-rainfall');
       if (chk && !chk.checked) return;
-      if (!liveGovData || !liveGovData.rainfallStations) return;
+      if (!liveGovData || !Array.isArray(liveGovData.rainfallStations)) return;
 
       liveGovData.rainfallStations.forEach(st => {
         if (!st.lat || !st.lng) return;
-        const rain = st.rain24h || 0;
+        const rain = safeNum(st.rain24h, 0);
+        const rain1h = safeNum(st.rain1h, 0);
         let badgeColor = "bg-blue-600/90 text-white border-blue-400";
         let dotColor = "bg-blue-300";
         if (rain >= 50) {
@@ -3747,7 +3762,7 @@ const officialReservoirCoords = {
               </div>
               <div class="p-1.5 rounded bg-slate-900 border border-slate-800">
                 <span class="text-[10px] text-slate-400 block">ฝน 1 ชม.</span>
-                <strong class="text-white text-sm">${(st.rain1h || 0).toFixed(1)} มม.</strong>
+                <strong class="text-white text-sm">${rain1h.toFixed(1)} มม.</strong>
               </div>
             </div>
             <div class="mt-2 text-[10px] text-slate-400 flex items-center justify-between">
@@ -3770,108 +3785,119 @@ const officialReservoirCoords = {
             liveGovData = json;
 
             // 1. Update Header / Live Sync Badge
-            const govBadge = document.getElementById('gov-live-sync-badge');
-            if (govBadge) {
-              govBadge.innerHTML = `● สด DWR & สทนช. (${json.updatedText})`;
-              govBadge.className = "text-emerald-400 font-mono text-[10px] bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/40 shadow";
-            }
+            try {
+              const govBadge = document.getElementById('gov-live-sync-badge');
+              if (govBadge) {
+                govBadge.innerHTML = `● สด DWR & สทนช. (${json.updatedText})`;
+                govBadge.className = "text-emerald-400 font-mono text-[10px] bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/40 shadow";
+              }
+            } catch (e) { console.warn("Error updating badge:", e); }
 
             // 2. Update 5 Reservoirs KPIs & Lake Water Bodies
-            if (json.reservoirs) {
-              const dk = json.reservoirs.dokkrai;
-              if (dk) {
-                const kpiDk = document.getElementById('kpi-dokkrai');
-                if (kpiDk) kpiDk.textContent = dk.percent.toFixed(1);
-                const kpiDkTime = document.getElementById('kpi-dokkrai-time');
-                if (kpiDkTime) kpiDkTime.textContent = formatThaiDate(new Date(dk.date)) + " (สทนช./RID)";
-              }
+            try {
+              if (json.reservoirs) {
+                const dk = json.reservoirs.dokkrai;
+                if (dk) {
+                  const kpiDk = document.getElementById('kpi-dokkrai');
+                  if (kpiDk) kpiDk.textContent = safeFixed(dk.percent, 1);
+                  const kpiDkTime = document.getElementById('kpi-dokkrai-time');
+                  if (kpiDkTime) kpiDkTime.textContent = (dk.date ? formatThaiDate(new Date(dk.date)) : 'วันนี้') + " (สทนช./RID)";
+                }
 
-              // Re-render reservoir water bodies with live numbers
-              if (typeof drawReservoirWaterBodies === 'function') {
-                drawReservoirWaterBodies();
+                // Re-render reservoir water bodies with live numbers
+                if (typeof drawReservoirWaterBodies === 'function') {
+                  drawReservoirWaterBodies();
+                }
               }
-            }
+            } catch (e) { console.warn("Error updating reservoirs:", e); }
 
             // 3. Update Max 24h Rainfall KPI from 34 live stations
-            if (json.rainfallStations && json.rainfallStations.length > 0) {
-              const validRain = json.rainfallStations.filter(r => typeof r.rain24h === 'number');
-              if (validRain.length > 0) {
-                const maxR = validRain.reduce((prev, cur) => (cur.rain24h > prev.rain24h) ? cur : prev, validRain[0]);
-                const kpiRain = document.getElementById('kpi-rain');
-                if (kpiRain) kpiRain.textContent = maxR.rain24h.toFixed(1);
-                const kpiRainTime = document.getElementById('kpi-rain-time');
-                if (kpiRainTime) kpiRainTime.textContent = (maxR.datetime || json.updatedText) + " (สด)";
-                const kpiRainContainer = document.getElementById('kpi-rain');
-                if (kpiRainContainer) {
-                  const subP = kpiRainContainer.closest('div')?.parentElement?.querySelector('p');
-                  if (subP && maxR.district) {
-                    subP.textContent = `สูงสุด: ${maxR.name} (${maxR.district})`;
-                  }
-                }
-              }
-              // Render live rainfall pins on map
-              renderLiveRainfallStations();
-            }
-
-            // 4. Update River Stage KPI & Live DWR Stations
-            if (json.dwrStations) {
-              const stKhlongYai = json.dwrStations.find(s => s.code === 'TA170203');
-              if (stKhlongYai && typeof stKhlongYai.waterLevel === 'number') {
-                const kpiStage = document.getElementById('kpi-stage');
-                if (kpiStage) kpiStage.textContent = (stKhlongYai.waterLevel >= 0 ? '+' : '') + stKhlongYai.waterLevel.toFixed(2);
-                const kpiStageTime = document.getElementById('kpi-stage-time');
-                if (kpiStageTime) kpiStageTime.textContent = (stKhlongYai.wlTimestamp ? new Date(stKhlongYai.wlTimestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.' : json.updatedText) + ' (DWR สด)';
-                const kpiStageSub = document.getElementById('kpi-stage-sub');
-                if (kpiStageSub) {
-                  kpiStageSub.textContent = `สะพานคลองใหญ่ระยอง (ไหล ${stKhlongYai.flowRate.toFixed(1)} m³/s)`;
-                }
-              }
-
-              // Update CCTV Stations Live Telemetry
-              if (typeof cctvStations !== 'undefined') {
-                json.dwrStations.forEach(dwr => {
-                  const target = cctvStations.find(c => c.code === dwr.code);
-                  if (target) {
-                    if (typeof dwr.waterLevel === 'number') target.wl = dwr.waterLevel.toFixed(2);
-                    if (typeof dwr.flowRate === 'number') target.fr = dwr.flowRate.toFixed(2);
-                    if (dwr.wlTimestamp) {
-                      target.lastTime = new Date(dwr.wlTimestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.';
+            try {
+              if (json.rainfallStations && json.rainfallStations.length > 0) {
+                const validRain = json.rainfallStations.filter(r => r.rain24h !== null && r.rain24h !== undefined);
+                if (validRain.length > 0) {
+                  const maxR = validRain.reduce((prev, cur) => (safeNum(cur.rain24h) > safeNum(prev.rain24h)) ? cur : prev, validRain[0]);
+                  const kpiRain = document.getElementById('kpi-rain');
+                  if (kpiRain) kpiRain.textContent = safeFixed(maxR.rain24h, 1);
+                  const kpiRainTime = document.getElementById('kpi-rain-time');
+                  if (kpiRainTime) kpiRainTime.textContent = (maxR.datetime || json.updatedText) + " (สด)";
+                  const kpiRainContainer = document.getElementById('kpi-rain');
+                  if (kpiRainContainer) {
+                    const subP = kpiRainContainer.closest('div')?.parentElement?.querySelector('p');
+                    if (subP && maxR.district) {
+                      subP.textContent = `สูงสุด: ${maxR.name} (${maxR.district})`;
                     }
                   }
-                });
+                }
+                // Render live rainfall pins on map
+                renderLiveRainfallStations();
+              }
+            } catch (e) { console.warn("Error updating rainfall:", e); }
 
-                // Update Gallery Cards
-                const gWl1 = document.getElementById('cctv-gallery-wl-TA170203');
-                const gFr1 = document.getElementById('cctv-gallery-fr-TA170203');
-                const st1 = json.dwrStations.find(s => s.code === 'TA170203');
-                if (st1 && gWl1 && gFr1) {
-                  gWl1.innerText = `${st1.waterLevel.toFixed(2)} ม.`;
-                  gFr1.innerText = `${st1.flowRate.toFixed(1)} m³/s`;
+            // 4. Update River Stage KPI & Live DWR Stations
+            try {
+              if (json.dwrStations) {
+                const stKhlongYai = json.dwrStations.find(s => s.code === 'TA170203');
+                if (stKhlongYai && stKhlongYai.waterLevel !== null && stKhlongYai.waterLevel !== undefined) {
+                  const numWl = safeNum(stKhlongYai.waterLevel);
+                  const kpiStage = document.getElementById('kpi-stage');
+                  if (kpiStage) kpiStage.textContent = (numWl >= 0 ? '+' : '') + safeFixed(stKhlongYai.waterLevel, 2);
+                  const kpiStageTime = document.getElementById('kpi-stage-time');
+                  if (kpiStageTime) kpiStageTime.textContent = (stKhlongYai.wlTimestamp ? new Date(stKhlongYai.wlTimestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.' : json.updatedText) + ' (DWR สด)';
+                  const kpiStageSub = document.getElementById('kpi-stage-sub');
+                  if (kpiStageSub) {
+                    kpiStageSub.textContent = `สะพานคลองใหญ่ระยอง (ไหล ${safeFixed(stKhlongYai.flowRate, 1)} m³/s)`;
+                  }
                 }
 
-                const gWl2 = document.getElementById('cctv-gallery-wl-TA170406');
-                const gFr2 = document.getElementById('cctv-gallery-fr-TA170406');
-                const st2 = json.dwrStations.find(s => s.code === 'TA170406');
-                if (st2 && gWl2 && gFr2) {
-                  gWl2.innerText = `${st2.waterLevel.toFixed(2)} ม.`;
-                  gFr2.innerText = `${st2.flowRate.toFixed(1)} m³/s`;
-                }
+                // Update CCTV Stations Live Telemetry
+                if (typeof cctvStations !== 'undefined') {
+                  json.dwrStations.forEach(dwr => {
+                    const target = cctvStations.find(c => c.code === dwr.code);
+                    if (target) {
+                      if (dwr.waterLevel !== null && dwr.waterLevel !== undefined) target.wl = safeFixed(dwr.waterLevel, 2);
+                      if (dwr.flowRate !== null && dwr.flowRate !== undefined) target.fr = safeFixed(dwr.flowRate, 2);
+                      if (dwr.wlTimestamp) {
+                        target.lastTime = new Date(dwr.wlTimestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.';
+                      }
+                    }
+                  });
 
-                // If CCTV modal is open, refresh HUD
-                const hudWl = document.getElementById('cctv-hud-wl');
-                const hudFr = document.getElementById('cctv-hud-fr');
-                const currSt = cctvStations.find(s => s.code === activeCctvCode);
-                if (currSt && hudWl && hudFr && currSt.type !== 'coastal') {
-                  hudWl.innerText = `${currSt.wl} ม. รทก.`;
-                  hudFr.innerText = `${currSt.fr} m³/s`;
+                  // Update Gallery Cards
+                  const gWl1 = document.getElementById('cctv-gallery-wl-TA170203');
+                  const gFr1 = document.getElementById('cctv-gallery-fr-TA170203');
+                  const st1 = json.dwrStations.find(s => s.code === 'TA170203');
+                  if (st1 && gWl1 && gFr1) {
+                    gWl1.innerText = `${safeFixed(st1.waterLevel, 2)} ม.`;
+                    gFr1.innerText = `${safeFixed(st1.flowRate, 1)} m³/s`;
+                  }
+
+                  const gWl2 = document.getElementById('cctv-gallery-wl-TA170406');
+                  const gFr2 = document.getElementById('cctv-gallery-fr-TA170406');
+                  const st2 = json.dwrStations.find(s => s.code === 'TA170406');
+                  if (st2 && gWl2 && gFr2) {
+                    gWl2.innerText = `${safeFixed(st2.waterLevel, 2)} ม.`;
+                    gFr2.innerText = `${safeFixed(st2.flowRate, 1)} m³/s`;
+                  }
+
+                  // If CCTV modal is open, refresh HUD
+                  const hudWl = document.getElementById('cctv-hud-wl');
+                  const hudFr = document.getElementById('cctv-hud-fr');
+                  const currSt = cctvStations.find(s => s.code === activeCctvCode);
+                  if (currSt && hudWl && hudFr && currSt.type !== 'coastal') {
+                    hudWl.innerText = `${currSt.wl} ม. รทก.`;
+                    hudFr.innerText = `${currSt.fr} m³/s`;
+                  }
                 }
               }
-            }
+            } catch (e) { console.warn("Error updating DWR stations:", e); }
 
             // 5. Update river stations warnings
-            if (typeof renderStations === 'function') {
-              renderStations();
-            }
+            try {
+              if (typeof renderStations === 'function') {
+                renderStations();
+              }
+            } catch (e) { console.warn("Error updating river stations:", e); }
           }
         }
       } catch (e) {
