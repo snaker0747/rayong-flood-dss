@@ -24,6 +24,12 @@ const CAMERAS = {
   }
 };
 
+// Global in-memory cache to prevent redundant round-trips
+const frameCache = {
+  TA170203: { buffer: null, source: null, time: 0 },
+  TA170406: { buffer: null, source: null, time: 0 }
+};
+
 function parseDigestHeader(header) {
   const params = {};
   const regex = /(\w+)="?([^",]+)"?/g;
@@ -38,67 +44,110 @@ function md5(str) {
   return crypto.createHash('md5').update(str).digest('hex');
 }
 
-function fetchDirectCameraImage(cam) {
+function fetchDirectCameraImage(cam, maxTimeoutMs = 2800) {
   return new Promise((resolve, reject) => {
-    const req1 = http.get({
-      hostname: cam.host,
-      port: cam.port,
-      path: '/snap.jpg',
-      timeout: 5000
-    }, (res1) => {
-      if (res1.statusCode !== 401 || !res1.headers['www-authenticate']) {
-        return reject(new Error('Expected 401 Digest Auth, got ' + res1.statusCode));
+    let finished = false;
+    let activeReq1 = null;
+    let activeReq2 = null;
+
+    const timer = setTimeout(() => {
+      if (!finished) {
+        finished = true;
+        if (activeReq1) { try { activeReq1.destroy(); } catch (e) {} }
+        if (activeReq2) { try { activeReq2.destroy(); } catch (e) {} }
+        reject(new Error(`Direct camera timeout after ${maxTimeoutMs}ms`));
       }
+    }, maxTimeoutMs);
 
-      const p = parseDigestHeader(res1.headers['www-authenticate']);
-      const cnonce = crypto.randomBytes(8).toString('hex');
-      const nc = '00000001';
-      const ha1 = md5(`${cam.user}:${p.realm}:${cam.pass}`);
-      const ha2 = md5('GET:/snap.jpg');
-      const qop = p.qop || 'auth';
-      const response = md5(`${ha1}:${p.nonce}:${nc}:${cnonce}:${qop}:${ha2}`);
-      const auth = `Digest username="${cam.user}", realm="${p.realm}", nonce="${p.nonce}", uri="/snap.jpg", qop=${qop}, nc=${nc}, cnonce="${cnonce}", response="${response}"`;
+    function cleanupAndResolve(val) {
+      if (!finished) {
+        finished = true;
+        clearTimeout(timer);
+        resolve(val);
+      }
+    }
 
-      const req2 = http.get({
+    function cleanupAndReject(err) {
+      if (!finished) {
+        finished = true;
+        clearTimeout(timer);
+        if (activeReq1) { try { activeReq1.destroy(); } catch (e) {} }
+        if (activeReq2) { try { activeReq2.destroy(); } catch (e) {} }
+        reject(err);
+      }
+    }
+
+    try {
+      activeReq1 = http.get({
         hostname: cam.host,
         port: cam.port,
         path: '/snap.jpg',
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-          'Authorization': auth
-        },
-        timeout: 6000
-      }, (res2) => {
-        if (res2.statusCode !== 200) {
-          return reject(new Error('Camera responded with ' + res2.statusCode));
+        timeout: 2000
+      }, (res1) => {
+        if (res1.statusCode !== 401 || !res1.headers['www-authenticate']) {
+          return cleanupAndReject(new Error('Expected 401 Digest Auth, got ' + res1.statusCode));
         }
-        const chunks = [];
-        res2.on('data', c => chunks.push(c));
-        res2.on('end', () => {
-          const buffer = Buffer.concat(chunks);
-          resolve({ buffer, source: 'direct-camera' });
-        });
+
+        const p = parseDigestHeader(res1.headers['www-authenticate']);
+        const cnonce = crypto.randomBytes(8).toString('hex');
+        const nc = '00000001';
+        const ha1 = md5(`${cam.user}:${p.realm}:${cam.pass}`);
+        const ha2 = md5('GET:/snap.jpg');
+        const qop = p.qop || 'auth';
+        const response = md5(`${ha1}:${p.nonce}:${nc}:${cnonce}:${qop}:${ha2}`);
+        const auth = `Digest username="${cam.user}", realm="${p.realm}", nonce="${p.nonce}", uri="/snap.jpg", qop=${qop}, nc=${nc}, cnonce="${cnonce}", response="${response}"`;
+
+        try {
+          activeReq2 = http.get({
+            hostname: cam.host,
+            port: cam.port,
+            path: '/snap.jpg',
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+              'Authorization': auth
+            },
+            timeout: 2200
+          }, (res2) => {
+            if (res2.statusCode !== 200) {
+              return cleanupAndReject(new Error('Camera responded with ' + res2.statusCode));
+            }
+            const chunks = [];
+            res2.on('data', c => chunks.push(c));
+            res2.on('end', () => {
+              cleanupAndResolve({ buffer: Buffer.concat(chunks), source: 'direct-camera' });
+            });
+            res2.on('error', cleanupAndReject);
+          });
+
+          activeReq2.on('error', cleanupAndReject);
+          activeReq2.on('timeout', () => cleanupAndReject(new Error('req2 socket timeout')));
+        } catch (e2) {
+          cleanupAndReject(e2);
+        }
       });
-      req2.on('error', reject);
-      req2.on('timeout', () => { req2.destroy(); reject(new Error('Camera timeout on image transfer')); });
-    });
-    req1.on('error', reject);
-    req1.on('timeout', () => { req1.destroy(); reject(new Error('Camera timeout on initial connect')); });
+
+      activeReq1.on('error', cleanupAndReject);
+      activeReq1.on('timeout', () => cleanupAndReject(new Error('req1 socket timeout')));
+    } catch (e1) {
+      cleanupAndReject(e1);
+    }
   });
 }
 
-// Fallback to DWR Central API repository
-async function fetchDwrApiFallback(cam) {
+// Fast fallback to DWR Central API repository
+async function fetchDwrApiFallback(cam, maxTimeoutMs = 3000) {
   let snapPath = '';
   try {
     const snapData = await new Promise((resolve, reject) => {
-      https.get(`https://telemetry.dwr.go.th/api/public/reportCctv/snapshot/${cam.dwrId}`, { timeout: 4000 }, (res) => {
+      const req = https.get(`https://telemetry.dwr.go.th/api/public/reportCctv/snapshot/${cam.dwrId}`, { timeout: maxTimeoutMs }, (res) => {
         let b = '';
         res.on('data', c => b += c);
         res.on('end', () => {
           try { resolve(JSON.parse(b)); } catch (e) { reject(e); }
         });
-      }).on('error', reject);
+      });
+      req.on('error', reject);
+      req.on('timeout', () => { req.destroy(); reject(new Error('DWR snapshot API timeout')); });
     });
     if (snapData && snapData.value) snapPath = snapData.value;
   } catch (e) {
@@ -120,7 +169,7 @@ async function fetchDwrApiFallback(cam) {
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(postData)
       },
-      timeout: 5000
+      timeout: maxTimeoutMs
     }, (res) => {
       if (res.statusCode !== 200) {
         return reject(new Error('DWR file image returned ' + res.statusCode));
@@ -132,7 +181,7 @@ async function fetchDwrApiFallback(cam) {
       });
     });
     req.on('error', reject);
-    req.on('timeout', () => { req.destroy(); reject(new Error('DWR API timeout')); });
+    req.on('timeout', () => { req.destroy(); reject(new Error('DWR image API timeout')); });
     req.write(postData);
     req.end();
   });
@@ -154,19 +203,48 @@ module.exports = async function handler(req, res) {
     return res.status(404).json({ error: 'Station not found', validStations: Object.keys(CAMERAS) });
   }
 
+  // 1. Check in-memory cache (fresh within 6 seconds)
+  const cached = frameCache[station];
+  const now = Date.now();
+  if (cached && cached.buffer && (now - cached.time < 6000)) {
+    if (mode === 'json') {
+      return res.status(200).json({
+        station: cam.code,
+        name: cam.name,
+        source: cached.source + ' (cached)',
+        bytes: cached.buffer.length,
+        timestamp: new Date(cached.time).toISOString()
+      });
+    }
+    res.setHeader('Content-Type', 'image/jpeg');
+    res.setHeader('X-CCTV-Source', cached.source + '-cached');
+    res.setHeader('Cache-Control', 'public, max-age=5');
+    return res.status(200).send(cached.buffer);
+  }
+
   try {
     let result = null;
     try {
-      // 1. Try real-time direct camera fetch
-      result = await fetchDirectCameraImage(cam);
+      // 2. Try real-time direct camera fetch (hard 2.8s budget)
+      result = await fetchDirectCameraImage(cam, 2800);
     } catch (directErr) {
-      console.warn(`Direct cam fetch failed for ${station} (${directErr.message}), falling back to DWR API...`);
-      // 2. Try DWR Central API fallback
-      result = await fetchDwrApiFallback(cam);
+      // 3. Fallback to DWR Central API repository
+      result = await fetchDwrApiFallback(cam, 3000);
     }
 
     if (!result || !result.buffer) {
-      return res.status(502).json({ error: 'Failed to retrieve camera frame from both direct and central sources' });
+      if (cached && cached.buffer) {
+        result = cached;
+      } else {
+        return res.status(502).json({ error: 'Failed to retrieve camera frame' });
+      }
+    } else {
+      // Update cache
+      frameCache[station] = {
+        buffer: result.buffer,
+        source: result.source,
+        time: now
+      };
     }
 
     if (mode === 'json') {
@@ -181,7 +259,7 @@ module.exports = async function handler(req, res) {
 
     res.setHeader('Content-Type', 'image/jpeg');
     res.setHeader('X-CCTV-Source', result.source);
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+    res.setHeader('Cache-Control', 'public, max-age=5');
     return res.status(200).send(result.buffer);
 
   } catch (err) {
