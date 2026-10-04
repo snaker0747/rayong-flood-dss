@@ -957,6 +957,9 @@
       });
     }
 
+    // Global Label Density Controller (Anti-Overlap Engine)
+    var currentLabelMode = 'smart'; // 'smart' (default), 'compact', 'hide'
+
     // 2. LAYER GROUPS
     const layers = {
       lakes: L.layerGroup().addTo(map),        // ผืนน้ำอ่างเก็บน้ำหลัก
@@ -2477,8 +2480,6 @@ const officialReservoirCoords = {
 
     // Quick Zoom Shortcuts
     // Global Label Density Controller (Anti-Overlap Engine)
-    let currentLabelMode = 'smart'; // 'smart' (default), 'compact', 'hide'
-
     function setMapLabelMode(mode) {
       currentLabelMode = mode;
       // Re-render layers with new label layout
