@@ -1264,288 +1264,92 @@
     </div>
 
     <!-- RIGHT 5 COLS: HYDROGRAPH & DAM MONITOR -->
-    <div class="lg:col-span-5 flex flex-col gap-3 max-h-[850px] overflow-y-auto pr-1">
+    <div class="lg:col-span-5 flex flex-col gap-2 overflow-hidden">
       
+      <!-- VIEW MODE SWITCHER TABS (จัดข้อมูลให้ครบหน้า ไม่ต้องเลื่อน) -->
+      <div class="glass-panel p-1 rounded-lg border border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-1">
+          <button onclick="switchRightPanelTab('all')" id="tab-rp-all" class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-600 text-white transition shadow flex items-center gap-1">
+            <i data-lucide="layout-grid" class="w-3 h-3"></i>
+            <span>สรุปครบหน้า (ไม่เลื่อน)</span>
+          </button>
+          <button onclick="switchRightPanelTab('chart')" id="tab-rp-chart" class="px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1">
+            <i data-lucide="trending-up" class="w-3 h-3 text-cyan-400"></i>
+            <span>ดูกราฟใหญ่</span>
+          </button>
+          <button onclick="switchRightPanelTab('dams')" id="tab-rp-dams" class="px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1">
+            <i data-lucide="layers" class="w-3 h-3 text-emerald-400"></i>
+            <span>5 เขื่อน & ลำน้ำ</span>
+          </button>
+        </div>
+        <span class="text-[10px] text-emerald-400 font-mono pr-1.5 hidden sm:flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> พอดีหน้าจอ
+        </span>
+      </div>
+
       <!-- REAL 24H WATER LEVEL & DISCHARGE TREND CHART (DWR TELEMETRY) -->
-      <div class="glass-panel p-4 rounded-xl border border-slate-800 flex flex-col shadow-xl">
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center gap-2">
-            <i data-lucide="trending-up" class="w-4 h-4 text-cyan-400"></i>
-            <div>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">กราฟระดับน้ำจริงย้อนหลัง 24 ชม. (โทรมาตร DWR TA170203)</h3>
-              <p class="text-[10px] text-slate-400 font-mono" id="chart-model-time">
-                สะพานข้ามคลองใหญ่ที่ระยอง | ตรวจวัดอัตโนมัติรายชั่วโมง
+      <div id="panel-card-chart" class="glass-panel p-2.5 rounded-xl border border-slate-800 flex flex-col shadow-xl transition-all">
+        <div class="flex items-center justify-between mb-1">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <i data-lucide="trending-up" class="w-3.5 h-3.5 text-cyan-400 shrink-0"></i>
+            <div class="truncate">
+              <h3 class="text-[11px] font-bold text-white uppercase tracking-wider truncate">กราฟระดับน้ำจริงย้อนหลัง 24 ชม. (DWR TA170203)</h3>
+              <p class="text-[9px] text-slate-400 font-mono truncate" id="chart-model-time">
+                สะพานคลองใหญ่ระยอง | ตรวจวัดรายชั่วโมง
               </p>
             </div>
           </div>
-          <span class="text-[11px] text-cyan-300 font-mono bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30 flex items-center gap-1">
+          <span class="text-[9px] text-cyan-300 font-mono bg-cyan-500/10 px-1.5 py-0.2 rounded border border-cyan-500/30 flex items-center gap-1 shrink-0">
             <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> โทรมาตรสด
           </span>
         </div>
-        <div class="w-full h-48">
+        <div id="hydrograph-wrap" class="w-full h-32 transition-all duration-200">
           <canvas id="hydrographChart"></canvas>
         </div>
-        <div class="mt-2 text-[11px] text-slate-400 flex items-center justify-between border-t border-slate-800/80 pt-2 font-mono" id="chart-stats-footer">
-          <span class="text-slate-300">ระดับน้ำล่าสุด: <strong class="text-amber-400 font-bold" id="chart-latest-wl">+1.60 ม.</strong></span>
-          <span class="text-slate-300">อัตราการไหล: <strong class="text-cyan-400 font-bold" id="chart-latest-q">32.05 m³/s</strong></span>
+        <div class="mt-1 text-[10px] text-slate-400 flex items-center justify-between border-t border-slate-800/80 pt-1 font-mono" id="chart-stats-footer">
+          <span class="text-slate-300">ระดับน้ำล่าสุด: <strong class="text-amber-400 font-bold" id="chart-latest-wl">+1.63 ม.</strong></span>
+          <span class="text-slate-300">อัตราไหล: <strong class="text-cyan-400 font-bold" id="chart-latest-q">32.84 m³/s</strong></span>
+          <span class="text-rose-400 font-semibold hidden sm:inline">ตลิ่ง: +3.00 ม.</span>
         </div>
       </div>
 
-      <!-- 4 MAIN RESERVOIRS IN RAYONG & WATER GRID -->
-      <div class="glass-panel p-4 rounded-xl border border-slate-800 flex flex-col shadow-xl">
-        <div class="flex items-center justify-between mb-2.5">
-          <div class="flex items-center gap-2">
-            <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
-            <div>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">สถานะ 5 อ่างเก็บน้ำหลักระยอง (RID & ThaiWater)</h3>
-              <span class="text-[10px] text-slate-400 font-mono block">
-                🕒 รอบรายงานทางการ: <strong class="text-cyan-300 font-semibold" id="dam-batch-time">05 ต.ค. 2569 เวลา 06:00 น.</strong> (ตัดยอดวันละ 1 ครั้งตามมาตรฐานกรมชลประทาน)
-              </span>
+      <!-- BOTTOM 2-COLUMN GRID (5 DAMS + 4 RIVER BASINS SIDE-BY-SIDE) -->
+      <div id="panel-dams-basins-grid" class="grid grid-cols-1 md:grid-cols-2 gap-2 transition-all">
+
+        <!-- 5 MAIN RESERVOIRS IN RAYONG (RID & THAIWATER) -->
+        <div id="panel-card-dams" class="glass-panel p-2 rounded-xl border border-slate-800 flex flex-col shadow-xl">
+          <div class="flex items-center justify-between mb-1 pb-1 border-b border-slate-800/80">
+            <div class="flex items-center gap-1 min-w-0">
+              <i data-lucide="layers" class="w-3 h-3 text-emerald-400 shrink-0"></i>
+              <h3 class="text-[11px] font-bold text-white uppercase tracking-wider truncate">5 อ่างเก็บน้ำหลัก (RID)</h3>
             </div>
+            <span class="text-[9px] px-1 py-0.2 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono shrink-0">
+              06:00 น.
+            </span>
           </div>
-          <span class="text-[11px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center gap-1 font-mono">
-            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"></span> RID & ThaiWater
-          </span>
+
+          <div class="space-y-0.5" id="reservoirs-sidebar-list">
+            <!-- Populated dynamically by renderReservoirsSidebar() -->
+          </div>
         </div>
 
-        <div class="space-y-2.5" id="reservoirs-sidebar-list">
-          <!-- Dam 1: Dok Krai -->
-          <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="font-bold text-rose-300">1. อ่างเก็บน้ำดอกกราย (71.4 ล้าน ลบ.ม.)</span>
-              <span class="font-mono text-rose-400 font-bold">115.09% (82.18M) ⚠️ ล้น</span>
+        <!-- 4 อันดับสูงสุด % ความจุลำน้ำ (โทรมาตร DWR กรมทรัพยากรน้ำ สด) -->
+        <div id="panel-card-basins" class="glass-panel p-2 rounded-xl border border-slate-800 flex flex-col shadow-xl">
+          <div class="flex items-center justify-between mb-1 pb-1 border-b border-slate-800/80">
+            <div class="flex items-center gap-1 min-w-0">
+              <i data-lucide="waves" class="w-3 h-3 text-cyan-400 shrink-0"></i>
+              <h3 class="text-[11px] font-bold text-white uppercase tracking-wider truncate">4 ลำน้ำวิกฤต (DWR)</h3>
             </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 100%"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
-              <span>ระบายลง: <strong>คลองดอกกราย -> บ้านค่าย</strong></span>
-              <span class="text-rose-300">ออก: <strong>3.38M</strong> ลบ.ม./วัน</span>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1 pt-1 border-t border-rose-500/20 font-mono">
-              <span>🕒 วัน-เวลาตรวจวัด:</span>
-              <span class="text-rose-300 font-semibold">05 ต.ค. 2569 เวลา 06:00 น. (รอบทางการ RID)</span>
-            </div>
+            <span class="text-[9px] px-1 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono shrink-0">
+              สด
+            </span>
           </div>
 
-          <!-- Dam 2: Khlong Yai -->
-          <div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="font-bold text-amber-200">2. อ่างเก็บน้ำคลองใหญ่ (50.8 ล้าน ลบ.ม.)</span>
-              <span class="font-mono text-amber-400 font-bold">87.99% (44.70M) 🟢 ปกติ</span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600" style="width: 87.99%"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
-              <span>เข้า: - ลบ.ม./วัน</span>
-              <span>ออก: 1.86M ลบ.ม./วัน</span>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1 pt-1 border-t border-amber-500/20 font-mono">
-              <span>🕒 วัน-เวลาตรวจวัด:</span>
-              <span class="text-amber-300 font-semibold">05 ต.ค. 2569 เวลา 06:00 น. (รอบทางการ RID)</span>
-            </div>
-          </div>
-
-          <!-- Dam 3: Nong Pla Lai -->
-          <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="font-bold text-rose-300">3. อ่างเก็บน้ำหนองปลาไหล (163.7 ล้าน ลบ.ม.)</span>
-              <span class="font-mono text-rose-400 font-bold">104.96% (171.87M) ⚠️ ล้น</span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 100%"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
-              <span>เข้า: +1.99M ลบ.ม./วัน</span>
-              <span>ออก: 0.30M ลบ.ม./วัน</span>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1 pt-1 border-t border-rose-500/20 font-mono">
-              <span>🕒 วัน-เวลาตรวจวัด:</span>
-              <span class="text-rose-300 font-semibold">05 ต.ค. 2569 เวลา 06:00 น. (รอบทางการ RID/สทนช.)</span>
-            </div>
-          </div>
-
-          <!-- Dam 4: Prasae -->
-          <div class="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/30">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="font-bold text-amber-200">4. อ่างเก็บน้ำประแสร์ (295.0 ล้าน ลบ.ม.)</span>
-              <span class="font-mono text-amber-400 font-bold">97.75% (288.36M) 🟠 เฝ้าระวัง</span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600" style="width: 97.75%"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
-              <span>เข้า: +8.17M ลบ.ม./วัน</span>
-              <span class="text-amber-300">ระบาย: 13.61M ลบ.ม./วัน</span>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1 pt-1 border-t border-amber-500/20 font-mono">
-              <span>🕒 วัน-เวลาตรวจวัด:</span>
-              <span class="text-amber-300 font-semibold">05 ต.ค. 2569 เวลา 06:00 น. (รอบทางการ RID/สทนช.)</span>
-            </div>
-          </div>
-
-          <!-- Dam 5: Khlong Ra-ok (Khao Chuk) NEW -->
-          <div class="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="font-bold text-rose-300">5. อ่างฯ คลองระโอก (เขาจุก) (19.65M)</span>
-              <span class="font-mono text-rose-400 font-bold">101.53% (19.95M) ⚠️ ล้นสปิลเวย์</span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 100%"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
-              <span>ระบายลง: <strong>คลองระโอก -> คลองโพล้</strong></span>
-              <span class="text-rose-300">ระบาย: 0.75M ลบ.ม./วัน</span>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1 pt-1 border-t border-rose-500/20 font-mono">
-              <span>🕒 วัน-เวลาตรวจวัด:</span>
-              <span class="text-rose-300 font-semibold">05 ต.ค. 2569 เวลา 06:00 น. (รอบทางการ RID)</span>
-            </div>
+          <div class="space-y-0.5" id="dwr-top-basin-list">
+            <!-- Populated dynamically by updateDwrTopBasinList() -->
           </div>
         </div>
-        <div class="mt-2 pt-1.5 border-t border-slate-800/80 text-[10px] text-slate-400 flex items-center justify-between">
-          <span>💡 อ่างเก็บน้ำสรุปยอดสมดุลน้ำวันละ 1 ครั้ง ณ 06:00 น.</span>
-          <span class="text-cyan-300 font-medium">ระดับน้ำในลำน้ำดูที่ "โทรมาตร DWR สด" ด้านล่าง ⬇️</span>
-        </div>
-      </div>
 
-      <!-- 4 อันดับสูงสุด % ความจุลำน้ำ (โทรมาตร DWR กรมทรัพยากรน้ำ สด) -->
-      <div class="glass-panel p-4 rounded-xl border border-slate-800 flex flex-col shadow-xl">
-        <div class="flex items-center justify-between mb-2.5">
-          <div class="flex items-center gap-2">
-            <i data-lucide="waves" class="w-4 h-4 text-cyan-400"></i>
-            <div>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">4 อันดับสูงสุด % ความจุลำน้ำ (โทรมาตร DWR สด)</h3>
-              <span class="text-[10px] text-slate-400 font-mono block">
-                🕒 รอบตรวจวัด: <strong class="text-cyan-300 font-semibold" id="dwr-top-time">ณ ขณะนี้ (กรมทรัพยากรน้ำ)</strong>
-              </span>
-            </div>
-          </div>
-          <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center gap-1 font-mono">
-            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> DWR Telemetry Live
-          </span>
-        </div>
-
-        <div class="space-y-2.5" id="dwr-top-basin-list">
-          <!-- 1: TA170404 กระแสบน -->
-          <div class="p-2.5 rounded-lg border border-rose-500/40 bg-rose-500/10 hover:border-rose-400 transition">
-            <div class="flex justify-between items-center text-xs mb-1.5">
-              <span class="font-bold flex items-center gap-1.5 truncate pr-2 text-rose-200">
-                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 bg-rose-600/40 text-rose-300 border-rose-500/60">1</span>
-                <span class="truncate" title="สะพานข้ามคลองประแสร์ที่กระแสบน">TA170404 สะพานข้ามคลองประแสร์ที่กระแสบน</span>
-              </span>
-              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 bg-rose-950/80 text-rose-400 border-rose-500/40 animate-pulse">
-                92.4% วิกฤตล้นตลิ่ง ⚠️
-              </span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 92.4%"></div>
-            </div>
-            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
-              <div>ระดับน้ำ: <strong class="text-amber-300">8.00 ม.</strong></div>
-              <div>อัตราไหล: <strong class="text-cyan-300">189.8 m³/s</strong></div>
-              <div>ฝน 24ชม: <strong class="text-slate-300">0.0 มม.</strong></div>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
-              <span>🕒 14:04 น. (DWR สด)</span>
-              <button onclick="flyToDwrStation('TA170404')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
-                <span>📍 ดูบนแผนที่</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- 2: TA170406 สะพานดำ -->
-          <div class="p-2.5 rounded-lg border border-orange-500/40 bg-orange-500/10 hover:border-orange-400 transition">
-            <div class="flex justify-between items-center text-xs mb-1.5">
-              <span class="font-bold flex items-center gap-1.5 truncate pr-2 text-orange-200">
-                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 bg-orange-600/40 text-orange-300 border-orange-500/60">2</span>
-                <span class="truncate" title="สะพานข้ามคลองประแสร์ที่คลองสะพานดำ">TA170406 สะพานข้ามคลองประแสร์ที่คลองสะพานดำ</span>
-              </span>
-              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 bg-orange-950/80 text-orange-400 border-orange-500/40">
-                83.1% เฝ้าระวังสูง 🟠
-              </span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-orange-600 via-orange-400 to-orange-600" style="width: 83.1%"></div>
-            </div>
-            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
-              <div>ระดับน้ำ: <strong class="text-amber-300">2.89 ม.</strong></div>
-              <div>อัตราไหล: <strong class="text-cyan-300">88.4 m³/s</strong></div>
-              <div>ฝน 24ชม: <strong class="text-slate-300">0.0 มม.</strong></div>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
-              <span>🕒 14:03 น. (DWR สด)</span>
-              <div class="flex items-center gap-2">
-                <button onclick="openCctvModal('TA170406')" class="text-rose-300 hover:text-rose-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-950/60 border border-rose-500/40 hover:bg-rose-900 transition">
-                  <span>📹 ภาพสด CCTV</span>
-                </button>
-                <button onclick="flyToDwrStation('TA170406')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
-                  <span>📍 ดูบนแผนที่</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 3: TA170203 คลองใหญ่ระยอง -->
-          <div class="p-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 transition">
-            <div class="flex justify-between items-center text-xs mb-1.5">
-              <span class="font-bold flex items-center gap-1.5 truncate pr-2 text-emerald-200">
-                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 bg-emerald-600/40 text-emerald-300 border-emerald-500/60">3</span>
-                <span class="truncate" title="สะพานข้ามคลองใหญ่ที่ระยอง">TA170203 สะพานข้ามคลองใหญ่ที่ระยอง</span>
-              </span>
-              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 bg-emerald-950/80 text-emerald-400 border-emerald-500/40">
-                36.2% ปกติ 🟢
-              </span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" style="width: 36.2%"></div>
-            </div>
-            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
-              <div>ระดับน้ำ: <strong class="text-amber-300">1.56 ม.</strong></div>
-              <div>อัตราไหล: <strong class="text-cyan-300">31.0 m³/s</strong></div>
-              <div>ฝน 24ชม: <strong class="text-slate-300">0.0 มม.</strong></div>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
-              <span>🕒 13:01 น. (DWR สด)</span>
-              <div class="flex items-center gap-2">
-                <button onclick="openCctvModal('TA170203')" class="text-rose-300 hover:text-rose-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-950/60 border border-rose-500/40 hover:bg-rose-900 transition">
-                  <span>📹 ภาพสด CCTV</span>
-                </button>
-                <button onclick="flyToDwrStation('TA170203')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
-                  <span>📍 ดูบนแผนที่</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 4: TA170403 เขาชะเมา -->
-          <div class="p-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 transition">
-            <div class="flex justify-between items-center text-xs mb-1.5">
-              <span class="font-bold flex items-center gap-1.5 truncate pr-2 text-emerald-200">
-                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 bg-emerald-600/40 text-emerald-300 border-emerald-500/60">4</span>
-                <span class="truncate" title="สะพานข้ามคลองโพล้ที่เขาชะเมา">TA170403 สะพานข้ามคลองโพล้ที่เขาชะเมา</span>
-              </span>
-              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 bg-emerald-950/80 text-emerald-400 border-emerald-500/40">
-                21.1% ปกติ 🟢
-              </span>
-            </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" style="width: 21.1%"></div>
-            </div>
-            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
-              <div>ระดับน้ำ: <strong class="text-amber-300">36.83 ม.</strong></div>
-              <div>อัตราไหล: <strong class="text-cyan-300">22.7 m³/s</strong></div>
-              <div>ฝน 24ชม: <strong class="text-slate-300">0.0 มม.</strong></div>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
-              <span>🕒 14:03 น. (DWR สด)</span>
-              <button onclick="flyToDwrStation('TA170403')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
-                <span>📍 ดูบนแผนที่</span>
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -2209,21 +2013,24 @@ const officialReservoirCoords = {
         const barWidth = Math.min(100, Math.max(5, pct));
 
         html += `
-          <div class="p-2.5 rounded-lg ${themeBorder} transition hover:border-slate-500">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="font-bold ${titleColor}">${item.num}. ${item.name} (${item.capText})</span>
-              <span class="font-mono ${pctColor} font-bold">${pct.toFixed(2)}% (${vol.toFixed(2)}M) ${statusBadge}</span>
+          <div class="py-0.5 px-1.5 rounded-lg ${themeBorder} transition hover:border-slate-500 flex flex-col gap-0.5">
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-1 min-w-0">
+                <span class="font-bold ${titleColor} truncate text-[11px]">${item.num}. ${item.name.replace('อ่างเก็บน้ำ', 'อ่างฯ')}</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0 font-mono">
+                <span class="text-[10px] text-slate-300 font-semibold">${vol.toFixed(1)}M</span>
+                <span class="${pctColor} font-bold text-xs">${pct.toFixed(0)}%</span>
+                <span class="text-[10px]">${statusBadge}</span>
+              </div>
             </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-              <div class="h-2 rounded-full liquid-bar ${barGrad}" style="width: ${barWidth}%"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-slate-300 mt-1">
-              ${item.route ? `<span>${item.route}</span>` : ''}
-              <span class="${pctColor} ${!item.route ? 'w-full text-right' : ''}">${item.outText(d)}</span>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1 pt-1 border-t border-slate-700/50 font-mono">
-              <span>🕒 วัน-เวลาตรวจวัด:</span>
-              <span class="${titleColor} font-semibold">${dateFormatted} เวลา 06:00 น. (รอบทางการ RID)</span>
+            <div class="flex items-center justify-between gap-1.5 text-[9px] text-slate-400 font-mono">
+              <div class="w-20 bg-slate-800 rounded-full h-1 overflow-hidden shrink-0">
+                <div class="h-1 rounded-full liquid-bar ${barGrad}" style="width: ${barWidth}%"></div>
+              </div>
+              <div class="truncate text-right">
+                <span class="${pctColor}">${item.outText(d).replace(' ลบ.ม./วัน', '')}</span>
+              </div>
             </div>
           </div>
         `;
@@ -3659,6 +3466,56 @@ const officialReservoirCoords = {
       }
     }
 
+    // 10.1 RIGHT PANEL VIEW MODE SWITCHER (COMPACT NO-SCROLL VS EXPANDED)
+    function switchRightPanelTab(tab) {
+      const tabAll = document.getElementById('tab-rp-all');
+      const tabChart = document.getElementById('tab-rp-chart');
+      const tabDams = document.getElementById('tab-rp-dams');
+      const cardChart = document.getElementById('panel-card-chart');
+      const gridDamsBasins = document.getElementById('panel-dams-basins-grid');
+      const chartWrap = document.getElementById('hydrograph-wrap');
+
+      const inactiveBtn = "px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1";
+      const activeBtn = "px-2 py-0.5 rounded text-[11px] font-bold bg-blue-600 text-white transition shadow flex items-center gap-1";
+
+      if (tabAll) tabAll.className = inactiveBtn;
+      if (tabChart) tabChart.className = inactiveBtn;
+      if (tabDams) tabDams.className = inactiveBtn;
+
+      if (tab === 'all') {
+        if (tabAll) tabAll.className = activeBtn;
+        if (cardChart) cardChart.classList.remove('hidden');
+        if (gridDamsBasins) {
+          gridDamsBasins.classList.remove('hidden');
+          gridDamsBasins.className = "grid grid-cols-1 md:grid-cols-2 gap-2 transition-all";
+        }
+        if (chartWrap) {
+          chartWrap.classList.remove('h-80', 'h-96');
+          chartWrap.classList.add('h-32');
+        }
+      } else if (tab === 'chart') {
+        if (tabChart) tabChart.className = activeBtn;
+        if (cardChart) cardChart.classList.remove('hidden');
+        if (gridDamsBasins) gridDamsBasins.classList.add('hidden');
+        if (chartWrap) {
+          chartWrap.classList.remove('h-32');
+          chartWrap.classList.add('h-96');
+        }
+      } else if (tab === 'dams') {
+        if (tabDams) tabDams.className = activeBtn;
+        if (cardChart) cardChart.classList.add('hidden');
+        if (gridDamsBasins) {
+          gridDamsBasins.classList.remove('hidden');
+          gridDamsBasins.className = "grid grid-cols-1 gap-2 transition-all";
+        }
+      }
+
+      if (typeof hydroChart !== 'undefined' && hydroChart) {
+        setTimeout(() => hydroChart.resize(), 80);
+      }
+      lucide.createIcons();
+    }
+
     // ========================================================
     // 📢 CITIZEN REPORTS & CROWDSOURCED FLOOD ENGINE (TRAFFY / LINE)
     // ========================================================
@@ -3944,35 +3801,27 @@ const officialReservoirCoords = {
         const hasCctv = st.code === 'TA170203' || st.code === 'TA170406' || st.cctvEnabled;
 
         return `
-          <div class="p-2.5 rounded-lg border transition ${borderClass}">
-            <div class="flex justify-between items-center text-xs mb-1.5">
-              <span class="font-bold flex items-center gap-1.5 truncate pr-2 ${textClass}">
-                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 ${rankBadgeClass}">${rank}</span>
-                <span class="truncate" title="${st.nameTh}">${st.code} ${st.nameTh}</span>
-              </span>
-              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 ${pctBadgeClass}">
-                ${pct.toFixed(1)}% ${statusText}
-              </span>
+          <div class="py-0.5 px-1.5 rounded-lg border transition ${borderClass} flex flex-col gap-0.5">
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center gap-1 min-w-0">
+                <span class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-mono font-bold border shrink-0 ${rankBadgeClass}">${rank}</span>
+                <span class="font-bold truncate text-[11px] ${textClass}" title="${st.nameTh}">${st.code} ${st.nameTh.replace('สะพานข้ามคลอง', '').replace('สะพานข้ามแม่น้ำ', '')}</span>
+              </div>
+              <div class="flex items-center gap-1 shrink-0 font-mono">
+                <span class="font-bold text-[11px] ${pctBadgeClass} px-1 rounded border">${pct.toFixed(0)}%</span>
+                <span class="text-[9px]">${statusText}</span>
+              </div>
             </div>
-            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
-              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r ${barGradient}" style="width: ${Math.min(pct, 100)}%"></div>
-            </div>
-            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
-              <div>ระดับน้ำ: <strong class="text-amber-300">${st.waterLevel !== null && st.waterLevel !== undefined ? safeFixed(st.waterLevel, 2) + ' ม.' : '-'}</strong></div>
-              <div>อัตราไหล: <strong class="text-cyan-300">${st.flowRate !== null && st.flowRate !== undefined ? safeFixed(st.flowRate, 1) + ' m³/s' : '-'}</strong></div>
-              <div>ฝน 24ชม: <strong class="text-slate-300">${safeFixed(st.rainfall || 0, 1)} มม.</strong></div>
-            </div>
-            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
-              <span>🕒 ${timeStr} (DWR สด)</span>
-              <div class="flex items-center gap-2">
-                ${hasCctv ? `
-                  <button onclick="openCctvModal('${st.code}')" class="text-rose-300 hover:text-rose-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-950/60 border border-rose-500/40 hover:bg-rose-900 transition">
-                    <span>📹 ภาพสด CCTV</span>
-                  </button>
-                ` : ''}
-                <button onclick="flyToDwrStation('${st.code}')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
-                  <span>📍 ดูบนแผนที่</span>
-                </button>
+            <div class="flex items-center justify-between gap-1 text-[9px] text-slate-400 font-mono">
+              <div class="w-16 bg-slate-800 rounded-full h-1 overflow-hidden shrink-0">
+                <div class="h-1 rounded-full liquid-bar bg-gradient-to-r ${barGradient}" style="width: ${Math.min(pct, 100)}%"></div>
+              </div>
+              <div class="flex items-center gap-1.5 truncate">
+                <span>${st.waterLevel !== null ? safeFixed(st.waterLevel, 2) + 'ม.' : '-'}</span>
+                <span class="text-cyan-400">(${safeFixed(st.flowRate, 0)}m³)</span>
+              </div>
+              <div class="flex items-center gap-0.5 shrink-0">
+                <button onclick="flyToDwrStation('${st.code}')" class="text-cyan-300 hover:text-cyan-200 text-[8px] px-1 rounded bg-cyan-950/60 border border-cyan-500/40">📍แผนที่</button>
               </div>
             </div>
           </div>
