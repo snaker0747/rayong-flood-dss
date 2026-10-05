@@ -148,13 +148,29 @@ module.exports = async function handler(req, res) {
     // 5. Fetch ThaiWater Waterlevel Stations
     const wlPromise = fetchGetJson('https://api-v3.thaiwater.net/api/v1/thaiwater30/public/waterlevel_load');
 
-    const [dwrRaw, damRaw, ridRaw, rainRaw, wlRaw] = await Promise.all([
+    // 6. Fetch 24h historical water level graph for TA170203 (Khlong Yai Bridge, Rayong)
+    const graphPromise = fetchGetJson('https://api-v3.thaiwater.net/api/v1/thaiwater30/public/waterlevel_graph?station_type=tele_waterlevel&station_id=6855861');
+
+    const [dwrRaw, damRaw, ridRaw, rainRaw, wlRaw, graphRaw] = await Promise.all([
       dwrPromise,
       damPromise,
       ridPromise,
       rainPromise,
-      wlPromise
+      wlPromise,
+      graphPromise
     ]);
+
+    // Process Real Water Level History for TA170203 (last 24 hours)
+    const rawGraphData = graphRaw?.data?.graph_data || [];
+    const validGraphPoints = rawGraphData
+      .filter(p => p.value !== null && p.value !== undefined)
+      .map(p => ({
+        datetime: p.datetime,
+        timeShort: p.datetime ? p.datetime.slice(11) : '',
+        waterLevel: Number(p.value),
+        discharge: p.discharge !== null && p.discharge !== undefined ? Number(p.discharge) : null
+      }));
+    const waterlevelHistory = validGraphPoints.slice(-24);
 
     // Process DWR Stations (Fallback to getCurrentStatus if needed)
     let dwrStationsRaw = dwrRaw;
@@ -402,6 +418,7 @@ module.exports = async function handler(req, res) {
       reservoirs,
       dwrStations: dwrRayong,
       topRiverBasinCap,
+      waterlevelHistory,
       riverStations,
       rainfallStations,
       summary: {

@@ -371,21 +371,6 @@
     </div>
   </header>
 
-  <!-- EMERGENCY ALERT TICKER -->
-  <div class="bg-amber-500/15 border-b border-amber-500/40 px-5 py-2 flex items-center justify-between text-xs text-amber-200">
-    <div class="flex items-center gap-2 overflow-hidden">
-      <span class="p-1 rounded bg-amber-500/30 text-amber-300 animate-pulse"><i data-lucide="alert-triangle" class="w-4 h-4"></i></span>
-      <span class="font-bold text-amber-300 shrink-0">[เตือนภัยระดับ 2 - เรดาร์ระยอง]:</span>
-      <span class="truncate">เรดาร์ TMD ระยองตรวจพบกลุ่มฝนปานกลาง-หนัก 35-50 dBZ เคลื่อนตัวจากปลวกแดงสู่อ่างฯ หนองปลาไหลและคลองทับมา สถานีสูบน้ำเดินเครื่อง 4/6 เครื่อง</span>
-      <span class="shrink-0 px-2 py-0.5 rounded bg-amber-950/80 text-amber-300 text-[10px] font-mono border border-amber-500/40 hidden md:inline" id="alert-timestamp">🕒 ตรวจพบ: 04 ต.ค. 2569 17:30 น.</span>
-    </div>
-    <span class="shrink-0 text-slate-300 hidden lg:flex items-center gap-2 font-mono">
-      <i data-lucide="cog" class="w-4 h-4 text-emerald-400 pump-spinning"></i>
-      สถานีสูบน้ำทับมา: <strong class="text-emerald-400 font-bold">สูบระบาย 24 ลบ.ม./วินาที</strong>
-      <span class="text-[10px] text-cyan-300 bg-cyan-950/60 px-1.5 py-0.5 rounded border border-cyan-800/40">🕒 17:40 น.</span>
-    </span>
-  </div>
-
   <!-- MAIN KPI STATS CARDS -->
   <section class="p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
     <!-- Card 1: Rain -->
@@ -627,11 +612,11 @@
                   <option value="cctv_banphe" class="bg-slate-900 text-cyan-300">⚓ กล้องชายฝั่ง ท่าเรือบ้านเพ (เกาะเสม็ด)</option>
                   <option value="cctv_phayun" class="bg-slate-900 text-cyan-300">⚓ กล้องชายฝั่ง หาดพยูน (บ้านฉาง)</option>
                   <option value="cctv_maephim" class="bg-slate-900 text-cyan-300">⚓ กล้องชายฝั่ง หาดแหลมแม่พิมพ์ (อ.แกลง)</option>
-                  <option value="dokkrai" class="bg-slate-900 text-rose-300">🔴 อ่างฯ ดอกกราย (117% ล้น)</option>
-                  <option value="nongplalai" class="bg-slate-900 text-emerald-300">🟢 อ่างฯ หนองปลาไหล (96%)</option>
-                  <option value="khlongyai" class="bg-slate-900 text-amber-300">🟡 อ่างฯ คลองใหญ่ (95%)</option>
-                  <option value="prasae" class="bg-slate-900 text-rose-300">🔴 อ่างฯ ประแสร์ (102% ล้น)</option>
-                  <option value="khlongraok" class="bg-slate-900 text-rose-300">🔴 อ่างฯ คลองระโอก (เขาจุก) (104% ล้น)</option>
+                  <option value="dokkrai" class="bg-slate-900 text-cyan-200">🏢 อ่างฯ ดอกกราย</option>
+                  <option value="nongplalai" class="bg-slate-900 text-cyan-200">🏢 อ่างฯ หนองปลาไหล</option>
+                  <option value="khlongyai" class="bg-slate-900 text-cyan-200">🏢 อ่างฯ คลองใหญ่</option>
+                  <option value="prasae" class="bg-slate-900 text-cyan-200">🏢 อ่างฯ ประแสร์</option>
+                  <option value="khlongraok" class="bg-slate-900 text-cyan-200">🏢 อ่างฯ คลองระโอก (เขาจุก)</option>
                   <option value="dokkraiCanal" class="bg-slate-900 text-cyan-300">🌊 คลองดอกกราย (แม่น้ำคู้-บ้านค่าย)</option>
                   <option value="khlongPho" class="bg-slate-900 text-cyan-300">🌊 คลองระโอก-คลองโพล้ (อ.แกลง)</option>
                   <option value="thapma" class="bg-slate-900 text-amber-300">⚠️ คลองทับมา (จุดเสี่ยง)</option>
@@ -848,51 +833,9 @@
           </div>
         </div>
 
-        <!-- LIVE DATA STREAM TICKER BAR -->
-        <div class="absolute bottom-0 left-0 right-0 z-[1000] bg-slate-950/95 border-t border-slate-800 px-3 py-1.5 flex items-center justify-between text-[11px] font-mono pointer-events-auto">
-          <div class="flex items-center gap-2 truncate">
-            <span class="flex items-center gap-1 text-emerald-400 font-bold shrink-0">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> INCOMING TELEMETRY:
-            </span>
-            <span id="telemetry-log" class="text-slate-300 truncate">
-              [19:42:02] ThaiWater: สถานีคลองทับมา ระดับน้ำ +2.45 ม. (สภาวะเฝ้าระวัง)
-            </span>
-          </div>
-          <span class="text-slate-400 shrink-0 hidden sm:inline" id="packet-counter">แพ็กเกจข้อมูล: 1,580 รายการ</span>
-        </div>
-
       </div>
       </div>
       <!-- /FULLSCREEN WRAPPER -->
-
-      <!-- TIMELINE & SIMULATION CONTROLLER -->
-      <div class="glass-panel p-3.5 rounded-xl border border-slate-800 flex flex-col gap-2">
-        <div class="flex items-center justify-between text-xs">
-          <div class="flex items-center gap-2">
-            <i data-lucide="clock" class="w-4 h-4 text-blue-400"></i>
-            <span class="font-semibold text-white">แถบเวลาจำลองและพยากรณ์น้ำ (Hydro Timeline Simulator)</span>
-          </div>
-          <span class="font-mono text-blue-300 font-bold bg-blue-500/20 px-2.5 py-0.5 rounded border border-blue-500/40" id="forecast-label">
-            ปัจจุบัน (Real-Time Live)
-          </span>
-        </div>
-        <div class="flex items-center gap-3">
-          <button id="play-btn" onclick="togglePlay()" class="p-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition shadow flex items-center justify-center">
-            <i data-lucide="play" id="play-icon" class="w-4 h-4"></i>
-          </button>
-          <input type="range" id="timeline-slider" min="0" max="5" value="0" step="1" 
-                 class="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500" 
-                 oninput="onTimelineChange(this.value)">
-        </div>
-        <div class="flex justify-between text-[11px] text-slate-400 font-mono px-1">
-          <span>ย้อนหลัง 12h</span>
-          <span class="text-cyan-400 font-bold">NOW</span>
-          <span>+6h</span>
-          <span class="text-amber-400 font-bold">+12h (Peak ทับมา)</span>
-          <span>+24h</span>
-          <span>+72h (AI Forecast)</span>
-        </div>
-      </div>
 
       <!-- ======================================================== -->
       <!-- 📹 DWR REAL-TIME CCTV LIVE MONITORING PANEL (BELOW MAP)  -->
@@ -1323,26 +1266,28 @@
     <!-- RIGHT 5 COLS: HYDROGRAPH & DAM MONITOR -->
     <div class="lg:col-span-5 flex flex-col gap-3 max-h-[850px] overflow-y-auto pr-1">
       
-      <!-- AI HYDROGRAPH FORECAST CHART -->
+      <!-- REAL 24H WATER LEVEL & DISCHARGE TREND CHART (DWR TELEMETRY) -->
       <div class="glass-panel p-4 rounded-xl border border-slate-800 flex flex-col shadow-xl">
         <div class="flex items-center justify-between mb-2">
           <div class="flex items-center gap-2">
             <i data-lucide="trending-up" class="w-4 h-4 text-cyan-400"></i>
             <div>
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider">AI พยากรณ์ระดับน้ำล่วงหน้า 72 ชม.</h3>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">กราฟระดับน้ำจริงย้อนหลัง 24 ชม. (โทรมาตร DWR TA170203)</h3>
               <p class="text-[10px] text-slate-400 font-mono" id="chart-model-time">
-                🕒 ประมวลผลโมเดล: <span class="text-cyan-300 font-semibold">04 ต.ค. 2569 12:00 น.</span> | คาดการณ์ถึง <span class="text-amber-300 font-semibold">07 ต.ค. 2569 18:00 น.</span>
+                สะพานข้ามคลองใหญ่ที่ระยอง | ตรวจวัดอัตโนมัติรายชั่วโมง
               </p>
             </div>
           </div>
-          <span class="text-[11px] text-amber-300 font-mono bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">คลองทับมา (สะพานท่าสถิตย์)</span>
+          <span class="text-[11px] text-cyan-300 font-mono bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> โทรมาตรสด
+          </span>
         </div>
         <div class="w-full h-48">
           <canvas id="hydrographChart"></canvas>
         </div>
-        <div class="mt-2 text-[11px] text-slate-400 flex items-center justify-between border-t border-slate-800/80 pt-2 font-mono">
-          <span class="text-rose-400 font-bold">ระดับตลิ่งวิกฤต: +3.00 ม.</span>
-          <span class="text-amber-400 font-bold">จุดสูงสุดคาดการณ์: +2.82 ม. (พรุ่งนี้ 04:00น.)</span>
+        <div class="mt-2 text-[11px] text-slate-400 flex items-center justify-between border-t border-slate-800/80 pt-2 font-mono" id="chart-stats-footer">
+          <span class="text-slate-300">ระดับน้ำล่าสุด: <strong class="text-amber-400 font-bold" id="chart-latest-wl">+1.60 ม.</strong></span>
+          <span class="text-slate-300">อัตราการไหล: <strong class="text-cyan-400 font-bold" id="chart-latest-q">32.05 m³/s</strong></span>
         </div>
       </div>
 
@@ -1599,38 +1544,6 @@
                 <span>📍 ดูบนแผนที่</span>
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CRITICAL ACTION CHECKLIST -->
-      <div class="glass-panel p-3.5 rounded-xl border border-slate-800 flex flex-col text-xs">
-        <div class="font-bold text-slate-200 mb-2 flex items-center justify-between">
-          <span class="flex items-center gap-2">
-            <i data-lucide="shield-alert" class="w-4 h-4 text-blue-400"></i>
-            ระบบสนับสนุนการตัดสินใจ & แผนเผชิญเหตุ
-          </span>
-          <span class="text-[10px] text-emerald-400 font-mono">AUTOMATED SOP</span>
-        </div>
-        <div class="grid grid-cols-2 gap-2 text-[11px]">
-          <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800 flex items-center justify-between">
-            <span class="flex items-center gap-1.5">
-              <i data-lucide="cog" class="w-3.5 h-3.5 text-emerald-400 pump-spinning"></i>
-              สถานีสูบน้ำคลองทับมา
-            </span>
-            <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded font-bold">เดินเครื่อง 4/6</span>
-          </div>
-          <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800 flex items-center justify-between">
-            <span>ประตูระบายน้ำปากแม่น้ำ</span>
-            <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded font-bold">เปิดช่วงน้ำลง</span>
-          </div>
-          <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800 flex items-center justify-between">
-            <span>ท่อผันน้ำประแสร์-คลองใหญ่</span>
-            <span class="px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded font-bold">เปิดผันน้ำเต็มระบบ</span>
-          </div>
-          <div class="p-2 bg-slate-900/70 rounded-lg border border-slate-800 flex items-center justify-between">
-            <span>การแจ้งเตือนเทศบาล/อบต.</span>
-            <span class="px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded font-bold">แจ้งเตือนระดับ 2</span>
           </div>
         </div>
       </div>
@@ -2584,47 +2497,8 @@ const officialReservoirCoords = {
 
         drawDetailedRiverNetworks();
 
-    // 5. TELEMETRY & ESTUARY STATIONS (STRATEGIC NON-OVERLAPPING QUADRANT OFFSETS)
+    // 5. OFFICIAL TIDE & ESTUARY STATIONS (CONNECTED TO 72-HOUR TIDE FORECAST)
     const riverStations = [
-      {
-        id: "namkok",
-        name: "วัดน้ำคอกใหม่ (คลองหวายโสม)",
-        shortName: "น้ำคอกใหม่",
-        lat: 12.765, lng: 101.230, // Offset West / North
-        anchorOffset: [125, 14],   // Badge extends to the LEFT
-        stage: "+3.10 ม.", bankfull: "+4.00 ม.",
-        status: "watch", statusLabel: "เฝ้าระวัง (ระดับน้ำทรงตัว)",
-        updatedAt: getTelemetryTimestamp(new Date(), 10),
-        timeShort: getTelemetryTimeOnly(new Date(), 10),
-        agency: "ชลประทานระยอง",
-        interval: "ส่งข้อมูลทุก 15 นาที"
-      },
-      {
-        id: "thapma",
-        name: "คลองทับมา (สะพานท่าสถิตย์ RAY003)",
-        shortName: "คลองทับมา",
-        lat: 12.715, lng: 101.232, // Offset West
-        anchorOffset: [125, 14],   // Badge extends to the LEFT
-        stage: "+2.45 ม.", bankfull: "+3.00 ม.",
-        status: "watch", statusLabel: "เฝ้าระวัง (เหลือ 55 ซม.) สูบระบายเต็มกำลัง",
-        updatedAt: getTelemetryTimestamp(new Date(), 5),
-        timeShort: getTelemetryTimeOnly(new Date(), 5),
-        agency: "สสน. (ThaiWater RAY003)",
-        interval: "ส่งข้อมูลทุก 10 นาที"
-      },
-      {
-        id: "rayong_river",
-        name: "แม่น้ำระยอง (สะพานเปรมใจรักษ์ RAY002)",
-        shortName: "แม่น้ำระยอง",
-        lat: 12.678, lng: 101.290, // Offset East
-        anchorOffset: [10, 14],    // Badge extends to the RIGHT
-        stage: "+1.35 ม.", bankfull: "+2.60 ม.",
-        status: "normal", statusLabel: "ปกติ (น้ำไหลระบายต่อเนื่อง)",
-        updatedAt: getTelemetryTimestamp(new Date(), 5),
-        timeShort: getTelemetryTimeOnly(new Date(), 5),
-        agency: "สสน. (ThaiWater RAY002)",
-        interval: "ส่งข้อมูลทุก 10 นาที"
-      },
       {
         id: "estuary",
         name: "ปากแม่น้ำระยอง (จุดระบายน้ำสู่อ่าวไทย)",
@@ -2638,32 +2512,6 @@ const officialReservoirCoords = {
         agency: "กรมอุทกศาสตร์ กองทัพเรือ",
         interval: "คำนวณรายชั่วโมง",
         isTideStation: true
-      },
-      {
-        id: "khlongpho",
-        name: "คลองโพล้ Z.18 (สะพานบ้านซำฆ้อ เขาชะเมา)",
-        shortName: "คลองโพล้ Z.18",
-        lat: 12.895, lng: 101.650, // Offset Northwest
-        anchorOffset: [125, 14],   // Badge extends to the LEFT
-        stage: "+5.20 ม.", bankfull: "+6.50 ม.",
-        status: "watch", statusLabel: "เฝ้าระวังรับน้ำระบายจากอ่างฯ เขาจุก",
-        updatedAt: getTelemetryTimestamp(new Date(), 10),
-        timeShort: getTelemetryTimeOnly(new Date(), 10),
-        agency: "กรมชลประทาน (สถานี Z.18)",
-        interval: "ส่งข้อมูลทุก 15 นาที"
-      },
-      {
-        id: "klaeng",
-        name: "แม่น้ำประแสร์ (ตลาดเมืองแกลง RAY001)",
-        shortName: "ตลาดเมืองแกลง",
-        lat: 12.778, lng: 101.670, // Offset East
-        anchorOffset: [10, 14],    // Badge extends to the RIGHT
-        stage: "+4.48 ม.", bankfull: "+3.97 ม.",
-        status: "critical", statusLabel: "วิกฤตล้นตลิ่ง (+0.51 ม.) แจ้งเตือนสีแดง ⚠️",
-        updatedAt: getTelemetryTimestamp(new Date(), 5),
-        timeShort: getTelemetryTimeOnly(new Date(), 5),
-        agency: "สสน. (ThaiWater RAY001)",
-        interval: "ส่งข้อมูลทุก 10 นาที"
       },
       {
         id: "prasaeEstuary",
@@ -2888,30 +2736,9 @@ const officialReservoirCoords = {
 
     initLiveRadarTiles();
 
-    // 7. SIMULATED FLOOD INUNDATION HAZARD ZONE
+    // 7. FLOOD INUNDATION HAZARD LAYER
     let floodPolygon = null;
-    function updateFloodZone(val) {
-      layers.floodZone.clearLayers();
-      if (val >= 2) {
-        const floodCoords = [
-          [12.735, 101.235],
-          [12.732, 101.255],
-          [12.710, 101.260],
-          [12.705, 101.242],
-          [12.720, 101.232]
-        ];
-        const isPeak = val === 3;
-        floodPolygon = L.polygon(floodCoords, {
-          color: isPeak ? '#ef4444' : '#f59e0b',
-          fillColor: isPeak ? '#ef4444' : '#f59e0b',
-          fillOpacity: isPeak ? 0.45 : 0.25,
-          weight: 2,
-          className: isPeak ? 'animate-pulse' : ''
-        }).bindTooltip(`⚠️ ${isPeak ? 'พื้นที่เสี่ยงน้ำเอ่อล้นตลิ่งวิกฤต ต.ทับมา (+12 ชม.)' : 'พื้นที่เฝ้าระวังน้ำล้นตลิ่ง'}`, { sticky: true });
-        
-        layers.floodZone.addLayer(floodPolygon);
-      }
-    }
+    function updateFloodZone(val) {}
 
     // Toggle Standard Layers (Lakes, Rivers, Stations)
     function toggleLayer(name) {
@@ -3652,193 +3479,184 @@ const officialReservoirCoords = {
       }
     });
 
-    // 9. REAL-TIME DATA STREAM TICKER & AUTO INGESTION SIMULATOR WITH LIVE TIMESTAMPS
-    let packetCount = 1580;
-    const telemetryEvents = [
-      "📡 [TMD เรดาร์ระยอง] กลุ่มฝนปานกลาง 35-45 dBZ กำลังเคลื่อนตัวเข้าสู่อ่างฯ หนองปลาไหล",
-      "📡 [Windy Weather API] ตรวจพบประจุฟ้าผ่าบริเวณเขาชะเมา ทิศทางลมตะวันตกเฉียงใต้ 18 กม./ชม.",
-      "📡 [สสน. ThaiWater RAY003] สถานีคลองทับมา: ระดับน้ำ +2.45 ม. (อัตราไหล 208 m³/s)",
-      "📡 [สสน. ThaiWater RAY001] ตลาดเมืองแกลง (แม่น้ำประแสร์): ระดับน้ำ +4.48 ม. (ล้นตลิ่ง +0.51 ม. วิกฤตสีแดง) ⚠️",
-      "📡 [กรมชลประทาน RID] อ่างฯ ดอกกราย: ระบายน้ำคงที่ 4.10 ล้าน ลบ.ม./วัน (ล้นความจุ 116.98%)",
-      "📡 [กรมชลประทาน RID] อ่างฯ คลองระโอก (เขาจุก): ระบายน้ำล้นสปิลเวย์ 1.06 ล้าน ลบ.ม./วัน ลงคลองโพล้",
-      "📡 [ทร. กรมอุทกศาสตร์] ปากน้ำระยอง: ระดับน้ำทะเลกำลังหนุนขึ้นที่ +1.52 ม.รทก.",
-      "📡 [สถานีสูบน้ำทับมา] ปั๊มขนาดใหญ่ 4 เครื่อง ทำงานเต็มกำลังสูบ 24 ลบ.ม./วินาที"
-    ];
-    let eventIdx = 0;
-
+    // 9. LIVE REAL-TIME CLOCK ENGINE
     setInterval(() => {
-      packetCount++;
-      eventIdx = (eventIdx + 1) % telemetryEvents.length;
       const now = new Date();
-      const timeTag = formatThaiDateTime(now, true);
-      document.getElementById('telemetry-log').innerText = `[${timeTag}] ${telemetryEvents[eventIdx]}`;
-      document.getElementById('packet-counter').innerText = `แพ็กเกจข้อมูล: ${packetCount.toLocaleString()} รายการ`;
+      const elClock = document.getElementById('live-clock');
+      if (elClock) elClock.innerText = formatThaiDateTime(now, true);
+    }, 1000);
 
-      document.getElementById('live-clock').innerText = formatThaiDateTime(now, true);
-
-      if (!liveGovData) {
-        const jitter = (Math.random() * 0.02 - 0.01);
-        const curStage = (2.45 + jitter).toFixed(2);
-        const el = document.getElementById('kpi-stage');
-        if (el) el.innerText = `+${curStage}`;
-      }
-    }, 3500);
-
-    // 10. CHART.JS HYDROGRAPH (DYNAMIC DATE & TIME LABELS)
+    // 10. REAL 24-HOUR WATER LEVEL & DISCHARGE TREND (DWR TELEMETRY STATION TA170203)
     const ctx = document.getElementById('hydrographChart').getContext('2d');
-    
-    // Generate timestamps for chart points: -12h, -6h, NOW, +6h, +12h, +18h, +24h, +36h, +48h, +72h
-    const chartHourOffsets = [-12, -6, 0, 6, 12, 18, 24, 36, 48, 72];
-    const baseChartDate = new Date();
-    baseChartDate.setMinutes(0, 0, 0); // round to current hour
 
-    const chartLabels = chartHourOffsets.map(offset => {
-      const d = new Date(baseChartDate.getTime() + offset * 3600 * 1000);
-      const hStr = d.getHours().toString().padStart(2, '0') + ':00';
-      if (offset === 0) return `ปัจจุบัน (${hStr})`;
-      if (offset < 0) return `${offset}h (${hStr})`;
-      return `+${offset}h (${hStr})`;
-    });
+    // Seed with initial real verified 24h points from DWR station TA170203
+    const initialHistorySeed = [
+      {"datetime":"2026-10-04 14:00","timeShort":"14:00","waterLevel":1.83,"discharge":38.18},
+      {"datetime":"2026-10-04 15:00","timeShort":"15:00","waterLevel":1.82,"discharge":37.91},
+      {"datetime":"2026-10-04 16:00","timeShort":"16:00","waterLevel":1.81,"discharge":37.64},
+      {"datetime":"2026-10-04 17:00","timeShort":"17:00","waterLevel":1.81,"discharge":37.64},
+      {"datetime":"2026-10-04 18:00","timeShort":"18:00","waterLevel":1.79,"discharge":37.10},
+      {"datetime":"2026-10-04 19:00","timeShort":"19:00","waterLevel":1.77,"discharge":36.56},
+      {"datetime":"2026-10-04 20:00","timeShort":"20:00","waterLevel":1.75,"discharge":36.02},
+      {"datetime":"2026-10-04 21:00","timeShort":"21:00","waterLevel":1.71,"discharge":34.95},
+      {"datetime":"2026-10-04 23:00","timeShort":"23:00","waterLevel":1.65,"discharge":33.36},
+      {"datetime":"2026-10-05 00:00","timeShort":"00:00","waterLevel":1.63,"discharge":32.84},
+      {"datetime":"2026-10-05 01:00","timeShort":"01:00","waterLevel":1.61,"discharge":32.31},
+      {"datetime":"2026-10-05 02:00","timeShort":"02:00","waterLevel":1.59,"discharge":31.78},
+      {"datetime":"2026-10-05 03:00","timeShort":"03:00","waterLevel":1.58,"discharge":31.52},
+      {"datetime":"2026-10-05 04:00","timeShort":"04:00","waterLevel":1.56,"discharge":30.99},
+      {"datetime":"2026-10-05 05:00","timeShort":"05:00","waterLevel":1.55,"discharge":30.74},
+      {"datetime":"2026-10-05 06:00","timeShort":"06:00","waterLevel":1.55,"discharge":30.74},
+      {"datetime":"2026-10-05 07:00","timeShort":"07:00","waterLevel":1.54,"discharge":30.48},
+      {"datetime":"2026-10-05 08:00","timeShort":"08:00","waterLevel":1.53,"discharge":30.23},
+      {"datetime":"2026-10-05 09:00","timeShort":"09:00","waterLevel":1.52,"discharge":29.97},
+      {"datetime":"2026-10-05 10:00","timeShort":"10:00","waterLevel":1.52,"discharge":29.97},
+      {"datetime":"2026-10-05 11:00","timeShort":"11:00","waterLevel":1.52,"discharge":29.97},
+      {"datetime":"2026-10-05 12:00","timeShort":"12:00","waterLevel":1.53,"discharge":30.23},
+      {"datetime":"2026-10-05 14:00","timeShort":"14:00","waterLevel":1.60,"discharge":32.05},
+      {"datetime":"2026-10-05 15:00","timeShort":"15:00","waterLevel":1.63,"discharge":32.84}
+    ];
 
-    const chartFullDateTimes = chartHourOffsets.map(offset => {
-      const d = new Date(baseChartDate.getTime() + offset * 3600 * 1000);
-      const tag = offset === 0 ? ' [ปัจจุบัน]' : (offset === 12 ? ' [Peak สูงสุด]' : '');
-      return `${formatThaiDate(d)} เวลา ${d.getHours().toString().padStart(2, '0')}:00 น.${tag}`;
-    });
+    window._waterlevelHistory = initialHistorySeed;
 
     const hydroChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: chartLabels,
+        labels: initialHistorySeed.map(h => h.timeShort + ' น.'),
         datasets: [
           {
-            label: 'ระดับน้ำจริง (Observational Stage)',
-            data: [1.60, 1.85, 2.45, null, null, null, null, null, null, null],
+            label: 'ระดับน้ำจริง (ม.รทก.)',
+            data: initialHistorySeed.map(h => h.waterLevel),
             borderColor: '#38bdf8',
             backgroundColor: 'rgba(56, 189, 248, 0.15)',
             borderWidth: 2.5,
-            tension: 0.3,
-            pointRadius: 4,
+            tension: 0.35,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#38bdf8',
             fill: true
           },
           {
-            label: 'AI พยากรณ์ล่วงหน้า (LSTM Prediction)',
-            data: [null, null, 2.45, 2.70, 2.82, 2.75, 2.55, 2.20, 1.95, 1.70],
-            borderColor: '#fbbf24',
-            borderDash: [5, 5],
-            borderWidth: 2.5,
-            tension: 0.3,
-            pointRadius: 3
-          },
-          {
-            label: 'ระดับตลิ่งวิกฤต (Critical Bankfull Level)',
-            data: [3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+            label: 'ระดับตลิ่งวิกฤต (+3.00 ม.)',
+            data: initialHistorySeed.map(() => 3.00),
             borderColor: '#ef4444',
             borderWidth: 1.5,
-            pointRadius: 0
+            borderDash: [5, 5],
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            fill: false
           }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
         plugins: {
           legend: {
-            labels: { color: '#94a3b8', font: { size: 10 } }
+            display: true,
+            labels: { color: '#94a3b8', font: { size: 10 }, boxWidth: 12 }
           },
           tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            titleColor: '#e2e8f0',
+            bodyColor: '#cbd5e1',
+            borderColor: 'rgba(56, 189, 248, 0.4)',
+            borderWidth: 1,
+            padding: 10,
             callbacks: {
               title: function(items) {
                 if (!items || items.length === 0) return '';
                 const idx = items[0].dataIndex;
-                return chartFullDateTimes[idx] || items[0].label;
+                if (window._waterlevelHistory && window._waterlevelHistory[idx]) {
+                  const pt = window._waterlevelHistory[idx];
+                  return `เวลา ${pt.timeShort} น. (${pt.datetime})`;
+                }
+                return items[0].label;
               },
               label: function(item) {
                 if (item.raw === null || item.raw === undefined) return '';
-                return `${item.dataset.label}: ${item.raw.toFixed(2)} ม.`;
+                if (item.datasetIndex === 0) {
+                  return `ระดับน้ำจริง: ${item.raw.toFixed(2)} ม.รทก.`;
+                } else if (item.datasetIndex === 1) {
+                  return `ระดับตลิ่ง: 3.00 ม.รทก.`;
+                }
+                return `${item.dataset.label}: ${item.raw}`;
+              },
+              afterBody: function(items) {
+                if (!items || items.length === 0) return '';
+                const idx = items[0].dataIndex;
+                if (window._waterlevelHistory && window._waterlevelHistory[idx]) {
+                  const pt = window._waterlevelHistory[idx];
+                  if (pt.discharge !== null && pt.discharge !== undefined) {
+                    return `อัตราการไหล: ${pt.discharge.toFixed(2)} m³/s`;
+                  }
+                }
+                return '';
               }
             }
           }
         },
         scales: {
           x: {
-            ticks: { color: '#64748b', font: { size: 9 }, maxRotation: 45, minRotation: 0 },
-            grid: { color: '#1e293b' }
+            ticks: {
+              color: '#64748b',
+              font: { size: 9 },
+              maxRotation: 45,
+              minRotation: 0,
+              maxTicksLimit: 12
+            },
+            grid: { color: 'rgba(30, 41, 59, 0.6)' }
           },
           y: {
             min: 1.0,
-            max: 3.5,
-            ticks: { color: '#64748b', font: { size: 10 }, callback: v => v.toFixed(1) + ' m' },
-            grid: { color: '#1e293b' }
+            suggestedMax: 3.5,
+            ticks: {
+              color: '#64748b',
+              font: { size: 10 },
+              callback: v => v.toFixed(1) + ' m'
+            },
+            grid: { color: 'rgba(30, 41, 59, 0.6)' }
           }
         }
       }
     });
 
-    // 11. TIMELINE SLIDER LOGIC & DYNAMIC SIMULATION WITH EXACT DATES
-    function getTimelineLabel(idx) {
-      const now = new Date();
-      now.setMinutes(0, 0, 0);
-      const offsets = [-12, 0, 6, 12, 24, 72];
-      const titles = [
-        "ย้อนหลัง 12 ชั่วโมง",
-        "ปัจจุบัน (Real-Time Live)",
-        "พยากรณ์ +6 ชม. (น้ำหลากเริ่มเข้าทับมา)",
-        "พยากรณ์ +12 ชม. (Peak สูงสุดเฉียดตลิ่ง 18 ซม.) ⚠️",
-        "พยากรณ์ +24 ชม. (เริ่มลดระดับจากการสูบน้ำ)",
-        "พยากรณ์ +72 ชม. (กลับสู่สภาวะปกติ)"
-      ];
-      const targetDate = new Date(now.getTime() + offsets[idx] * 3600 * 1000);
-      return `${titles[idx]} [ ${formatThaiDate(targetDate)} ${targetDate.getHours().toString().padStart(2, '0')}:00 น. ]`;
-    }
+    function updateHydrographChart(history) {
+      if (!history || !Array.isArray(history) || history.length === 0) return;
+      window._waterlevelHistory = history;
 
-    const timelineLabels = [0, 1, 2, 3, 4, 5].map(i => getTimelineLabel(i));
+      const labels = history.map(h => h.timeShort + ' น.');
+      const wlData = history.map(h => h.waterLevel);
+      const bankfullData = history.map(() => 3.00);
 
-    const stagesByTime = ["+1.60", "+2.45", "+2.70", "+2.82", "+2.50", "+1.70"];
-    const statusByTime = [
-      "ต่ำกว่าตลิ่ง 1.40 ม. (ปกติ)",
-      "ต่ำกว่าตลิ่ง 0.55 ม. (เฝ้าระวัง)",
-      "ต่ำกว่าตลิ่ง 0.30 ม. (เตือนภัยน้ำหลาก)",
-      "เฉียดตลิ่ง 0.18 ม. (วิกฤตใกล้ล้นตลิ่ง) ⚠️",
-      "ลดระดับลง (เดินเครื่องสูบเต็มกำลัง)",
-      "ปกติ ปลอดภัย"
-    ];
-
-    function onTimelineChange(val) {
-      val = parseInt(val);
-      document.getElementById('forecast-label').innerText = timelineLabels[val];
-      document.getElementById('kpi-stage').innerText = stagesByTime[val];
-      document.getElementById('kpi-stage-sub').innerText = statusByTime[val];
-
-      if (val === 3) {
-        document.getElementById('kpi-stage').className = "text-2xl font-extrabold text-rose-500 animate-pulse";
-      } else if (val === 2) {
-        document.getElementById('kpi-stage').className = "text-2xl font-extrabold text-orange-400";
-      } else {
-        document.getElementById('kpi-stage').className = "text-2xl font-extrabold text-amber-400";
+      const validWls = wlData.filter(v => v !== null && !isNaN(v));
+      if (validWls.length > 0) {
+        const minWl = Math.min(...validWls);
+        const maxWl = Math.max(...validWls, 3.00);
+        hydroChart.options.scales.y.min = Math.max(0, Math.floor((minWl - 0.4) * 2) / 2);
+        hydroChart.options.scales.y.suggestedMax = Math.ceil((maxWl + 0.3) * 2) / 2;
       }
 
-      updateFloodZone(val);
-    }
+      hydroChart.data.labels = labels;
+      hydroChart.data.datasets[0].data = wlData;
+      hydroChart.data.datasets[1].data = bankfullData;
+      hydroChart.update();
 
-    let isPlaying = false;
-    let playInterval;
-    function togglePlay() {
-      const slider = document.getElementById('timeline-slider');
-      const icon = document.getElementById('play-icon');
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        icon.setAttribute('data-lucide', 'pause');
-        playInterval = setInterval(() => {
-          let next = (parseInt(slider.value) + 1) % 6;
-          slider.value = next;
-          onTimelineChange(next);
-        }, 2200);
-      } else {
-        icon.setAttribute('data-lucide', 'play');
-        clearInterval(playInterval);
+      const latest = history[history.length - 1];
+      if (latest) {
+        const elWl = document.getElementById('chart-latest-wl');
+        if (elWl && latest.waterLevel !== null) {
+          elWl.innerText = (latest.waterLevel >= 0 ? '+' : '') + latest.waterLevel.toFixed(2) + ' ม.';
+        }
+        const elQ = document.getElementById('chart-latest-q');
+        if (elQ && latest.discharge !== null) {
+          elQ.innerText = latest.discharge.toFixed(2) + ' m³/s';
+        }
       }
-      lucide.createIcons();
     }
 
     // ========================================================
@@ -4402,6 +4220,13 @@ const officialReservoirCoords = {
                 renderStations();
               }
             } catch (e) { console.warn("Error updating river stations:", e); }
+
+            // 6. Update Real 24h Hydrograph Chart (Station TA170203 สะพานคลองใหญ่ระยอง)
+            try {
+              if (json.waterlevelHistory && json.waterlevelHistory.length > 0 && typeof updateHydrographChart === 'function') {
+                updateHydrographChart(json.waterlevelHistory);
+              }
+            } catch (e) { console.warn("Error updating hydrograph chart:", e); }
           }
         }
       } catch (e) {
