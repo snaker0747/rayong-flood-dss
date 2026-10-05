@@ -114,15 +114,19 @@ module.exports = async function handler(req, res) {
     // 2. Fetch ThaiWater Dams for Rayong (province 21)
     const damPromise = fetchGetJson('https://api-v3.thaiwater.net/api/v1/thaiwater30/provinces/dam?province_id=21');
 
-    // 3. Fetch ThaiWater Rain stations for Rayong (province 21)
+    // 3. Fetch RID Public Reservoir API directly (Daily 06:00 batch)
+    const ridPromise = fetchGetJson('https://app.rid.go.th/reservoir/api/reservoir/public');
+
+    // 4. Fetch ThaiWater Rain stations for Rayong (province 21)
     const rainPromise = fetchGetJson('https://api-v3.thaiwater.net/api/v1/thaiwater30/public/thailand_main_rain?province_code=21');
 
-    // 4. Fetch ThaiWater Waterlevel Stations
+    // 5. Fetch ThaiWater Waterlevel Stations
     const wlPromise = fetchGetJson('https://api-v3.thaiwater.net/api/v1/thaiwater30/public/waterlevel_load');
 
-    const [dwrRaw, damRaw, rainRaw, wlRaw] = await Promise.all([
+    const [dwrRaw, damRaw, ridRaw, rainRaw, wlRaw] = await Promise.all([
       dwrPromise,
       damPromise,
+      ridPromise,
       rainPromise,
       wlPromise
     ]);
@@ -149,9 +153,20 @@ module.exports = async function handler(req, res) {
       subDistrict: s.addressInfo?.subDistrictInfo?.nameTh || ''
     }));
 
-    // Process Dams (5 Reservoirs in Rayong)
+    // Process Dams (5 Reservoirs in Rayong - Dual Sync: ThaiWater + RID Public API)
     const dailyDams = damRaw?.data?.dam_daily || [];
     const mediumDams = damRaw?.data?.dam_medium || [];
+    const ridDate = ridRaw?.date || new Date().toISOString().split('T')[0];
+    const ridDams = {};
+    (ridRaw?.data || []).forEach(group => {
+      (group.reservoir || []).forEach(r => {
+        if (r.name.includes('ดอกกราย')) ridDams.dokkrai = r;
+        if (r.name.includes('คลองใหญ่') && !r.name.includes('ตะคลอง')) ridDams.khlongyai = r;
+        if (r.name.includes('คลองระโอก')) ridDams.khlongraok = r;
+        if (r.name.includes('ประแสร์')) ridDams.prasae = r;
+        if (r.name.includes('หนองปลาไหล')) ridDams.nongplalai = r;
+      });
+    });
     
     // Map official dams
     const reservoirs = {
@@ -162,80 +177,145 @@ module.exports = async function handler(req, res) {
       khlongraok: null
     };
 
-    // Prasae (ประแสร์)
+    // 1. Prasae (ประแสร์)
     const prasaeObj = dailyDams.find(d => d.dam?.dam_name?.th?.includes('ประแสร์'));
-    if (prasaeObj) {
+    if (prasaeObj && prasaeObj.dam_storage !== null && prasaeObj.dam_storage !== undefined) {
       reservoirs.prasae = {
         name: 'อ่างเก็บน้ำประแสร์',
-        storage: prasaeObj.dam_storage,
-        percent: prasaeObj.dam_storage_percent,
-        inflow: prasaeObj.dam_inflow,
-        released: prasaeObj.dam_released,
-        waterLevel: prasaeObj.dam_level,
+        storage: Number(prasaeObj.dam_storage),
+        percent: Number(prasaeObj.dam_storage_percent),
+        inflow: prasaeObj.dam_inflow != null ? Number(prasaeObj.dam_inflow) : null,
+        released: prasaeObj.dam_released != null ? Number(prasaeObj.dam_released) : null,
+        waterLevel: prasaeObj.dam_level || 0,
         date: prasaeObj.dam_date,
-        capacityMax: 295.0, // ล้าน ลบ.ม.
+        capacityMax: 295.0,
         status: prasaeObj.dam_storage_percent >= 100 ? 'overflow' : (prasaeObj.dam_storage_percent >= 90 ? 'warning' : 'normal')
       };
+    } else if (ridDams.prasae) {
+      const r = ridDams.prasae;
+      const pct = Number(r.percent_storage || r.percent_volume || 0);
+      reservoirs.prasae = {
+        name: 'อ่างเก็บน้ำประแสร์',
+        storage: Number(r.volume),
+        percent: pct,
+        inflow: r.inflow != null ? Number(r.inflow) : null,
+        released: r.outflow != null ? Number(r.outflow) : null,
+        date: ridDate,
+        capacityMax: 295.0,
+        status: pct >= 100 ? 'overflow' : (pct >= 90 ? 'warning' : 'normal')
+      };
     }
 
-    // Nong Pla Lai (หนองปลาไหล)
+    // 2. Nong Pla Lai (หนองปลาไหล)
     const nongplalaiObj = dailyDams.find(d => d.dam?.dam_name?.th?.includes('หนองปลาไหล'));
-    if (nongplalaiObj) {
+    if (nongplalaiObj && nongplalaiObj.dam_storage !== null && nongplalaiObj.dam_storage !== undefined) {
       reservoirs.nongplalai = {
         name: 'อ่างเก็บน้ำหนองปลาไหล',
-        storage: nongplalaiObj.dam_storage,
-        percent: nongplalaiObj.dam_storage_percent,
-        inflow: nongplalaiObj.dam_inflow,
-        released: nongplalaiObj.dam_released,
-        waterLevel: nongplalaiObj.dam_level,
+        storage: Number(nongplalaiObj.dam_storage),
+        percent: Number(nongplalaiObj.dam_storage_percent),
+        inflow: nongplalaiObj.dam_inflow != null ? Number(nongplalaiObj.dam_inflow) : null,
+        released: nongplalaiObj.dam_released != null ? Number(nongplalaiObj.dam_released) : null,
+        waterLevel: nongplalaiObj.dam_level || 0,
         date: nongplalaiObj.dam_date,
-        capacityMax: 163.75, // ล้าน ลบ.ม.
+        capacityMax: 163.75,
         status: nongplalaiObj.dam_storage_percent >= 100 ? 'overflow' : (nongplalaiObj.dam_storage_percent >= 90 ? 'warning' : 'normal')
       };
+    } else if (ridDams.nongplalai) {
+      const r = ridDams.nongplalai;
+      const pct = Number(r.percent_storage || r.percent_volume || 0);
+      reservoirs.nongplalai = {
+        name: 'อ่างเก็บน้ำหนองปลาไหล',
+        storage: Number(r.volume),
+        percent: pct,
+        inflow: r.inflow != null ? Number(r.inflow) : null,
+        released: r.outflow != null ? Number(r.outflow) : null,
+        date: ridDate,
+        capacityMax: 163.75,
+        status: pct >= 100 ? 'overflow' : (pct >= 90 ? 'warning' : 'normal')
+      };
     }
 
-    // Dok Krai (ดอกกราย)
+    // 3. Dok Krai (ดอกกราย)
     const dokkraiObj = mediumDams.find(d => d.dam?.dam_name?.th?.includes('ดอกกราย'));
-    if (dokkraiObj) {
+    if (dokkraiObj && dokkraiObj.dam_storage !== null && dokkraiObj.dam_storage !== undefined) {
       reservoirs.dokkrai = {
         name: 'อ่างเก็บน้ำดอกกราย',
-        storage: dokkraiObj.dam_storage,
-        percent: dokkraiObj.dam_storage_percent,
-        inflow: dokkraiObj.dam_inflow || null,
-        released: dokkraiObj.dam_released || null,
+        storage: Number(dokkraiObj.dam_storage),
+        percent: Number(dokkraiObj.dam_storage_percent),
+        inflow: dokkraiObj.dam_inflow != null ? Number(dokkraiObj.dam_inflow) : null,
+        released: dokkraiObj.dam_released != null ? Number(dokkraiObj.dam_released) : null,
         date: dokkraiObj.dam_date,
-        capacityMax: 71.4, // ล้าน ลบ.ม.
+        capacityMax: 71.4,
         status: dokkraiObj.dam_storage_percent >= 100 ? 'overflow' : (dokkraiObj.dam_storage_percent >= 90 ? 'warning' : 'normal')
       };
-    }
-
-    // Khlong Yai (คลองใหญ่)
-    const khlongyaiObj = mediumDams.find(d => d.dam?.dam_name?.th?.includes('คลองใหญ่'));
-    if (khlongyaiObj) {
-      reservoirs.khlongyai = {
-        name: 'อ่างเก็บน้ำคลองใหญ่',
-        storage: khlongyaiObj.dam_storage,
-        percent: khlongyaiObj.dam_storage_percent,
-        inflow: khlongyaiObj.dam_inflow || null,
-        released: khlongyaiObj.dam_released || null,
-        date: khlongyaiObj.dam_date,
-        capacityMax: 50.8, // ล้าน ลบ.ม.
-        status: khlongyaiObj.dam_storage_percent >= 100 ? 'overflow' : (khlongyaiObj.dam_storage_percent >= 90 ? 'warning' : 'normal')
+    } else if (ridDams.dokkrai) {
+      const r = ridDams.dokkrai;
+      const pct = Number(r.percent_storage || r.percent_volume || 0);
+      reservoirs.dokkrai = {
+        name: 'อ่างเก็บน้ำดอกกราย',
+        storage: Number(r.volume),
+        percent: pct,
+        inflow: r.inflow != null ? Number(r.inflow) : null,
+        released: r.outflow != null ? Number(r.outflow) : null,
+        date: ridDate,
+        capacityMax: 71.4,
+        status: pct >= 100 ? 'overflow' : (pct >= 90 ? 'warning' : 'normal')
       };
     }
 
-    // Khlong Ra-ok (คลองระโอก)
+    // 4. Khlong Yai (คลองใหญ่)
+    const khlongyaiObj = mediumDams.find(d => d.dam?.dam_name?.th?.includes('คลองใหญ่'));
+    if (khlongyaiObj && khlongyaiObj.dam_storage !== null && khlongyaiObj.dam_storage !== undefined) {
+      reservoirs.khlongyai = {
+        name: 'อ่างเก็บน้ำคลองใหญ่',
+        storage: Number(khlongyaiObj.dam_storage),
+        percent: Number(khlongyaiObj.dam_storage_percent),
+        inflow: khlongyaiObj.dam_inflow != null ? Number(khlongyaiObj.dam_inflow) : null,
+        released: khlongyaiObj.dam_released != null ? Number(khlongyaiObj.dam_released) : null,
+        date: khlongyaiObj.dam_date,
+        capacityMax: 50.8,
+        status: khlongyaiObj.dam_storage_percent >= 100 ? 'overflow' : (khlongyaiObj.dam_storage_percent >= 90 ? 'warning' : 'normal')
+      };
+    } else if (ridDams.khlongyai) {
+      const r = ridDams.khlongyai;
+      const pct = Number(r.percent_storage || r.percent_volume || 0);
+      reservoirs.khlongyai = {
+        name: 'อ่างเก็บน้ำคลองใหญ่',
+        storage: Number(r.volume),
+        percent: pct,
+        inflow: r.inflow != null ? Number(r.inflow) : null,
+        released: r.outflow != null ? Number(r.outflow) : null,
+        date: ridDate,
+        capacityMax: 50.8,
+        status: pct >= 100 ? 'overflow' : (pct >= 90 ? 'warning' : 'normal')
+      };
+    }
+
+    // 5. Khlong Ra-ok (คลองระโอก)
     const khlongraokObj = mediumDams.find(d => d.dam?.dam_name?.th?.includes('คลองระโอก'));
-    if (khlongraokObj) {
+    if (khlongraokObj && khlongraokObj.dam_storage !== null && khlongraokObj.dam_storage !== undefined) {
       reservoirs.khlongraok = {
         name: 'อ่างเก็บน้ำคลองระโอก',
-        storage: khlongraokObj.dam_storage,
-        percent: khlongraokObj.dam_storage_percent,
-        inflow: khlongraokObj.dam_inflow || null,
-        released: khlongraokObj.dam_released || null,
+        storage: Number(khlongraokObj.dam_storage),
+        percent: Number(khlongraokObj.dam_storage_percent),
+        inflow: khlongraokObj.dam_inflow != null ? Number(khlongraokObj.dam_inflow) : null,
+        released: khlongraokObj.dam_released != null ? Number(khlongraokObj.dam_released) : null,
         date: khlongraokObj.dam_date,
-        capacityMax: 19.65, // ล้าน ลบ.ม.
+        capacityMax: 19.65,
         status: khlongraokObj.dam_storage_percent >= 100 ? 'overflow' : (khlongraokObj.dam_storage_percent >= 90 ? 'warning' : 'normal')
+      };
+    } else if (ridDams.khlongraok) {
+      const r = ridDams.khlongraok;
+      const pct = Number(r.percent_storage || r.percent_volume || 0);
+      reservoirs.khlongraok = {
+        name: 'อ่างเก็บน้ำคลองระโอก',
+        storage: Number(r.volume),
+        percent: pct,
+        inflow: r.inflow != null ? Number(r.inflow) : null,
+        released: r.outflow != null ? Number(r.outflow) : null,
+        date: ridDate,
+        capacityMax: 19.65,
+        status: pct >= 100 ? 'overflow' : (pct >= 90 ? 'warning' : 'normal')
       };
     }
 
