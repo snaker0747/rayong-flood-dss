@@ -1264,92 +1264,76 @@
     </div>
 
     <!-- RIGHT 5 COLS: HYDROGRAPH & DAM MONITOR -->
-    <div class="lg:col-span-5 flex flex-col gap-2 overflow-hidden">
+    <div class="lg:col-span-5 flex flex-col gap-3">
       
-      <!-- VIEW MODE SWITCHER TABS (จัดข้อมูลให้ครบหน้า ไม่ต้องเลื่อน) -->
-      <div class="glass-panel p-1 rounded-lg border border-slate-800 flex items-center justify-between">
-        <div class="flex items-center gap-1">
-          <button onclick="switchRightPanelTab('all')" id="tab-rp-all" class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-600 text-white transition shadow flex items-center gap-1">
-            <i data-lucide="layout-grid" class="w-3 h-3"></i>
-            <span>สรุปครบหน้า (ไม่เลื่อน)</span>
-          </button>
-          <button onclick="switchRightPanelTab('chart')" id="tab-rp-chart" class="px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1">
-            <i data-lucide="trending-up" class="w-3 h-3 text-cyan-400"></i>
-            <span>ดูกราฟใหญ่</span>
-          </button>
-          <button onclick="switchRightPanelTab('dams')" id="tab-rp-dams" class="px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1">
-            <i data-lucide="layers" class="w-3 h-3 text-emerald-400"></i>
-            <span>5 เขื่อน & ลำน้ำ</span>
-          </button>
-        </div>
-        <span class="text-[10px] text-emerald-400 font-mono pr-1.5 hidden sm:flex items-center gap-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> พอดีหน้าจอ
-        </span>
-      </div>
-
-      <!-- REAL 24H WATER LEVEL & DISCHARGE TREND CHART (DWR TELEMETRY) -->
-      <div id="panel-card-chart" class="glass-panel p-2.5 rounded-xl border border-slate-800 flex flex-col shadow-xl transition-all">
-        <div class="flex items-center justify-between mb-1">
-          <div class="flex items-center gap-1.5 min-w-0">
-            <i data-lucide="trending-up" class="w-3.5 h-3.5 text-cyan-400 shrink-0"></i>
-            <div class="truncate">
-              <h3 class="text-[11px] font-bold text-white uppercase tracking-wider truncate">กราฟระดับน้ำจริงย้อนหลัง 24 ชม. (DWR TA170203)</h3>
-              <p class="text-[9px] text-slate-400 font-mono truncate" id="chart-model-time">
-                สะพานคลองใหญ่ระยอง | ตรวจวัดรายชั่วโมง
+      <!-- 1. REAL 24H WATER LEVEL & DISCHARGE TREND CHART (DWR TELEMETRY) -->
+      <div id="panel-card-chart" class="glass-panel p-3.5 rounded-xl border border-slate-800 flex flex-col shadow-xl">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="trending-up" class="w-4 h-4 text-cyan-400"></i>
+            <div>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">กราฟระดับน้ำจริงย้อนหลัง 24 ชม. (DWR TA170203)</h3>
+              <p class="text-[10px] text-slate-400 font-mono" id="chart-model-time">
+                สะพานข้ามคลองใหญ่ที่ระยอง | ตรวจวัดอัตโนมัติรายชั่วโมง
               </p>
             </div>
           </div>
-          <span class="text-[9px] text-cyan-300 font-mono bg-cyan-500/10 px-1.5 py-0.2 rounded border border-cyan-500/30 flex items-center gap-1 shrink-0">
+          <span class="text-[10px] text-cyan-300 font-mono bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30 flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> โทรมาตรสด
           </span>
         </div>
-        <div id="hydrograph-wrap" class="w-full h-32 transition-all duration-200">
+        <div id="hydrograph-wrap" class="w-full h-40">
           <canvas id="hydrographChart"></canvas>
         </div>
-        <div class="mt-1 text-[10px] text-slate-400 flex items-center justify-between border-t border-slate-800/80 pt-1 font-mono" id="chart-stats-footer">
+        <div class="mt-2 text-[11px] text-slate-400 flex items-center justify-between border-t border-slate-800/80 pt-1.5 font-mono" id="chart-stats-footer">
           <span class="text-slate-300">ระดับน้ำล่าสุด: <strong class="text-amber-400 font-bold" id="chart-latest-wl">+1.63 ม.</strong></span>
-          <span class="text-slate-300">อัตราไหล: <strong class="text-cyan-400 font-bold" id="chart-latest-q">32.84 m³/s</strong></span>
-          <span class="text-rose-400 font-semibold hidden sm:inline">ตลิ่ง: +3.00 ม.</span>
+          <span class="text-slate-300">อัตราการไหล: <strong class="text-cyan-400 font-bold" id="chart-latest-q">32.84 m³/s</strong></span>
+          <span class="text-rose-400 font-semibold hidden sm:inline">ตลิ่งวิกฤต: +3.00 ม.</span>
         </div>
       </div>
 
-      <!-- BOTTOM 2-COLUMN GRID (5 DAMS + 4 RIVER BASINS SIDE-BY-SIDE) -->
-      <div id="panel-dams-basins-grid" class="grid grid-cols-1 md:grid-cols-2 gap-2 transition-all">
-
-        <!-- 5 MAIN RESERVOIRS IN RAYONG (RID & THAIWATER) -->
-        <div id="panel-card-dams" class="glass-panel p-2 rounded-xl border border-slate-800 flex flex-col shadow-xl">
-          <div class="flex items-center justify-between mb-1 pb-1 border-b border-slate-800/80">
-            <div class="flex items-center gap-1 min-w-0">
-              <i data-lucide="layers" class="w-3 h-3 text-emerald-400 shrink-0"></i>
-              <h3 class="text-[11px] font-bold text-white uppercase tracking-wider truncate">5 อ่างเก็บน้ำหลัก (RID)</h3>
+      <!-- 2. 5 MAIN RESERVOIRS IN RAYONG (RID & THAIWATER) -->
+      <div id="panel-card-dams" class="glass-panel p-3.5 rounded-xl border border-slate-800 flex flex-col shadow-xl">
+        <div class="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-800/80">
+          <div class="flex items-center gap-2">
+            <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+            <div>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">5 อ่างเก็บน้ำหลัก (RID)</h3>
+              <span class="text-[10px] text-slate-400 font-mono block">
+                🕒 รอบรายงานทางการ: <strong class="text-cyan-300 font-semibold" id="dam-batch-time">05 ต.ค. 2569 เวลา 06:00 น.</strong> (ตัดยอดวันละ 1 ครั้งตามมาตรฐานกรมชลประทาน)
+              </span>
             </div>
-            <span class="text-[9px] px-1 py-0.2 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 font-mono shrink-0">
-              06:00 น.
-            </span>
           </div>
-
-          <div class="space-y-0.5" id="reservoirs-sidebar-list">
-            <!-- Populated dynamically by renderReservoirsSidebar() -->
-          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center gap-1 font-mono">
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping"></span> RID Live
+          </span>
         </div>
 
-        <!-- 4 อันดับสูงสุด % ความจุลำน้ำ (โทรมาตร DWR กรมทรัพยากรน้ำ สด) -->
-        <div id="panel-card-basins" class="glass-panel p-2 rounded-xl border border-slate-800 flex flex-col shadow-xl">
-          <div class="flex items-center justify-between mb-1 pb-1 border-b border-slate-800/80">
-            <div class="flex items-center gap-1 min-w-0">
-              <i data-lucide="waves" class="w-3 h-3 text-cyan-400 shrink-0"></i>
-              <h3 class="text-[11px] font-bold text-white uppercase tracking-wider truncate">4 ลำน้ำวิกฤต (DWR)</h3>
-            </div>
-            <span class="text-[9px] px-1 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono shrink-0">
-              สด
-            </span>
-          </div>
+        <div class="space-y-2" id="reservoirs-sidebar-list">
+          <!-- Populated dynamically by renderReservoirsSidebar() -->
+        </div>
+      </div>
 
-          <div class="space-y-0.5" id="dwr-top-basin-list">
-            <!-- Populated dynamically by updateDwrTopBasinList() -->
+      <!-- 3. 4 อันดับสูงสุด % ความจุลำน้ำ (โทรมาตร DWR กรมทรัพยากรน้ำ สด) -->
+      <div id="panel-card-basins" class="glass-panel p-3.5 rounded-xl border border-slate-800 flex flex-col shadow-xl">
+        <div class="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-800/80">
+          <div class="flex items-center gap-2">
+            <i data-lucide="waves" class="w-4 h-4 text-cyan-400"></i>
+            <div>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">4 ลำน้ำวิกฤต (DWR)</h3>
+              <span class="text-[10px] text-slate-400 font-mono block">
+                🕒 รอบตรวจวัด: <strong class="text-cyan-300 font-semibold" id="dwr-top-time">ณ ขณะนี้ (DWR สด)</strong>
+              </span>
+            </div>
           </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center gap-1 font-mono">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> DWR Live
+          </span>
         </div>
 
+        <div class="space-y-2" id="dwr-top-basin-list">
+          <!-- Populated dynamically by updateDwrTopBasinList() -->
+        </div>
       </div>
 
     </div>
@@ -1919,8 +1903,8 @@ const officialReservoirCoords = {
           key: 'dokkrai',
           num: 1,
           name: 'อ่างเก็บน้ำดอกกราย',
-          capText: '71.4 ล้าน ลบ.ม.',
-          route: 'ระบายลง: <strong>คลองดอกกราย -> บ้านค่าย</strong>',
+          capText: '71.4M ลบ.ม.',
+          route: 'ระบายลง: <strong>คลองดอกกราย ➔ แม่น้ำระยอง</strong>',
           data: res.dokkrai,
           fallbackVol: 82.18,
           fallbackPct: 115.09,
@@ -1931,8 +1915,8 @@ const officialReservoirCoords = {
           key: 'khlongyai',
           num: 2,
           name: 'อ่างเก็บน้ำคลองใหญ่',
-          capText: '50.8 ล้าน ลบ.ม.',
-          route: '',
+          capText: '50.8M ลบ.ม.',
+          route: 'ระบายลง: <strong>คลองใหญ่ ➔ อ่างฯ หนองปลาไหล</strong>',
           data: res.khlongyai,
           fallbackVol: 44.70,
           fallbackPct: 87.99,
@@ -1943,8 +1927,8 @@ const officialReservoirCoords = {
           key: 'nongplalai',
           num: 3,
           name: 'อ่างเก็บน้ำหนองปลาไหล',
-          capText: '163.7 ล้าน ลบ.ม.',
-          route: '',
+          capText: '163.7M ลบ.ม.',
+          route: 'ระบายลง: <strong>คลองใหญ่ ➔ เมืองระยอง</strong>',
           data: res.nongplalai,
           fallbackVol: 171.87,
           fallbackPct: 104.96,
@@ -1955,8 +1939,8 @@ const officialReservoirCoords = {
           key: 'prasae',
           num: 4,
           name: 'อ่างเก็บน้ำประแสร์',
-          capText: '295.0 ล้าน ลบ.ม.',
-          route: '',
+          capText: '295.0M ลบ.ม.',
+          route: 'ระบายลง: <strong>แม่น้ำประแสร์ ➔ อ.แกลง</strong>',
           data: res.prasae,
           fallbackVol: 288.36,
           fallbackPct: 97.75,
@@ -1967,8 +1951,8 @@ const officialReservoirCoords = {
           key: 'khlongraok',
           num: 5,
           name: 'อ่างฯ คลองระโอก (เขาจุก)',
-          capText: '19.65M',
-          route: 'ระบายลง: <strong>คลองระโอก -> คลองโพล้</strong>',
+          capText: '19.65M ลบ.ม.',
+          route: 'ระบายลง: <strong>คลองระโอก ➔ คลองโพล้</strong>',
           data: res.khlongraok,
           fallbackVol: 19.95,
           fallbackPct: 101.53,
@@ -1990,47 +1974,48 @@ const officialReservoirCoords = {
         const isOverflow = pct >= 100;
         const isWarning = pct >= 90 && pct < 100;
 
-        let themeBorder = 'border-sky-500/30 bg-sky-500/10';
+        let themeBorder = 'border-slate-800 bg-slate-900/60 hover:border-slate-700';
         let titleColor = 'text-sky-300';
         let pctColor = 'text-sky-400';
         let barGrad = 'bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600';
-        let statusBadge = '🟢 ปกติ';
+        let statusBadge = '<span class="text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/30 text-[10px]">🟢 ปกติ</span>';
 
         if (isOverflow) {
-          themeBorder = 'border-rose-500/30 bg-rose-500/10';
+          themeBorder = 'border-rose-500/40 bg-rose-500/10 hover:border-rose-400';
           titleColor = 'text-rose-300';
           pctColor = 'text-rose-400';
           barGrad = 'bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600';
-          statusBadge = item.key === 'khlongraok' ? '⚠️ ล้นสปิลเวย์' : '⚠️ ล้น';
+          statusBadge = `<span class="text-rose-300 bg-rose-500/20 px-1.5 py-0.5 rounded border border-rose-500/40 text-[10px] animate-pulse">${item.key === 'khlongraok' ? '⚠️ ล้นสปิลเวย์' : '⚠️ เกินความจุ'}</span>`;
         } else if (isWarning) {
-          themeBorder = 'border-amber-500/30 bg-amber-500/10';
+          themeBorder = 'border-amber-500/40 bg-amber-500/10 hover:border-amber-400';
           titleColor = 'text-amber-200';
           pctColor = 'text-amber-400';
           barGrad = 'bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600';
-          statusBadge = '🟠 เฝ้าระวัง';
+          statusBadge = '<span class="text-amber-300 bg-amber-500/20 px-1.5 py-0.5 rounded border border-amber-500/40 text-[10px]">🟠 เฝ้าระวัง</span>';
         }
 
         const barWidth = Math.min(100, Math.max(5, pct));
 
         html += `
-          <div class="py-0.5 px-1.5 rounded-lg ${themeBorder} transition hover:border-slate-500 flex flex-col gap-0.5">
-            <div class="flex items-center justify-between text-xs">
-              <div class="flex items-center gap-1 min-w-0">
-                <span class="font-bold ${titleColor} truncate text-[11px]">${item.num}. ${item.name.replace('อ่างเก็บน้ำ', 'อ่างฯ')}</span>
+          <div class="p-2.5 rounded-xl border ${themeBorder} transition shadow-sm flex flex-col gap-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="w-5 h-5 rounded-full bg-slate-800/80 border border-slate-700/80 text-[11px] font-mono font-bold flex items-center justify-center text-slate-300 shrink-0">${item.num}</span>
+                <span class="font-bold ${titleColor} text-xs sm:text-sm truncate">${item.name}</span>
+                <span class="text-[10px] text-slate-400 font-mono hidden sm:inline">(${item.capText})</span>
               </div>
-              <div class="flex items-center gap-1 shrink-0 font-mono">
-                <span class="text-[10px] text-slate-300 font-semibold">${vol.toFixed(1)}M</span>
-                <span class="${pctColor} font-bold text-xs">${pct.toFixed(0)}%</span>
-                <span class="text-[10px]">${statusBadge}</span>
+              <div class="flex items-center gap-2 shrink-0 font-mono">
+                <span class="text-xs text-slate-200 font-bold">${vol.toFixed(2)}M</span>
+                <span class="${pctColor} font-bold text-xs bg-slate-950/70 px-1.5 py-0.5 rounded border border-slate-800">${pct.toFixed(1)}%</span>
+                ${statusBadge}
               </div>
             </div>
-            <div class="flex items-center justify-between gap-1.5 text-[9px] text-slate-400 font-mono">
-              <div class="w-20 bg-slate-800 rounded-full h-1 overflow-hidden shrink-0">
-                <div class="h-1 rounded-full liquid-bar ${barGrad}" style="width: ${barWidth}%"></div>
-              </div>
-              <div class="truncate text-right">
-                <span class="${pctColor}">${item.outText(d).replace(' ลบ.ม./วัน', '')}</span>
-              </div>
+            <div class="w-full bg-slate-950/80 rounded-full h-1.5 overflow-hidden border border-slate-800/40">
+              <div class="h-1.5 rounded-full liquid-bar ${barGrad} transition-all duration-500" style="width: ${barWidth}%"></div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono pt-0.5 border-t border-slate-800/40">
+              <span class="truncate text-slate-300 text-[10.5px]">${item.route ? item.route : '<span class="text-slate-500">ลำน้ำสายหลัก</span>'}</span>
+              <span class="${pctColor} text-[11px] shrink-0 font-medium">${item.outText(d)}</span>
             </div>
           </div>
         `;
@@ -3466,50 +3451,9 @@ const officialReservoirCoords = {
       }
     }
 
-    // 10.1 RIGHT PANEL VIEW MODE SWITCHER (COMPACT NO-SCROLL VS EXPANDED)
+    // 10.1 RIGHT PANEL VIEW (3 CARDS STACKED SEQUENTIALLY)
     function switchRightPanelTab(tab) {
-      const tabAll = document.getElementById('tab-rp-all');
-      const tabChart = document.getElementById('tab-rp-chart');
-      const tabDams = document.getElementById('tab-rp-dams');
-      const cardChart = document.getElementById('panel-card-chart');
-      const gridDamsBasins = document.getElementById('panel-dams-basins-grid');
-      const chartWrap = document.getElementById('hydrograph-wrap');
-
-      const inactiveBtn = "px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition flex items-center gap-1";
-      const activeBtn = "px-2 py-0.5 rounded text-[11px] font-bold bg-blue-600 text-white transition shadow flex items-center gap-1";
-
-      if (tabAll) tabAll.className = inactiveBtn;
-      if (tabChart) tabChart.className = inactiveBtn;
-      if (tabDams) tabDams.className = inactiveBtn;
-
-      if (tab === 'all') {
-        if (tabAll) tabAll.className = activeBtn;
-        if (cardChart) cardChart.classList.remove('hidden');
-        if (gridDamsBasins) {
-          gridDamsBasins.classList.remove('hidden');
-          gridDamsBasins.className = "grid grid-cols-1 md:grid-cols-2 gap-2 transition-all";
-        }
-        if (chartWrap) {
-          chartWrap.classList.remove('h-80', 'h-96');
-          chartWrap.classList.add('h-32');
-        }
-      } else if (tab === 'chart') {
-        if (tabChart) tabChart.className = activeBtn;
-        if (cardChart) cardChart.classList.remove('hidden');
-        if (gridDamsBasins) gridDamsBasins.classList.add('hidden');
-        if (chartWrap) {
-          chartWrap.classList.remove('h-32');
-          chartWrap.classList.add('h-96');
-        }
-      } else if (tab === 'dams') {
-        if (tabDams) tabDams.className = activeBtn;
-        if (cardChart) cardChart.classList.add('hidden');
-        if (gridDamsBasins) {
-          gridDamsBasins.classList.remove('hidden');
-          gridDamsBasins.className = "grid grid-cols-1 gap-2 transition-all";
-        }
-      }
-
+      // Compatibility handler: all 3 cards are now stacked sequentially at full width
       if (typeof hydroChart !== 'undefined' && hydroChart) {
         setTimeout(() => hydroChart.resize(), 80);
       }
@@ -3760,12 +3704,12 @@ const officialReservoirCoords = {
       container.innerHTML = topList.slice(0, 4).map((st, idx) => {
         const rank = idx + 1;
         const pct = safeNum(st.basinCapPercent);
-        let borderClass = 'border-slate-700 bg-slate-900/60';
+        let borderClass = 'border-slate-800 bg-slate-900/60 hover:border-slate-700';
         let rankBadgeClass = 'bg-slate-700 text-slate-300 border-slate-600';
         let textClass = 'text-slate-200';
         let pctBadgeClass = 'bg-slate-800 text-slate-300 border-slate-700';
         let barGradient = 'from-emerald-600 via-teal-400 to-emerald-600';
-        let statusText = 'ปกติ';
+        let statusBadge = '<span class="text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/30 text-[10px]">🟢 ปกติ</span>';
 
         if (pct >= 90) {
           borderClass = 'border-rose-500/40 bg-rose-500/10 hover:border-rose-400';
@@ -3773,61 +3717,80 @@ const officialReservoirCoords = {
           textClass = 'text-rose-200';
           pctBadgeClass = 'bg-rose-950/80 text-rose-400 border-rose-500/40 animate-pulse';
           barGradient = 'from-rose-600 via-rose-400 to-rose-600';
-          statusText = 'วิกฤตล้นตลิ่ง ⚠️';
+          statusBadge = '<span class="text-rose-300 bg-rose-500/20 px-1.5 py-0.5 rounded border border-rose-500/40 text-[10px] animate-pulse">⚠️ ล้นตลิ่ง</span>';
         } else if (pct >= 80) {
           borderClass = 'border-orange-500/40 bg-orange-500/10 hover:border-orange-400';
           rankBadgeClass = 'bg-orange-600/40 text-orange-300 border-orange-500/60';
           textClass = 'text-orange-200';
           pctBadgeClass = 'bg-orange-950/80 text-orange-400 border-orange-500/40';
           barGradient = 'from-orange-600 via-orange-400 to-orange-600';
-          statusText = 'เฝ้าระวังสูง 🟠';
+          statusBadge = '<span class="text-orange-300 bg-orange-500/20 px-1.5 py-0.5 rounded border border-orange-500/40 text-[10px]">🟠 เฝ้าระวังสูง</span>';
         } else if (pct >= 50) {
           borderClass = 'border-amber-500/40 bg-amber-500/10 hover:border-amber-400';
           rankBadgeClass = 'bg-amber-600/40 text-amber-300 border-amber-500/60';
           textClass = 'text-amber-200';
           pctBadgeClass = 'bg-amber-950/80 text-amber-400 border-amber-500/40';
           barGradient = 'from-amber-600 via-amber-400 to-amber-600';
-          statusText = 'ปานกลาง';
-        } else {
-          borderClass = 'border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400';
-          rankBadgeClass = 'bg-emerald-600/40 text-emerald-300 border-emerald-500/60';
-          textClass = 'text-emerald-200';
-          pctBadgeClass = 'bg-emerald-950/80 text-emerald-400 border-emerald-500/40';
-          barGradient = 'from-emerald-600 via-emerald-400 to-emerald-600';
-          statusText = 'ปกติ 🟢';
+          statusBadge = '<span class="text-amber-300 bg-amber-500/20 px-1.5 py-0.5 rounded border border-amber-500/40 text-[10px]">🟡 ปานกลาง</span>';
         }
 
-        const timeStr = st.wlTimestamp ? new Date(st.wlTimestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.' : 'ณ ขณะนี้';
         const hasCctv = st.code === 'TA170203' || st.code === 'TA170406' || st.cctvEnabled;
 
         return `
-          <div class="py-0.5 px-1.5 rounded-lg border transition ${borderClass} flex flex-col gap-0.5">
-            <div class="flex items-center justify-between text-xs">
-              <div class="flex items-center gap-1 min-w-0">
-                <span class="w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-mono font-bold border shrink-0 ${rankBadgeClass}">${rank}</span>
-                <span class="font-bold truncate text-[11px] ${textClass}" title="${st.nameTh}">${st.code} ${st.nameTh.replace('สะพานข้ามคลอง', '').replace('สะพานข้ามแม่น้ำ', '')}</span>
+          <div class="p-2.5 rounded-xl border transition ${borderClass} flex flex-col gap-1.5 shadow-sm">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 ${rankBadgeClass}">${rank}</span>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-mono text-[11px] font-bold text-cyan-400 bg-cyan-950/40 px-1.5 py-0.2 rounded border border-cyan-800/50">${st.code}</span>
+                    <span class="font-bold text-xs sm:text-sm ${textClass} truncate" title="${st.nameTh}">${st.nameTh}</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400 truncate">
+                    ${st.subDistrict ? 'ต.' + st.subDistrict : ''} ${st.district ? 'อ.' + st.district : ''} ${st.subBasin ? '(ลุ่มน้ำ' + st.subBasin + ')' : ''}
+                  </div>
+                </div>
               </div>
-              <div class="flex items-center gap-1 shrink-0 font-mono">
-                <span class="font-bold text-[11px] ${pctBadgeClass} px-1 rounded border">${pct.toFixed(0)}%</span>
-                <span class="text-[9px]">${statusText}</span>
+              <div class="flex items-center gap-2 shrink-0 font-mono">
+                <span class="font-bold text-xs ${pctBadgeClass} px-2 py-0.5 rounded-md border">${pct.toFixed(1)}%</span>
+                ${statusBadge}
               </div>
             </div>
-            <div class="flex items-center justify-between gap-1 text-[9px] text-slate-400 font-mono">
-              <div class="w-16 bg-slate-800 rounded-full h-1 overflow-hidden shrink-0">
-                <div class="h-1 rounded-full liquid-bar bg-gradient-to-r ${barGradient}" style="width: ${Math.min(pct, 100)}%"></div>
+
+            <div class="w-full bg-slate-950/80 rounded-full h-1.5 overflow-hidden border border-slate-800/40">
+              <div class="h-1.5 rounded-full liquid-bar bg-gradient-to-r ${barGradient} transition-all duration-500" style="width: ${Math.min(pct, 100)}%"></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-300 font-mono pt-0.5 border-t border-slate-800/40">
+              <div class="flex items-center gap-3">
+                <span>ระดับน้ำ: <strong class="text-amber-300 font-bold">${st.waterLevel !== null && st.waterLevel !== undefined ? (st.waterLevel >= 0 ? '+' : '') + safeFixed(st.waterLevel, 2) + ' ม.' : '-'}</strong></span>
+                <span>อัตราไหล: <strong class="text-cyan-300 font-bold">${st.flowRate !== null && st.flowRate !== undefined ? safeFixed(st.flowRate, 1) + ' m³/s' : '-'}</strong></span>
+                <span class="hidden sm:inline text-slate-400">ฝน 24ชม: <strong class="text-slate-200">${safeFixed(st.rainfall || 0, 1)} มม.</strong></span>
               </div>
-              <div class="flex items-center gap-1.5 truncate">
-                <span>${st.waterLevel !== null ? safeFixed(st.waterLevel, 2) + 'ม.' : '-'}</span>
-                <span class="text-cyan-400">(${safeFixed(st.flowRate, 0)}m³)</span>
-              </div>
-              <div class="flex items-center gap-0.5 shrink-0">
-                <button onclick="flyToDwrStation('${st.code}')" class="text-cyan-300 hover:text-cyan-200 text-[8px] px-1 rounded bg-cyan-950/60 border border-cyan-500/40">📍แผนที่</button>
+              <div class="flex items-center gap-1.5 shrink-0">
+                ${hasCctv ? `
+                  <button onclick="openCctvModal('${st.code}')" class="text-rose-300 hover:text-white text-[10px] px-2 py-0.5 rounded bg-rose-950/80 hover:bg-rose-700 border border-rose-500/50 flex items-center gap-1 transition">
+                    <span>📹 CCTV</span>
+                  </button>
+                ` : ''}
+                <button onclick="flyToDwrStation('${st.code}')" class="text-cyan-300 hover:text-white text-[10px] px-2 py-0.5 rounded bg-cyan-950/80 hover:bg-cyan-700 border border-cyan-500/50 flex items-center gap-1 transition">
+                  <span>📍 แผนที่</span>
+                </button>
               </div>
             </div>
           </div>
         `;
       }).join('');
     }
+
+    // Initial render of top basins with baseline telemetry data
+    const initialTopBasins = [
+      { code: 'TA170404', nameTh: 'สะพานข้ามคลองประแสร์', basinCapPercent: 91.8, waterLevel: 2.85, flowRate: 48.5, rainfall: 42.0, subBasin: 'ประแสร์', subDistrict: 'กระแสบน', district: 'แกลง' },
+      { code: 'TA170406', nameTh: 'สะพานดำ (คลองประแสร์)', basinCapPercent: 88.4, waterLevel: 3.12, flowRate: 64.2, rainfall: 38.5, subBasin: 'ประแสร์', subDistrict: 'ทุ่งควายกิน', district: 'แกลง' },
+      { code: 'TA170203', nameTh: 'สะพานข้ามคลองใหญ่ที่ระยอง', basinCapPercent: 62.5, waterLevel: 1.63, flowRate: 32.84, rainfall: 18.2, subBasin: 'คลองใหญ่', subDistrict: 'ทับมา', district: 'เมืองระยอง' },
+      { code: 'TA170403', nameTh: 'สะพานข้ามคลองชำฆ้อ', basinCapPercent: 54.1, waterLevel: 1.45, flowRate: 19.3, rainfall: 22.0, subBasin: 'ประแสร์', subDistrict: 'ชำฆ้อ', district: 'เขาชะเมา' }
+    ];
+    updateDwrTopBasinList(initialTopBasins, 'DWR โทรมาตรสด');
 
     function updateDwrStationsOnMap(dwrList) {
       if (!dwrList || !dwrList.length || !layers.stations) return;
