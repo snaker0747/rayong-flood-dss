@@ -546,7 +546,7 @@
 
               <label class="flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 select-none">
                 <input type="checkbox" id="chk-stations" checked onchange="toggleLayer('stations')" class="rounded bg-slate-900 border-slate-600 text-blue-500 focus:ring-0">
-                <span>📏 สถานีน้ำ</span>
+                <span>📏 สถานีน้ำ & โทรมาตร DWR</span>
               </label>
 
               <label class="flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 select-none">
@@ -1456,6 +1456,144 @@
             <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1 pt-1 border-t border-rose-500/20 font-mono">
               <span>🕒 วัน-เวลาตรวจวัด:</span>
               <span class="text-rose-300 font-semibold">05 ต.ค. 2569 เวลา 06:00 น. (RID สด)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 อันดับสูงสุด % ความจุลำน้ำ (โทรมาตร DWR กรมทรัพยากรน้ำ สด) -->
+      <div class="glass-panel p-4 rounded-xl border border-slate-800 flex flex-col shadow-xl">
+        <div class="flex items-center justify-between mb-2.5">
+          <div class="flex items-center gap-2">
+            <i data-lucide="waves" class="w-4 h-4 text-cyan-400"></i>
+            <div>
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider">4 อันดับสูงสุด % ความจุลำน้ำ (โทรมาตร DWR สด)</h3>
+              <span class="text-[10px] text-slate-400 font-mono block">
+                🕒 รอบตรวจวัด: <strong class="text-cyan-300 font-semibold" id="dwr-top-time">ณ ขณะนี้ (กรมทรัพยากรน้ำ)</strong>
+              </span>
+            </div>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center gap-1 font-mono">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> DWR Telemetry Live
+          </span>
+        </div>
+
+        <div class="space-y-2.5" id="dwr-top-basin-list">
+          <!-- 1: TA170404 กระแสบน -->
+          <div class="p-2.5 rounded-lg border border-rose-500/40 bg-rose-500/10 hover:border-rose-400 transition">
+            <div class="flex justify-between items-center text-xs mb-1.5">
+              <span class="font-bold flex items-center gap-1.5 truncate pr-2 text-rose-200">
+                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 bg-rose-600/40 text-rose-300 border-rose-500/60">1</span>
+                <span class="truncate" title="สะพานข้ามคลองประแสร์ที่กระแสบน">TA170404 สะพานข้ามคลองประแสร์ที่กระแสบน</span>
+              </span>
+              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 bg-rose-950/80 text-rose-400 border-rose-500/40 animate-pulse">
+                92.4% วิกฤตล้นตลิ่ง ⚠️
+              </span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-rose-600 via-rose-400 to-rose-600" style="width: 92.4%"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
+              <div>ระดับน้ำ: <strong class="text-amber-300">8.00 ม.</strong></div>
+              <div>อัตราไหล: <strong class="text-cyan-300">189.8 m³/s</strong></div>
+              <div>ฝน 24ชม: <strong class="text-slate-300">0.0 มม.</strong></div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
+              <span>🕒 14:04 น. (DWR สด)</span>
+              <button onclick="flyToDwrStation('TA170404')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
+                <span>📍 ดูบนแผนที่</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2: TA170406 สะพานดำ -->
+          <div class="p-2.5 rounded-lg border border-orange-500/40 bg-orange-500/10 hover:border-orange-400 transition">
+            <div class="flex justify-between items-center text-xs mb-1.5">
+              <span class="font-bold flex items-center gap-1.5 truncate pr-2 text-orange-200">
+                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 bg-orange-600/40 text-orange-300 border-orange-500/60">2</span>
+                <span class="truncate" title="สะพานข้ามคลองประแสร์ที่คลองสะพานดำ">TA170406 สะพานข้ามคลองประแสร์ที่คลองสะพานดำ</span>
+              </span>
+              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 bg-orange-950/80 text-orange-400 border-orange-500/40">
+                83.1% เฝ้าระวังสูง 🟠
+              </span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-orange-600 via-orange-400 to-orange-600" style="width: 83.1%"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
+              <div>ระดับน้ำ: <strong class="text-amber-300">2.89 ม.</strong></div>
+              <div>อัตราไหล: <strong class="text-cyan-300">88.4 m³/s</strong></div>
+              <div>ฝน 24ชม: <strong class="text-slate-300">0.0 มม.</strong></div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
+              <span>🕒 14:03 น. (DWR สด)</span>
+              <div class="flex items-center gap-2">
+                <button onclick="openCctvModal('TA170406')" class="text-rose-300 hover:text-rose-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-950/60 border border-rose-500/40 hover:bg-rose-900 transition">
+                  <span>📹 ภาพสด CCTV</span>
+                </button>
+                <button onclick="flyToDwrStation('TA170406')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
+                  <span>📍 ดูบนแผนที่</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3: TA170203 คลองใหญ่ระยอง -->
+          <div class="p-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 transition">
+            <div class="flex justify-between items-center text-xs mb-1.5">
+              <span class="font-bold flex items-center gap-1.5 truncate pr-2 text-emerald-200">
+                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 bg-emerald-600/40 text-emerald-300 border-emerald-500/60">3</span>
+                <span class="truncate" title="สะพานข้ามคลองใหญ่ที่ระยอง">TA170203 สะพานข้ามคลองใหญ่ที่ระยอง</span>
+              </span>
+              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 bg-emerald-950/80 text-emerald-400 border-emerald-500/40">
+                36.2% ปกติ 🟢
+              </span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" style="width: 36.2%"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
+              <div>ระดับน้ำ: <strong class="text-amber-300">1.56 ม.</strong></div>
+              <div>อัตราไหล: <strong class="text-cyan-300">31.0 m³/s</strong></div>
+              <div>ฝน 24ชม: <strong class="text-slate-300">0.0 มม.</strong></div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
+              <span>🕒 13:01 น. (DWR สด)</span>
+              <div class="flex items-center gap-2">
+                <button onclick="openCctvModal('TA170203')" class="text-rose-300 hover:text-rose-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-950/60 border border-rose-500/40 hover:bg-rose-900 transition">
+                  <span>📹 ภาพสด CCTV</span>
+                </button>
+                <button onclick="flyToDwrStation('TA170203')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
+                  <span>📍 ดูบนแผนที่</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4: TA170403 เขาชะเมา -->
+          <div class="p-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400 transition">
+            <div class="flex justify-between items-center text-xs mb-1.5">
+              <span class="font-bold flex items-center gap-1.5 truncate pr-2 text-emerald-200">
+                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 bg-emerald-600/40 text-emerald-300 border-emerald-500/60">4</span>
+                <span class="truncate" title="สะพานข้ามคลองโพล้ที่เขาชะเมา">TA170403 สะพานข้ามคลองโพล้ที่เขาชะเมา</span>
+              </span>
+              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 bg-emerald-950/80 text-emerald-400 border-emerald-500/40">
+                21.1% ปกติ 🟢
+              </span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" style="width: 21.1%"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
+              <div>ระดับน้ำ: <strong class="text-amber-300">36.83 ม.</strong></div>
+              <div>อัตราไหล: <strong class="text-cyan-300">22.7 m³/s</strong></div>
+              <div>ฝน 24ชม: <strong class="text-slate-300">0.0 มม.</strong></div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
+              <span>🕒 14:03 น. (DWR สด)</span>
+              <button onclick="flyToDwrStation('TA170403')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
+                <span>📍 ดูบนแผนที่</span>
+              </button>
             </div>
           </div>
         </div>
@@ -3534,9 +3672,12 @@ const officialReservoirCoords = {
 
       document.getElementById('live-clock').innerText = formatThaiDateTime(now, true);
 
-      const jitter = (Math.random() * 0.02 - 0.01);
-      const curStage = (2.45 + jitter).toFixed(2);
-      document.getElementById('kpi-stage').innerText = `+${curStage}`;
+      if (!liveGovData) {
+        const jitter = (Math.random() * 0.02 - 0.01);
+        const curStage = (2.45 + jitter).toFixed(2);
+        const el = document.getElementById('kpi-stage');
+        if (el) el.innerText = `+${curStage}`;
+      }
     }, 3500);
 
     // 10. CHART.JS HYDROGRAPH (DYNAMIC DATE & TIME LABELS)
@@ -3924,6 +4065,195 @@ const officialReservoirCoords = {
       });
     }
 
+    // ========================================================
+    // 📏 DWR TELEMETRY FUNCTIONS (TOP 4 BASIN CAPACITY & MAP)
+    // ========================================================
+    window.liveDwrMarkers = {};
+
+    function updateDwrTopBasinList(topList, updatedText) {
+      const container = document.getElementById('dwr-top-basin-list');
+      const timeEl = document.getElementById('dwr-top-time');
+      if (timeEl && updatedText) {
+        timeEl.innerText = updatedText + ' (DWR สด)';
+      }
+      if (!container || !topList || topList.length === 0) return;
+
+      container.innerHTML = topList.slice(0, 4).map((st, idx) => {
+        const rank = idx + 1;
+        const pct = safeNum(st.basinCapPercent);
+        let borderClass = 'border-slate-700 bg-slate-900/60';
+        let rankBadgeClass = 'bg-slate-700 text-slate-300 border-slate-600';
+        let textClass = 'text-slate-200';
+        let pctBadgeClass = 'bg-slate-800 text-slate-300 border-slate-700';
+        let barGradient = 'from-emerald-600 via-teal-400 to-emerald-600';
+        let statusText = 'ปกติ';
+
+        if (pct >= 90) {
+          borderClass = 'border-rose-500/40 bg-rose-500/10 hover:border-rose-400';
+          rankBadgeClass = 'bg-rose-600/40 text-rose-300 border-rose-500/60';
+          textClass = 'text-rose-200';
+          pctBadgeClass = 'bg-rose-950/80 text-rose-400 border-rose-500/40 animate-pulse';
+          barGradient = 'from-rose-600 via-rose-400 to-rose-600';
+          statusText = 'วิกฤตล้นตลิ่ง ⚠️';
+        } else if (pct >= 80) {
+          borderClass = 'border-orange-500/40 bg-orange-500/10 hover:border-orange-400';
+          rankBadgeClass = 'bg-orange-600/40 text-orange-300 border-orange-500/60';
+          textClass = 'text-orange-200';
+          pctBadgeClass = 'bg-orange-950/80 text-orange-400 border-orange-500/40';
+          barGradient = 'from-orange-600 via-orange-400 to-orange-600';
+          statusText = 'เฝ้าระวังสูง 🟠';
+        } else if (pct >= 50) {
+          borderClass = 'border-amber-500/40 bg-amber-500/10 hover:border-amber-400';
+          rankBadgeClass = 'bg-amber-600/40 text-amber-300 border-amber-500/60';
+          textClass = 'text-amber-200';
+          pctBadgeClass = 'bg-amber-950/80 text-amber-400 border-amber-500/40';
+          barGradient = 'from-amber-600 via-amber-400 to-amber-600';
+          statusText = 'ปานกลาง';
+        } else {
+          borderClass = 'border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-400';
+          rankBadgeClass = 'bg-emerald-600/40 text-emerald-300 border-emerald-500/60';
+          textClass = 'text-emerald-200';
+          pctBadgeClass = 'bg-emerald-950/80 text-emerald-400 border-emerald-500/40';
+          barGradient = 'from-emerald-600 via-emerald-400 to-emerald-600';
+          statusText = 'ปกติ 🟢';
+        }
+
+        const timeStr = st.wlTimestamp ? new Date(st.wlTimestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.' : 'ณ ขณะนี้';
+        const hasCctv = st.code === 'TA170203' || st.code === 'TA170406' || st.cctvEnabled;
+
+        return `
+          <div class="p-2.5 rounded-lg border transition ${borderClass}">
+            <div class="flex justify-between items-center text-xs mb-1.5">
+              <span class="font-bold flex items-center gap-1.5 truncate pr-2 ${textClass}">
+                <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold border shrink-0 ${rankBadgeClass}">${rank}</span>
+                <span class="truncate" title="${st.nameTh}">${st.code} ${st.nameTh}</span>
+              </span>
+              <span class="font-mono font-bold text-xs px-2 py-0.5 rounded border shrink-0 ${pctBadgeClass}">
+                ${pct.toFixed(1)}% ${statusText}
+              </span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-1.5">
+              <div class="h-2 rounded-full liquid-bar bg-gradient-to-r ${barGradient}" style="width: ${Math.min(pct, 100)}%"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 text-[10px] text-slate-300 bg-black/40 p-1.5 rounded border border-slate-800/80 font-mono">
+              <div>ระดับน้ำ: <strong class="text-amber-300">${st.waterLevel !== null && st.waterLevel !== undefined ? safeFixed(st.waterLevel, 2) + ' ม.' : '-'}</strong></div>
+              <div>อัตราไหล: <strong class="text-cyan-300">${st.flowRate !== null && st.flowRate !== undefined ? safeFixed(st.flowRate, 1) + ' m³/s' : '-'}</strong></div>
+              <div>ฝน 24ชม: <strong class="text-slate-300">${safeFixed(st.rainfall || 0, 1)} มม.</strong></div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-slate-400 mt-1.5 pt-1 border-t border-slate-800/80 font-mono">
+              <span>🕒 ${timeStr} (DWR สด)</span>
+              <div class="flex items-center gap-2">
+                ${hasCctv ? `
+                  <button onclick="openCctvModal('${st.code}')" class="text-rose-300 hover:text-rose-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-950/60 border border-rose-500/40 hover:bg-rose-900 transition">
+                    <span>📹 ภาพสด CCTV</span>
+                  </button>
+                ` : ''}
+                <button onclick="flyToDwrStation('${st.code}')" class="text-cyan-300 hover:text-cyan-200 flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/40 hover:bg-cyan-900 transition">
+                  <span>📍 ดูบนแผนที่</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateDwrStationsOnMap(dwrList) {
+      if (!dwrList || !dwrList.length || !layers.stations) return;
+
+      dwrList.forEach(st => {
+        if (!st.lat || !st.lng) return;
+
+        // Clean previous marker if present
+        if (window.liveDwrMarkers[st.code]) {
+          try { layers.stations.removeLayer(window.liveDwrMarkers[st.code]); } catch (e) {}
+        }
+
+        const pct = safeNum(st.basinCapPercent);
+        let badgeClass = 'badge-normal';
+        if (pct >= 90) badgeClass = 'badge-critical';
+        else if (pct >= 80) badgeClass = 'badge-tide-surge';
+        else if (pct >= 50) badgeClass = 'badge-watch';
+
+        const displayLabel = pct > 0 ? `${pct.toFixed(0)}%` : (st.waterLevel ? `${safeFixed(st.waterLevel, 1)}ม.` : 'DWR');
+
+        const icon = L.divIcon({
+          className: 'custom-station-marker',
+          html: `
+            <div class="station-badge ${badgeClass}" style="padding: 2.5px 7px; font-size: 10px; cursor: pointer; white-space: nowrap;">
+              <span>📏 ${st.code}</span>
+              <span class="bg-black/50 px-1 py-0.2 rounded font-mono font-bold text-[9.5px]">${displayLabel}</span>
+            </div>
+          `,
+          iconSize: [120, 24],
+          iconAnchor: [60, 12]
+        });
+
+        const marker = L.marker([st.lat, st.lng], { icon: icon }).addTo(layers.stations);
+        window.liveDwrMarkers[st.code] = marker;
+
+        const timeStr = st.wlTimestamp ? new Date(st.wlTimestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.' : (st.timestamp ? new Date(st.timestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.' : 'ณ ขณะนี้');
+        const hasCctv = st.code === 'TA170203' || st.code === 'TA170406' || st.cctvEnabled;
+
+        const popupHtml = `
+          <div class="text-xs p-2 min-w-[240px]">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-1.5 mb-1.5">
+              <div class="flex items-center gap-1.5 font-bold text-sm text-cyan-300">
+                <span>🏛️ โทรมาตร DWR</span>
+                <span class="text-white">${st.code}</span>
+              </div>
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold ${pct >= 90 ? 'bg-rose-950 text-rose-300 border border-rose-500/40' : (pct >= 80 ? 'bg-orange-950 text-orange-300 border border-orange-500/40' : 'bg-emerald-950 text-emerald-300 border border-emerald-500/40')}">
+                ${pct > 0 ? pct.toFixed(1) + '%' : 'ปกติ'}
+              </span>
+            </div>
+            <div class="font-semibold text-slate-100 text-[12px] mb-1">${st.nameTh}</div>
+            <div class="text-[10px] text-slate-400 mb-2">
+              <span>ลุ่มน้ำ: <strong>${st.subBasin || 'ระยอง'}</strong></span> | 
+              <span>ต. ${st.subDistrict || '-'} อ. ${st.district || '-'}</span>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 bg-slate-900/80 p-2 rounded-lg border border-slate-800 text-[11px] mb-2 font-mono">
+              <div class="text-slate-300">ความจุลำน้ำ: <strong class="${pct >= 90 ? 'text-rose-400 font-bold' : (pct >= 80 ? 'text-orange-400 font-bold' : 'text-emerald-400')}">${pct.toFixed(1)}%</strong></div>
+              <div class="text-slate-300">ระดับน้ำ: <strong class="text-amber-300">${st.waterLevel !== null && st.waterLevel !== undefined ? safeFixed(st.waterLevel, 2) + ' ม.' : '-'}</strong></div>
+              <div class="text-slate-300">อัตราการไหล: <strong class="text-cyan-300">${st.flowRate !== null && st.flowRate !== undefined ? safeFixed(st.flowRate, 1) + ' m³/s' : '-'}</strong></div>
+              <div class="text-slate-300">ฝน 24ชม: <strong class="text-slate-300">${safeFixed(st.rainfall || 0, 1)} มม.</strong></div>
+            </div>
+            <div class="flex items-center justify-between text-[10px] text-slate-400 border-t border-slate-800 pt-1.5 font-mono">
+              <span>🕒 ${timeStr}</span>
+              <span class="text-cyan-300 font-semibold">กรมทรัพยากรน้ำ สด</span>
+            </div>
+            ${hasCctv ? `
+              <button onclick="openCctvModal('${st.code}')" class="w-full mt-2 py-1 px-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded text-[11px] flex items-center justify-center gap-1.5 transition shadow">
+                <span>📹 เปิดดูภาพสด CCTV (${st.code})</span>
+              </button>
+            ` : ''}
+          </div>
+        `;
+
+        marker.bindPopup(popupHtml);
+      });
+    }
+
+    function flyToDwrStation(code) {
+      if (typeof switchMode === 'function') switchMode('gis');
+      const marker = window.liveDwrMarkers && window.liveDwrMarkers[code];
+      if (marker) {
+        map.flyTo(marker.getLatLng(), 14, { duration: 1.2 });
+        setTimeout(() => {
+          marker.openPopup();
+        }, 1250);
+      } else {
+        const coordsMap = {
+          'TA170404': [12.85044, 101.63364],
+          'TA170406': [12.78338, 101.65397],
+          'TA170203': [12.68, 101.29278],
+          'TA170403': [12.98786, 101.66553]
+        };
+        if (coordsMap[code]) {
+          map.flyTo(coordsMap[code], 14, { duration: 1.2 });
+        }
+      }
+    }
+
     async function fetchRealtimeGovData() {
       try {
         console.log("Connecting to /api/rayong-realtime (Aggregated DWR & ThaiWater Stream)...");
@@ -4046,6 +4376,21 @@ const officialReservoirCoords = {
                 }
               }
             } catch (e) { console.warn("Error updating DWR stations:", e); }
+
+            // 4.1 Update DWR Top 4 River Basin Capacity Widget
+            try {
+              if (json.topRiverBasinCap || json.dwrStations) {
+                const topList = json.topRiverBasinCap || [...json.dwrStations].sort((a,b) => (b.basinCapPercent || 0) - (a.basinCapPercent || 0));
+                updateDwrTopBasinList(topList, json.updatedText);
+              }
+            } catch (e) { console.warn("Error updating DWR Top Basin List:", e); }
+
+            // 4.2 Update DWR Stations on Leaflet Map
+            try {
+              if (json.dwrStations && json.dwrStations.length) {
+                updateDwrStationsOnMap(json.dwrStations);
+              }
+            } catch (e) { console.warn("Error updating DWR stations on map:", e); }
 
             // 5. Update river stations warnings
             try {

@@ -108,8 +108,33 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // 1. Fetch DWR Telemetry stations
-    const dwrPromise = fetchPostJson('https://telemetry.dwr.go.th/api/public/reportCurrentStatus/getCurrentStatus', {});
+    // 1. Fetch DWR Telemetry stations (Rayong specific stnSearch with coordinates & % basin capacity)
+    const dwrPromise = fetchPostJson('https://telemetry.dwr.go.th/api/public/teleMap/stnSearch', {
+      filter: {
+        waterStatusMode: 'RiverBasinCapStatus',
+        mode: 'ANY',
+        onlyCCTV: false,
+        eqWl: true,
+        eqRf: true,
+        eqCctv: true,
+        agencyDwr: true,
+        agencyRid: false,
+        agencyHii: false,
+        agencyEws: true,
+        agencyEgat: false,
+        rfLvNone: true,
+        rfLvLight: true,
+        rfLvModerate: true,
+        rfLvHeavy: true,
+        rfLvVeryHeavy: true,
+        rbCapCritLow: true,
+        rbCapLow: true,
+        rbCapNormal: true,
+        rbCapHigh: true,
+        rbCapOverCap: true,
+        provinceIds: ['607b0794-7c20-444c-81bd-5375fac9e15f']
+      }
+    });
     
     // 2. Fetch ThaiWater Dams for Rayong (province 21)
     const damPromise = fetchGetJson('https://api-v3.thaiwater.net/api/v1/thaiwater30/provinces/dam?province_id=21');
@@ -131,13 +156,18 @@ module.exports = async function handler(req, res) {
       wlPromise
     ]);
 
-    // Process DWR Stations (Filter for Rayong)
-    const allDwr = dwrRaw?.value || [];
+    // Process DWR Stations (Fallback to getCurrentStatus if needed)
+    let dwrStationsRaw = dwrRaw;
+    if (!dwrStationsRaw?.value || dwrStationsRaw.value.length === 0) {
+      dwrStationsRaw = await fetchPostJson('https://telemetry.dwr.go.th/api/public/reportCurrentStatus/getCurrentStatus', {});
+    }
+
+    const allDwr = dwrStationsRaw?.value || [];
     const dwrRayong = allDwr.filter(s => {
       const code = s.code || '';
       const prov = s.addressInfo?.provinceInfo?.nameTh || '';
       const provCode = s.addressInfo?.provinceInfo?.code || '';
-      return prov === 'ระยอง' || provCode === '21' || code.startsWith('TA17');
+      return prov === 'ระยอง' || provCode === '21' || code.startsWith('TA17') || (s.point && s.point.lat > 12.5 && s.point.lat < 13.2 && s.point.lon > 101.0 && s.point.lon < 102.0);
     }).map(s => ({
       code: s.code,
       nameTh: s.nameTh,
@@ -145,13 +175,23 @@ module.exports = async function handler(req, res) {
       waterLevel: s.currWaterLevelValue,
       flowRate: s.currFlowRateValue,
       rainfall: s.currRainfallValue,
-      basinCapPercent: s.currRiverBasinCapValue,
-      timestamp: s.currTimestamp,
+      basinCapPercent: s.currRiverBasinCapValue ? Math.round(s.currRiverBasinCapValue * 10) / 10 : 0,
+      timestamp: s.currDataTimestamp || s.currTimestamp,
       wlTimestamp: s.currWlTimestamp,
+      rfTimestamp: s.currRfTimestamp,
       cctvEnabled: s.cctvEnabled,
+      lat: s.point?.lat,
+      lng: s.point?.lon,
       district: s.addressInfo?.districtInfo?.nameTh || '',
-      subDistrict: s.addressInfo?.subDistrictInfo?.nameTh || ''
+      subDistrict: s.addressInfo?.subDistrictInfo?.nameTh || '',
+      subBasin: s.subBasinInfo?.nameTh || ''
     }));
+
+    // Top River Basin Capacity (% ความจุลำน้ำ)
+    const topRiverBasinCap = [...dwrRayong]
+      .filter(s => (s.basinCapPercent > 0 || (s.waterLevel !== null && s.waterLevel > 0)))
+      .sort((a, b) => b.basinCapPercent - a.basinCapPercent)
+      .slice(0, 4);
 
     // Process Dams (5 Reservoirs in Rayong - Dual Sync: ThaiWater + RID Public API)
     const dailyDams = damRaw?.data?.dam_daily || [];
@@ -361,6 +401,7 @@ module.exports = async function handler(req, res) {
       updatedText: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' น.',
       reservoirs,
       dwrStations: dwrRayong,
+      topRiverBasinCap,
       riverStations,
       rainfallStations,
       summary: {
