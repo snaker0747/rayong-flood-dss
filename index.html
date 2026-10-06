@@ -917,32 +917,29 @@
             <div>
               <div class="flex items-center gap-2 flex-wrap">
                 <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                  <span>ถ่ายทอดสดกล้องวงจรปิดระดับน้ำและเรดาร์ชายฝั่งระยอง</span>
-                  <span class="text-rose-400 font-mono">(DWR & GISTDA Live)</span>
+                  <span>กล้องวงจรปิดระดับน้ำและเรดาร์ชายฝั่งระยอง</span>
+                  <span class="text-rose-400 font-mono">(DWR & GISTDA)</span>
                 </h3>
-                <span class="px-2 py-0.5 rounded text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 flex items-center gap-1 animate-pulse">
-                  <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-                  <span>LIVE 5 จุดตรวจวัด</span>
+                <span class="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+                  <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i>
+                  <span>โหมดประหยัดแบนด์วิธ (Bandwidth Saver)</span>
                 </span>
               </div>
               <p class="text-[10px] text-slate-400">
-                โทรมาตรระดับน้ำแม่น้ำ (กรมทรัพยากรน้ำ) และเรดาร์ชายฝั่งปากอ่าว (GISTDA & Webcamera24)
+                แสดงภาพตัวอย่างเพื่อประหยัดทรัพยากร • สามารถคลิกปุ่มเพื่อเปิดดูสตรีมสดผ่านเบราว์เซอร์ภายนอกได้โดยตรง
               </p>
             </div>
           </div>
 
-          <!-- Controls: Auto-refresh Countdown & View Switcher -->
+          <!-- Controls: Manual Snapshot Refresh & View Switcher -->
           <div class="flex items-center gap-2">
-            <span class="text-[10px] font-mono text-emerald-300 bg-slate-900/90 border border-emerald-500/40 px-2.5 py-0.5 rounded flex items-center gap-1.5 shadow-sm">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>ถ่ายทอดสดตรง</span>
-            </span>
-            <button onclick="refreshAllCctvFeeds()" title="รีเฟรชภาพสดกล้องแม่น้ำทันที" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 text-xs transition">
-              <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+            <button onclick="refreshAllCctvFeeds(true)" title="รีเฟรชภาพตัวอย่างกล้องทันที" class="py-1 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 text-xs transition flex items-center gap-1.5 shadow">
+              <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-cyan-400"></i>
+              <span class="text-[11px] font-medium">รีเฟรชภาพ</span>
             </button>
-            <button onclick="openCctvModal('TA170203')" title="เปิดดูแบบขยายเต็มจอ" class="px-2 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-[11px] font-bold flex items-center gap-1 transition shadow">
+            <button onclick="openCctvModal('TA170203')" title="เปิดดูแบบขยายตัวอย่าง" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-[11px] font-bold flex items-center gap-1 transition border border-slate-700">
               <i data-lucide="maximize" class="w-3 h-3"></i>
-              <span>ขยายเต็มจอ</span>
+              <span>ดูพรีวิว</span>
             </button>
           </div>
         </div>
@@ -969,7 +966,7 @@
             <!-- Camera Header -->
             <div class="p-2 bg-slate-900/90 border-b border-slate-800/80 flex items-center justify-between text-xs">
               <div class="flex items-center gap-1.5 truncate">
-                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping shrink-0"></span>
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse shrink-0"></span>
                 <strong class="text-white text-[11px] truncate">1. สะพานคลองใหญ่ (TA170203)</strong>
               </div>
               <span class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">
@@ -978,7 +975,7 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('TA170203')">
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="window.open('http://live:Live2025!@ta170203.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true', '_blank')">
               <img id="cctv-gallery-img-TA170203" src="" alt="Live Camera TA170203" class="w-full h-full object-contain group-hover:scale-105 transition duration-300" />
               
               <!-- Loader -->
@@ -988,21 +985,21 @@
 
               <!-- Live HUD On Image -->
               <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-rose-300 border border-slate-700 z-10">
-                <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
-                <span>🔴 DWR DIRECT LIVE</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                <span>📷 DWR SNAPSHOT</span>
               </div>
 
-              <!-- Hover prompt overlay to trigger popup -->
-              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+              <!-- Hover prompt overlay to trigger external browser -->
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
                 <span class="p-2 rounded-full bg-rose-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
-                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
                 </span>
-                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-rose-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-rose-500/50 shadow">คลิกเปิดดูสดผ่านเบราว์เซอร์ภายนอก</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
                 <span>WL: <strong id="cctv-gallery-wl-TA170203" class="text-cyan-300">1.65 ม.</strong> | FR: <strong id="cctv-gallery-fr-TA170203" class="text-amber-300">33.1 m³/s</strong></span>
-                <span class="text-[9px] text-slate-300" id="cctv-time-TA170203">กำลังโหลด...</span>
+                <span class="text-[9px] text-slate-300" id="cctv-time-TA170203">โหมดประหยัด</span>
               </div>
             </div>
 
@@ -1018,17 +1015,17 @@
               </div>
 
               <div class="flex items-center gap-1.5 pt-1.5 border-t border-slate-800/80">
-                <button onclick="zoomToCctvMarker('TA170203')" class="flex-1 py-1 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold flex items-center justify-center gap-1 transition">
-                  <i data-lucide="crosshair" class="w-3 h-3 text-cyan-400"></i>
-                  <span>ซูมแผนที่</span>
-                </button>
-                <button onclick="openCctvModal('TA170203')" class="flex-1 py-1 px-2 rounded bg-rose-600/90 hover:bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
-                  <i data-lucide="maximize-2" class="w-3 h-3"></i>
-                  <span>ดูจอใหญ่</span>
-                </button>
-                <a href="http://live:Live2025!@ta170203.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true" target="_blank" rel="noopener noreferrer" title="เปิดหน้าต่างสตรีมสดตรงจากตัวกล้อง" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 text-[10px] border border-slate-700 flex items-center justify-center">
+                <a href="http://live:Live2025!@ta170203.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true" target="_blank" rel="noopener noreferrer" title="เปิดหน้าต่างสตรีมสดตรงจากตัวกล้องในเบราว์เซอร์ใหม่" class="flex-1 py-1.5 px-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <span>ดูสดเบราว์เซอร์นอก</span>
                 </a>
+                <button onclick="openCctvModal('TA170203')" class="py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-medium flex items-center justify-center gap-1 transition border border-slate-700">
+                  <i data-lucide="eye" class="w-3 h-3 text-cyan-400"></i>
+                  <span>พรีวิว</span>
+                </button>
+                <button onclick="zoomToCctvMarker('TA170203')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] flex items-center justify-center transition border border-slate-700" title="ซูมแผนที่">
+                  <i data-lucide="crosshair" class="w-3.5 h-3.5 text-slate-400"></i>
+                </button>
               </div>
             </div>
 
@@ -1040,7 +1037,7 @@
             <!-- Camera Header -->
             <div class="p-2 bg-slate-900/90 border-b border-slate-800/80 flex items-center justify-between text-xs">
               <div class="flex items-center gap-1.5 truncate">
-                <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping shrink-0"></span>
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
                 <strong class="text-white text-[11px] truncate">2. สะพานคลองสะพานดำ (TA170406)</strong>
               </div>
               <span class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">
@@ -1049,7 +1046,7 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('TA170406')">
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="window.open('http://live:Live2025!@ta170406.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true', '_blank')">
               <img id="cctv-gallery-img-TA170406" src="" alt="Live Camera TA170406" class="w-full h-full object-contain group-hover:scale-105 transition duration-300" />
               
               <!-- Loader -->
@@ -1059,21 +1056,21 @@
 
               <!-- Live HUD On Image -->
               <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-amber-300 border border-slate-700 z-10">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
-                <span>🔴 DWR DIRECT LIVE</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                <span>📷 DWR SNAPSHOT</span>
               </div>
 
-              <!-- Hover prompt overlay to trigger popup -->
-              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+              <!-- Hover prompt overlay to trigger external browser -->
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
                 <span class="p-2 rounded-full bg-amber-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
-                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
                 </span>
-                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-amber-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-amber-500/50 shadow">คลิกเปิดดูสดผ่านเบราว์เซอร์ภายนอก</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/80 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
                 <span>WL: <strong id="cctv-gallery-wl-TA170406" class="text-rose-400">2.97 ม.</strong> | FR: <strong id="cctv-gallery-fr-TA170406" class="text-amber-300">92.9 m³/s</strong></span>
-                <span class="text-[9px] text-slate-300" id="cctv-time-TA170406">กำลังโหลด...</span>
+                <span class="text-[9px] text-slate-300" id="cctv-time-TA170406">โหมดประหยัด</span>
               </div>
             </div>
 
@@ -1089,17 +1086,17 @@
               </div>
 
               <div class="flex items-center gap-1.5 pt-1.5 border-t border-slate-800/80">
-                <button onclick="zoomToCctvMarker('TA170406')" class="flex-1 py-1 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold flex items-center justify-center gap-1 transition">
-                  <i data-lucide="crosshair" class="w-3 h-3 text-cyan-400"></i>
-                  <span>ซูมแผนที่</span>
-                </button>
-                <button onclick="openCctvModal('TA170406')" class="flex-1 py-1 px-2 rounded bg-rose-600/90 hover:bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
-                  <i data-lucide="maximize-2" class="w-3 h-3"></i>
-                  <span>ดูจอใหญ่</span>
-                </button>
-                <a href="http://live:Live2025!@ta170406.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true" target="_blank" rel="noopener noreferrer" title="เปิดหน้าต่างสตรีมสดตรงจากตัวกล้อง" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 text-[10px] border border-slate-700 flex items-center justify-center">
+                <a href="http://live:Live2025!@ta170406.dyndns.info:5001/fullscreen.htm?stream=2&autoresize=true" target="_blank" rel="noopener noreferrer" title="เปิดหน้าต่างสตรีมสดตรงจากตัวกล้องในเบราว์เซอร์ใหม่" class="flex-1 py-1.5 px-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <span>ดูสดเบราว์เซอร์นอก</span>
                 </a>
+                <button onclick="openCctvModal('TA170406')" class="py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-medium flex items-center justify-center gap-1 transition border border-slate-700">
+                  <i data-lucide="eye" class="w-3 h-3 text-amber-400"></i>
+                  <span>พรีวิว</span>
+                </button>
+                <button onclick="zoomToCctvMarker('TA170406')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] flex items-center justify-center transition border border-slate-700" title="ซูมแผนที่">
+                  <i data-lucide="crosshair" class="w-3.5 h-3.5 text-slate-400"></i>
+                </button>
               </div>
             </div>
 
@@ -1111,7 +1108,7 @@
             <!-- Camera Header -->
             <div class="p-2 bg-slate-900/90 border-b border-slate-800/80 flex items-center justify-between text-xs">
               <div class="flex items-center gap-1.5 truncate">
-                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
+                <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>
                 <strong class="text-white text-[11px] truncate">3. ท่าเรือบ้านเพ (GISTDA S031)</strong>
               </div>
               <span class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0">
@@ -1119,33 +1116,27 @@
               </span>
             </div>
 
-            <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('GISTDA_S031')">
-              <video id="cctv-gallery-video-GISTDA_S031" autoplay muted playsinline loop class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
-              <img id="cctv-gallery-img-GISTDA_S031" src="https://cdn.webcamera24.com/static/image/camera/detail/7195-ban-phae-ban-phe-uastreaming/thumbnail/968x545/7195_1692098373_akppxhhpujpxmjwusxuisnlxzcosdeaomxqqqudz.webp" alt="Live Camera Ban Phe Pier" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 hidden" />
+            <!-- Video/Snapshot Screen (Poster image, no autoplay video stream) -->
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="window.open('https://coastalradar.gistda.or.th/cctvlive/100352499133831682028641249087836640405/live.html', '_blank')">
+              <img id="cctv-gallery-img-GISTDA_S031" src="https://cdn.webcamera24.com/static/image/camera/detail/7195-ban-phae-ban-phe-uastreaming/thumbnail/968x545/7195_1692098373_akppxhhpujpxmjwusxuisnlxzcosdeaomxqqqudz.webp" alt="Live Camera Ban Phe Pier" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
               
-              <!-- Loader -->
-              <div id="cctv-loader-GISTDA_S031" class="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
-                <div class="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-              </div>
-
               <!-- Live HUD On Image -->
               <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-cyan-300 border border-slate-700 z-10">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span>🔴 GISTDA STREAM LIVE</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                <span>⚓ GISTDA RADAR</span>
               </div>
 
-              <!-- Hover prompt overlay to trigger popup -->
-              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+              <!-- Hover prompt overlay to trigger external browser -->
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
                 <span class="p-2 rounded-full bg-cyan-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
-                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
                 </span>
-                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-cyan-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-cyan-500/50 shadow">คลิกเปิดดูสตรีมสด GISTDA (แท็บใหม่)</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
                 <span>คลื่น: <strong class="text-cyan-300">0.4-0.7 ม.</strong> | ทะเล: <strong class="text-emerald-300">ปกติ</strong></span>
-                <span class="text-[9px] text-cyan-300 font-bold" id="cctv-time-GISTDA_S031">● สดต่อเนื่อง</span>
+                <span class="text-[9px] text-cyan-300 font-bold" id="cctv-time-GISTDA_S031">โหมดประหยัด</span>
               </div>
             </div>
 
@@ -1161,17 +1152,17 @@
               </div>
 
               <div class="flex items-center gap-1.5 pt-1.5 border-t border-slate-800/80">
-                <button onclick="zoomToCctvMarker('GISTDA_S031')" class="flex-1 py-1 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold flex items-center justify-center gap-1 transition">
-                  <i data-lucide="crosshair" class="w-3 h-3 text-cyan-400"></i>
-                  <span>ซูมแผนที่</span>
-                </button>
-                <button onclick="openCctvModal('GISTDA_S031')" class="flex-1 py-1 px-2 rounded bg-cyan-600/90 hover:bg-cyan-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
-                  <i data-lucide="maximize-2" class="w-3 h-3"></i>
-                  <span>ดูจอใหญ่</span>
-                </button>
-                <a href="https://coastalradar.gistda.or.th/cctvlive/100352499133831682028641249087836640405/live.html" target="_blank" rel="noopener noreferrer" title="เปิดหน้าต่างสตรีมสดตรงจาก GISTDA" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[10px] border border-slate-700 flex items-center justify-center">
+                <a href="https://coastalradar.gistda.or.th/cctvlive/100352499133831682028641249087836640405/live.html" target="_blank" rel="noopener noreferrer" title="เปิดดูสตรีมสดตรงจากเว็บ GISTDA" class="flex-1 py-1.5 px-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <span>ดูสดเบราว์เซอร์นอก</span>
                 </a>
+                <button onclick="openCctvModal('GISTDA_S031')" class="py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-medium flex items-center justify-center gap-1 transition border border-slate-700">
+                  <i data-lucide="eye" class="w-3 h-3 text-cyan-400"></i>
+                  <span>พรีวิว</span>
+                </button>
+                <button onclick="zoomToCctvMarker('GISTDA_S031')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] flex items-center justify-center transition border border-slate-700" title="ซูมแผนที่">
+                  <i data-lucide="crosshair" class="w-3.5 h-3.5 text-slate-400"></i>
+                </button>
               </div>
             </div>
 
@@ -1183,7 +1174,7 @@
             <!-- Camera Header -->
             <div class="p-2 bg-slate-900/90 border-b border-slate-800/80 flex items-center justify-between text-xs">
               <div class="flex items-center gap-1.5 truncate">
-                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
+                <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>
                 <strong class="text-white text-[11px] truncate">4. หาดพยูน (GISTDA S042)</strong>
               </div>
               <span class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0">
@@ -1191,33 +1182,27 @@
               </span>
             </div>
 
-            <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('GISTDA_S042')">
-              <video id="cctv-gallery-video-GISTDA_S042" autoplay muted playsinline loop class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
-              <img id="cctv-gallery-img-GISTDA_S042" src="https://cdn.webcamera24.com/static/image/camera/detail/7196-hat-pyun-plaz-paun-uastreaming/thumbnail/968x545/7196_1692098271_eqqrulucvbmdtfzsnolwbblayvsuvmnasulnjwwb.webp" alt="Live Camera Phayun Beach" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 hidden" />
+            <!-- Video/Snapshot Screen (Poster image, no autoplay video stream) -->
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="window.open('https://coastalradar.gistda.or.th/cctvlive/106503982638575697228475930513862621829/live.html', '_blank')">
+              <img id="cctv-gallery-img-GISTDA_S042" src="https://cdn.webcamera24.com/static/image/camera/detail/7196-hat-pyun-plaz-paun-uastreaming/thumbnail/968x545/7196_1692098271_eqqrulucvbmdtfzsnolwbblayvsuvmnasulnjwwb.webp" alt="Live Camera Phayun Beach" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
               
-              <!-- Loader -->
-              <div id="cctv-loader-GISTDA_S042" class="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
-                <div class="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-              </div>
-
               <!-- Live HUD On Image -->
               <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-cyan-300 border border-slate-700 z-10">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span>🔴 GISTDA STREAM LIVE</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                <span>⚓ GISTDA RADAR</span>
               </div>
 
-              <!-- Hover prompt overlay to trigger popup -->
-              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+              <!-- Hover prompt overlay to trigger external browser -->
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
                 <span class="p-2 rounded-full bg-cyan-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
-                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
                 </span>
-                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-cyan-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-cyan-500/50 shadow">คลิกเปิดดูสตรีมสด GISTDA (แท็บใหม่)</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
                 <span>คลื่น: <strong class="text-cyan-300">0.3-0.6 ม.</strong> | ทะเล: <strong class="text-emerald-300">ปกติ</strong></span>
-                <span class="text-[9px] text-cyan-300 font-bold" id="cctv-time-GISTDA_S042">● สดต่อเนื่อง</span>
+                <span class="text-[9px] text-cyan-300 font-bold" id="cctv-time-GISTDA_S042">โหมดประหยัด</span>
               </div>
             </div>
 
@@ -1233,17 +1218,17 @@
               </div>
 
               <div class="flex items-center gap-1.5 pt-1.5 border-t border-slate-800/80">
-                <button onclick="zoomToCctvMarker('GISTDA_S042')" class="flex-1 py-1 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold flex items-center justify-center gap-1 transition">
-                  <i data-lucide="crosshair" class="w-3 h-3 text-cyan-400"></i>
-                  <span>ซูมแผนที่</span>
-                </button>
-                <button onclick="openCctvModal('GISTDA_S042')" class="flex-1 py-1 px-2 rounded bg-cyan-600/90 hover:bg-cyan-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
-                  <i data-lucide="maximize-2" class="w-3 h-3"></i>
-                  <span>ดูจอใหญ่</span>
-                </button>
-                <a href="https://coastalradar.gistda.or.th/cctvlive/106503982638575697228475930513862621829/live.html" target="_blank" rel="noopener noreferrer" title="เปิดหน้าต่างสตรีมสดตรงจาก GISTDA" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[10px] border border-slate-700 flex items-center justify-center">
+                <a href="https://coastalradar.gistda.or.th/cctvlive/106503982638575697228475930513862621829/live.html" target="_blank" rel="noopener noreferrer" title="เปิดดูสตรีมสดตรงจากเว็บ GISTDA" class="flex-1 py-1.5 px-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <span>ดูสดเบราว์เซอร์นอก</span>
                 </a>
+                <button onclick="openCctvModal('GISTDA_S042')" class="py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-medium flex items-center justify-center gap-1 transition border border-slate-700">
+                  <i data-lucide="eye" class="w-3 h-3 text-cyan-400"></i>
+                  <span>พรีวิว</span>
+                </button>
+                <button onclick="zoomToCctvMarker('GISTDA_S042')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] flex items-center justify-center transition border border-slate-700" title="ซูมแผนที่">
+                  <i data-lucide="crosshair" class="w-3.5 h-3.5 text-slate-400"></i>
+                </button>
               </div>
             </div>
 
@@ -1255,7 +1240,7 @@
             <!-- Camera Header -->
             <div class="p-2 bg-slate-900/90 border-b border-slate-800/80 flex items-center justify-between text-xs">
               <div class="flex items-center gap-1.5 truncate">
-                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0"></span>
+                <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
                 <strong class="text-white text-[11px] truncate">5. หาดแหลมแม่พิมพ์ (GISTDA S046)</strong>
               </div>
               <span class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">
@@ -1264,35 +1249,26 @@
             </div>
 
             <!-- Video/Snapshot Screen -->
-            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="openCctvModal('GISTDA_S046')">
-              <img id="cctv-gallery-img-GISTDA_S046" src="https://cdn.webcamera24.com/static/image/camera/detail/7197-hat-phim-plaz-mae-phim-uastreaming/thumbnail/968x545/7197_1692098082_ywbneekworijlimsodyoiaeoujqewuleoiomvemn.webp" alt="Live Camera Laem Mae Phim" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-60" />
+            <div class="relative bg-black aspect-video overflow-hidden flex items-center justify-center cursor-pointer group/screen" onclick="window.open('https://webcamera24.com/camera/thailand/7197-hat-phim-plaz-mae-phim/', '_blank')">
+              <img id="cctv-gallery-img-GISTDA_S046" src="https://cdn.webcamera24.com/static/image/camera/detail/7197-hat-phim-plaz-mae-phim-uastreaming/thumbnail/968x545/7197_1692098082_ywbneekworijlimsodyoiaeoujqewuleoiomvemn.webp" alt="Live Camera Laem Mae Phim" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-75" />
               
-              <!-- Offline Alert Overlay -->
-              <div class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center p-3 text-center pointer-events-none z-10">
-                <span class="px-2 py-1 rounded bg-amber-500/30 text-amber-300 text-[10px] font-bold border border-amber-500/50 flex items-center gap-1 shadow">
-                  <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-                  <span>ต้นทาง GISTDA กำลังซ่อมบำรุงสัญญาณ</span>
-                </span>
-                <span class="text-[9px] text-slate-300 mt-1">แสดงภาพบันทึกก่อนหน้า (รอเชื่อมต่อใหม่อัตโนมัติ)</span>
-              </div>
-
               <!-- Live HUD On Image -->
               <div class="absolute top-1.5 left-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-mono font-bold text-amber-300 border border-slate-700 z-10">
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                <span>ภาพบันทึกก่อนหน้า</span>
+                <span>ภาพบันทึกล่าสุด</span>
               </div>
 
-              <!-- Hover prompt overlay to trigger popup -->
-              <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
+              <!-- Hover prompt overlay to trigger external browser -->
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/screen:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 z-20 pointer-events-none">
                 <span class="p-2 rounded-full bg-amber-600/90 text-white shadow-lg flex items-center justify-center transform group-hover/screen:scale-110 transition duration-200">
-                  <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
                 </span>
-                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-amber-500/50 shadow">คลิกเพื่อดูภาพวิวสด (Popup)</span>
+                <span class="text-[10px] font-bold text-white bg-black/85 px-2.5 py-0.5 rounded-full border border-amber-500/50 shadow">คลิกเปิดดูสดผ่าน Webcamera24</span>
               </div>
 
               <div class="absolute bottom-1.5 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white bg-black/85 backdrop-blur-sm px-2 py-0.5 rounded border border-slate-800 z-10">
                 <span>คลื่น: <strong class="text-amber-300">0.5-0.8 ม.</strong> | ปากน้ำประแสร์</span>
-                <span class="text-[9px] text-amber-300 font-bold" id="cctv-time-GISTDA_S046">รอสัญญาณสด</span>
+                <span class="text-[9px] text-amber-300 font-bold" id="cctv-time-GISTDA_S046">โหมดประหยัด</span>
               </div>
             </div>
 
@@ -1308,17 +1284,17 @@
               </div>
 
               <div class="flex items-center gap-1.5 pt-1.5 border-t border-slate-800/80">
-                <button onclick="zoomToCctvMarker('GISTDA_S046')" class="flex-1 py-1 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold flex items-center justify-center gap-1 transition">
-                  <i data-lucide="crosshair" class="w-3 h-3 text-cyan-400"></i>
-                  <span>ซูมแผนที่</span>
-                </button>
-                <button onclick="openCctvModal('GISTDA_S046')" class="flex-1 py-1 px-2 rounded bg-amber-600/90 hover:bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
-                  <i data-lucide="maximize-2" class="w-3 h-3"></i>
-                  <span>ดูจอใหญ่</span>
-                </button>
-                <a href="https://webcamera24.com/camera/thailand/7197-hat-phim-plaz-mae-phim/" target="_blank" rel="noopener noreferrer" title="เปิดหน้ารายละเอียด Webcamera24" class="p-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 text-[10px] border border-slate-700 flex items-center justify-center">
+                <a href="https://webcamera24.com/camera/thailand/7197-hat-phim-plaz-mae-phim/" target="_blank" rel="noopener noreferrer" title="เปิดหน้ารายละเอียด Webcamera24 ในเบราว์เซอร์ใหม่" class="flex-1 py-1.5 px-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center gap-1 transition shadow">
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <span>ดูสดเบราว์เซอร์นอก</span>
                 </a>
+                <button onclick="openCctvModal('GISTDA_S046')" class="py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-medium flex items-center justify-center gap-1 transition border border-slate-700">
+                  <i data-lucide="eye" class="w-3 h-3 text-amber-400"></i>
+                  <span>พรีวิว</span>
+                </button>
+                <button onclick="zoomToCctvMarker('GISTDA_S046')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] flex items-center justify-center transition border border-slate-700" title="ซูมแผนที่">
+                  <i data-lucide="crosshair" class="w-3.5 h-3.5 text-slate-400"></i>
+                </button>
               </div>
             </div>
 
@@ -4662,9 +4638,13 @@ const officialReservoirCoords = {
                 </div>
               </div>
               <div class="mt-2.5 flex flex-col gap-1.5">
-                <button onclick="openCctvModal('${st.code}')" class="w-full py-1.5 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-lg transition">
-                  <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
-                  <span>เปิดสตรีมสด (Live Stream)</span>
+                <a href="${st.videoLink || st.externalLink}" target="_blank" rel="noopener noreferrer" class="w-full py-1.5 px-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-lg transition">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <span>เปิดดูสตรีมสด (เบราว์เซอร์ภายนอก)</span>
+                </a>
+                <button onclick="openCctvModal('${st.code}')" class="w-full py-1 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg text-[11px] flex items-center justify-center gap-1 border border-slate-700 transition">
+                  <i data-lucide="eye" class="w-3 h-3 text-cyan-400"></i>
+                  <span>ดูภาพตัวอย่าง & ข้อมูล</span>
                 </button>
               </div>
               <div class="text-[9px] text-slate-400 mt-2 text-center">
@@ -4699,9 +4679,13 @@ const officialReservoirCoords = {
                 </div>
               </div>
               <div class="mt-2.5 flex flex-col gap-1.5">
-                <button onclick="openCctvModal('${st.code}')" class="w-full py-1.5 px-3 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-lg transition">
-                  <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
-                  <span>เปิดหน้าต่างดูสด (Live Monitor)</span>
+                <a href="${st.videoLink}" target="_blank" rel="noopener noreferrer" class="w-full py-1.5 px-3 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-lg transition">
+                  <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <span>เปิดดูสดจากกล้อง (เบราว์เซอร์ภายนอก)</span>
+                </a>
+                <button onclick="openCctvModal('${st.code}')" class="w-full py-1 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg text-[11px] flex items-center justify-center gap-1 border border-slate-700 transition">
+                  <i data-lucide="eye" class="w-3 h-3 text-rose-400"></i>
+                  <span>ดูภาพตัวอย่าง & โทรมาตร</span>
                 </button>
               </div>
               <div class="text-[9px] text-slate-400 mt-2 text-center">
@@ -4779,47 +4763,32 @@ const officialReservoirCoords = {
         }
         if (pipTitle) pipTitle.innerText = `CCTV: ${st.streamName}`;
 
-        if (st.streamUrl) {
-          // Stream online: Play live HLS in modal
-          if (imgEl) imgEl.classList.add('hidden');
-          if (iframeEl) { iframeEl.classList.add('hidden'); iframeEl.src = ''; }
-          if (videoEl) {
-            videoEl.classList.remove('hidden');
-            if (modalHlsInstance) {
-              modalHlsInstance.destroy();
-              modalHlsInstance = null;
-            }
-            modalHlsInstance = playHlsStream(videoEl, st.streamUrl, () => {
-              if (loaderEl) loaderEl.classList.add('hidden');
-            });
-          }
-          if (pipImgEl) pipImgEl.classList.add('hidden');
-          if (pipVideoEl) {
-            pipVideoEl.classList.remove('hidden');
-            if (pipHlsInstance) { pipHlsInstance.destroy(); pipHlsInstance = null; }
-            pipHlsInstance = playHlsStream(pipVideoEl, st.streamUrl);
-          }
-          if (pipBadge) pipBadge.innerText = '🔴 LIVE GISTDA';
-          const now = new Date();
-          const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')} น.`;
-          if (timeEl) timeEl.innerText = `${timeStr} (Live HLS)`;
-        } else {
-          // Stream offline: fallback to latest archived thumbnail
-          if (modalHlsInstance) { modalHlsInstance.destroy(); modalHlsInstance = null; }
-          if (videoEl) { videoEl.classList.add('hidden'); videoEl.src = ''; }
-          if (iframeEl) { iframeEl.classList.add('hidden'); iframeEl.src = ''; }
-          if (imgEl) {
-            imgEl.classList.remove('hidden');
-            imgEl.src = st.thumbnail;
-          }
-          if (pipVideoEl) { pipVideoEl.classList.add('hidden'); pipVideoEl.src = ''; }
-          if (pipImgEl) {
-            pipImgEl.classList.remove('hidden');
-            pipImgEl.src = st.thumbnail;
-          }
-          if (pipBadge) pipBadge.innerText = '🟡 ภาพบันทึก';
-          if (timeEl) timeEl.innerText = 'ภาพบันทึกก่อนหน้า (รอสัญญาณสด)';
-          if (loaderEl) loaderEl.classList.add('hidden');
+        // Bandwidth Saver: Modal displays static preview poster without proxying heavy HLS streams through Vercel
+        if (modalHlsInstance) { modalHlsInstance.destroy(); modalHlsInstance = null; }
+        if (videoEl) { videoEl.classList.add('hidden'); videoEl.src = ''; }
+        if (iframeEl) { iframeEl.classList.add('hidden'); iframeEl.src = ''; }
+        if (imgEl) {
+          imgEl.classList.remove('hidden');
+          imgEl.src = st.thumbnail;
+        }
+        if (pipVideoEl) { pipVideoEl.classList.add('hidden'); pipVideoEl.src = ''; }
+        if (pipImgEl) {
+          pipImgEl.classList.remove('hidden');
+          pipImgEl.src = st.thumbnail;
+        }
+        if (pipBadge) pipBadge.innerText = '⚓ GISTDA';
+        if (timeEl) timeEl.innerText = 'ภาพตัวอย่างเรดาร์ชายฝั่ง (โหมดประหยัดแบนด์วิธ)';
+        if (loaderEl) loaderEl.classList.add('hidden');
+
+        // Update modal footer external stream button
+        const modalExtLink = document.getElementById('cctv-modal-external-link');
+        const modalExtText = document.getElementById('cctv-modal-external-text');
+        if (modalExtLink) {
+          modalExtLink.href = st.videoLink || st.externalLink;
+          modalExtLink.className = "flex-1 sm:flex-initial py-2 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg transition";
+        }
+        if (modalExtText) {
+          modalExtText.innerText = "เปิดสตรีมสด GISTDA บนเบราว์เซอร์ใหม่";
         }
 
       } else {
@@ -4840,10 +4809,6 @@ const officialReservoirCoords = {
         if (detailThresh) detailThresh.innerText = `เฝ้าระวัง: ${st.wlFw} ม. / วิกฤต: ${st.wlFc} ม.`;
         if (detailCoords) detailCoords.innerText = `${st.lat.toFixed(4)}° น, ${st.lng.toFixed(4)}° E`;
         if (detailSub) detailSub.innerText = st.district;
-        if (directBtn) {
-          directBtn.href = st.videoLink;
-          directBtn.innerHTML = `<i data-lucide="external-link" class="w-3.5 h-3.5"></i><span>เปิดลิงก์สตรีมตรง (DynDNS)</span>`;
-        }
         if (pipTitle) pipTitle.innerText = `CCTV: ${st.code} ${st.streamName}`;
 
         if (modalHlsInstance) { modalHlsInstance.destroy(); modalHlsInstance = null; }
@@ -4853,7 +4818,18 @@ const officialReservoirCoords = {
 
         if (pipVideoEl) { pipVideoEl.classList.add('hidden'); pipVideoEl.src = ''; }
         if (pipImgEl) pipImgEl.classList.remove('hidden');
-        if (pipBadge) pipBadge.innerText = '🔴 LIVE DWR';
+        if (pipBadge) pipBadge.innerText = '📷 DWR SNAPSHOT';
+
+        // Update modal footer external stream button
+        const modalExtLink = document.getElementById('cctv-modal-external-link');
+        const modalExtText = document.getElementById('cctv-modal-external-text');
+        if (modalExtLink) {
+          modalExtLink.href = st.videoLink;
+          modalExtLink.className = "flex-1 sm:flex-initial py-2 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg transition";
+        }
+        if (modalExtText) {
+          modalExtText.innerText = "เปิดดูกล้องสด DWR บนเบราว์เซอร์ใหม่";
+        }
 
         // Show existing frame immediately (zero wait time for popup view)
         const galleryImg = document.getElementById('cctv-gallery-img-' + code);
@@ -4866,7 +4842,7 @@ const officialReservoirCoords = {
           if (pipImgEl) pipImgEl.src = galleryImg.src;
           if (loaderEl) loaderEl.classList.add('hidden');
         }
-        fetchCctvSnapshot(code);
+        fetchCctvSnapshot(code, false);
       }
 
       lucide.createIcons();
@@ -4898,9 +4874,12 @@ const officialReservoirCoords = {
         let currentUrl = null;
         let isDirect = false;
 
-        // 1. Try real-time camera direct proxy
+        // 1. Try real-time camera direct proxy (Edge cache enabled when isManual is false)
         try {
-          const directRes = await fetch(`/api/dwr-stream?station=${code}&t=${Date.now()}`);
+          const fetchUrl = isManual 
+            ? `/api/dwr-stream?station=${code}&force=1&t=${Date.now()}` 
+            : `/api/dwr-stream?station=${code}`;
+          const directRes = await fetch(fetchUrl);
           if (directRes.ok) {
             const blob = await directRes.blob();
             if (cctvBlobUrls[code]) URL.revokeObjectURL(cctvBlobUrls[code]);
@@ -5012,25 +4991,7 @@ const officialReservoirCoords = {
     }
 
     function initGistdaGalleryStreams() {
-      // Station 3: Ban Phe Pier (S031)
-      const v31 = document.getElementById('cctv-gallery-video-GISTDA_S031');
-      if (v31 && !galleryHlsMap['GISTDA_S031']) {
-        galleryHlsMap['GISTDA_S031'] = playHlsStream(v31, '/api/gistda-stream?station=S031&type=m3u8', () => {
-          const ldr = document.getElementById('cctv-loader-GISTDA_S031');
-          if (ldr) ldr.classList.add('hidden');
-        });
-      }
-
-      // Station 4: Phayun Beach (S042)
-      const v42 = document.getElementById('cctv-gallery-video-GISTDA_S042');
-      if (v42 && !galleryHlsMap['GISTDA_S042']) {
-        galleryHlsMap['GISTDA_S042'] = playHlsStream(v42, '/api/gistda-stream?station=S042&type=m3u8', () => {
-          const ldr = document.getElementById('cctv-loader-GISTDA_S042');
-          if (ldr) ldr.classList.add('hidden');
-        });
-      }
-
-      // Station 5: Diagnostic check
+      // Bandwidth Saver Mode: Do not auto-play HLS video in background gallery
       checkGistdaStationStatus('S046');
     }
 
@@ -5042,7 +5003,7 @@ const officialReservoirCoords = {
           const timeEl = document.getElementById('cctv-time-GISTDA_' + code);
           if (timeEl) {
             if (data.online) {
-              timeEl.innerText = '● สตรีมสด';
+              timeEl.innerText = '● สด (GISTDA)';
               timeEl.className = 'text-[9px] text-emerald-300 font-bold';
             } else {
               timeEl.innerText = 'รอสัญญาณสด';
@@ -5053,49 +5014,15 @@ const officialReservoirCoords = {
       } catch (e) {}
     }
 
-    function updateCctvCountdowns() {
-      const modalCountEl = document.getElementById('cctv-countdown-sec');
-      const galleryCountEl = document.getElementById('cctv-gallery-countdown');
-      if (modalCountEl) modalCountEl.innerText = cctvCountdownSeconds;
-      if (galleryCountEl) galleryCountEl.innerText = cctvCountdownSeconds;
-
-      // Update live clock for active coastal streams
-      const now = new Date();
-      const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')} น.`;
-      const t31 = document.getElementById('cctv-time-GISTDA_S031');
-      if (t31) t31.innerText = `${timeStr} (สด)`;
-      const t42 = document.getElementById('cctv-time-GISTDA_S042');
-      if (t42) t42.innerText = `${timeStr} (สด)`;
-
-      const modalStatTime = document.getElementById('cctv-stat-time');
-      if (modalStatTime && activeCctvCode.startsWith('GISTDA_')) {
-        const activeSt = cctvStations.find(s => s.code === activeCctvCode);
-        if (activeSt && activeSt.streamUrl) {
-          modalStatTime.innerText = `${timeStr} (Live HLS)`;
-        }
-      }
-    }
-
-    async function refreshAllCctvFeeds() {
-      cctvCountdownSeconds = 15;
-      updateCctvCountdowns();
+    async function refreshAllCctvFeeds(isManual = false) {
       const dwrStations = cctvStations.filter(st => st.source === 'DWR');
-      await Promise.allSettled(dwrStations.map(st => fetchCctvSnapshot(st.code)));
+      await Promise.allSettled(dwrStations.map(st => fetchCctvSnapshot(st.code, isManual)));
     }
 
     function startCctvAutoRefresh() {
+      // Bandwidth Saver Mode: Disable continuous polling intervals
       if (cctvIntervalTimer) clearInterval(cctvIntervalTimer);
-      cctvCountdownSeconds = 15;
-      updateCctvCountdowns();
-
-      cctvIntervalTimer = setInterval(() => {
-        cctvCountdownSeconds--;
-        if (cctvCountdownSeconds <= 0) {
-          cctvCountdownSeconds = 15;
-          refreshAllCctvFeeds();
-        }
-        updateCctvCountdowns();
-      }, 1000);
+      cctvIntervalTimer = null;
     }
 
     function stopCctvAutoRefresh() {
@@ -5229,10 +5156,9 @@ const officialReservoirCoords = {
       }
     }
 
-    // Auto-initialize CCTV layer markers and live gallery loop on load
+    // Auto-initialize CCTV markers & initial snapshot in Bandwidth Saver Mode (No auto-polling loops)
     renderCctvMarkers();
-    refreshAllCctvFeeds();
-    startCctvAutoRefresh();
+    refreshAllCctvFeeds(false);
     initGistdaGalleryStreams();
 
     // Close CCTV modal on Escape
@@ -5605,6 +5531,26 @@ const officialReservoirCoords = {
           </div>
         </div>
 
+      </div>
+
+      <!-- Modal Footer Action Bar (Bandwidth Saver & External Direct Stream Link) -->
+      <div class="p-3 bg-slate-900 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2 text-xs text-slate-300">
+          <span class="px-2 py-0.5 rounded font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px]">
+            ⚡ โหมดประหยัดแบนด์วิธ
+          </span>
+          <span class="text-[11px] text-slate-400">เพื่อลดการใช้ทรัพยากร ระบบแสดงภาพพรีวิว และเปิดสตรีมสดผ่านเบราว์เซอร์ต้นทาง</span>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button onclick="fetchCctvSnapshot(activeCctvCode, true)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 border border-slate-700 transition shadow">
+            <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-cyan-400"></i>
+            <span>รีเฟรชภาพ</span>
+          </button>
+          <a id="cctv-modal-external-link" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-initial py-2 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg transition">
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+            <span id="cctv-modal-external-text">เปิดดูสดบนเบราว์เซอร์ภายนอก</span>
+          </a>
+        </div>
       </div>
 
     </div>

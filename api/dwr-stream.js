@@ -269,7 +269,8 @@ module.exports = async function handler(req, res) {
 
     res.setHeader('Content-Type', 'image/jpeg');
     res.setHeader('X-CCTV-Source', result.source);
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
+    // Bandwidth Saver: Cache on Vercel Edge CDN for 5 minutes to prevent origin data transfer depletion
+    res.setHeader('Cache-Control', 'public, s-maxage=300, max-age=60');
     return res.status(200).send(result.buffer);
 
   } catch (err) {
