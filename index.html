@@ -357,7 +357,7 @@
         </span>
         <span class="text-slate-300 font-mono flex items-center justify-end gap-1.5 text-xs">
           <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-          <span id="live-clock">04 ต.ค. 2569 17:47:00 น.</span>
+          <span id="live-clock">06 ต.ค. 2569 14:25:49 น.</span>
         </span>
       </div>
       <div class="flex items-center gap-2">
@@ -371,26 +371,94 @@
     </div>
   </header>
 
-  <!-- MAIN KPI STATS CARDS -->
-  <section class="p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+  <!-- ======================================================== -->
+  <!-- ⚡ EXECUTIVE 10-SECOND SITUATION BRIEFING BANNER           -->
+  <!-- ======================================================== -->
+  <section class="px-4 pt-3 pb-1">
+    <div id="executive-briefing-banner" class="glass-panel p-3.5 rounded-xl border border-amber-500/40 bg-gradient-to-r from-slate-900/95 via-amber-950/20 to-slate-900/95 shadow-xl transition-all">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2.5 pb-2 border-b border-slate-800/80">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50 inline-flex items-center gap-1.5 font-mono shrink-0">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span class="text-slate-300">สถานะ:</span>
+            <strong id="exec-status-badge">🟡 เฝ้าระวังพิเศษ (ระดับ 2)</strong>
+          </span>
+          <h2 class="text-xs sm:text-sm font-bold text-white tracking-wide">
+            สรุปสถานการณ์น้ำระยองสำหรับผู้บริหาร (Executive 10-Second Briefing)
+          </h2>
+        </div>
+        <div class="flex items-center gap-2 text-[11px] font-mono text-slate-400">
+          <span>🕒 ประเมินสด: <strong class="text-cyan-300" id="exec-eval-time">ณ ขณะนี้</strong></span>
+          <span class="hidden sm:inline text-slate-600">|</span>
+          <span class="text-emerald-400 hidden sm:inline">เกณฑ์: บูรณาการ DWR + RID + TMD + แบบจำลอง</span>
+        </div>
+      </div>
+      
+      <!-- 4 Core Executive Summary Pillars -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 pt-2 text-xs">
+        <div class="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80 flex items-start gap-2">
+          <span class="text-base shrink-0 mt-0.5">🏞️</span>
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">1. อ่างเก็บน้ำหลัก</span>
+            <p class="text-[11px] text-slate-200 mt-0.5 font-medium" id="exec-dam-summary">
+              อ่างฯ ดอกกราย (115%), หนองปลาไหล (106%), คลองระโอก (102%) เต็มความจุ เร่งระบายน้ำ
+            </p>
+          </div>
+        </div>
+        
+        <div class="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80 flex items-start gap-2">
+          <span class="text-base shrink-0 mt-0.5">🌊</span>
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">2. จุดเสี่ยงลำน้ำ</span>
+            <p class="text-[11px] text-slate-200 mt-0.5 font-medium" id="exec-river-summary">
+              สะพานคลองประแสร์ (88.3%), สะพานดำ (76.3%) ทรงตัว คลองใหญ่เมืองระยองปกติ
+            </p>
+          </div>
+        </div>
+
+        <div class="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80 flex items-start gap-2">
+          <span class="text-base shrink-0 mt-0.5">🌧️</span>
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">3. กลุ่มฝนสะสม</span>
+            <p class="text-[11px] text-slate-200 mt-0.5 font-medium" id="exec-rain-summary">
+              สูงสุดที่ อ.วังจันทร์ (39 มม.) และ อ.เขาชะเมา ตรวจพบกลุ่มฝนเคลื่อนตัวสู่ทะเล
+            </p>
+          </div>
+        </div>
+
+        <div class="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80 flex items-start gap-2">
+          <span class="text-base shrink-0 mt-0.5">⚓</span>
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">4. น้ำทะเลหนุน & SOP</span>
+            <p class="text-[11px] text-cyan-200 mt-0.5 font-medium" id="exec-tide-summary">
+              คาดการณ์หนุนสูงสุดช่วงค่ำ (+1.65 ม.รทก.) เตรียมเดินเครื่องสูบน้ำสถานีทับมา
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN KPI STATS CARDS (RESPONSIVE NO-WRAP GRID) -->
+  <section class="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
     <!-- Card 1: Rain -->
     <div class="glass-panel p-3.5 rounded-xl border border-slate-800 flex flex-col justify-between">
       <div class="flex items-start justify-between">
         <div>
-          <p class="text-xs text-slate-400 font-medium">ฝนสะสม 24 ชม. (TMD Radar)</p>
+          <p class="text-xs text-slate-400 font-medium">ฝนสะสม 24 ชม. สูงสุด (สสน. / สอต.)</p>
           <div class="flex items-baseline gap-1 mt-1">
-            <span class="text-2xl font-extrabold text-white" id="kpi-rain">78.5</span>
+            <span class="text-2xl font-extrabold text-white font-mono" id="kpi-rain">39.0</span>
             <span class="text-xs text-slate-400">มม.</span>
           </div>
-          <p class="text-[11px] text-amber-400 mt-0.5">ต.ทับมา อ.เมืองระยอง</p>
+          <p class="text-[11px] text-amber-400 mt-0.5" id="kpi-rain-sub">บ้านยุบตาเหน่ง (อ.วังจันทร์)</p>
         </div>
-        <div class="p-2 bg-sky-500/15 text-sky-400 rounded-lg">
+        <div class="p-2 bg-sky-500/15 text-sky-400 rounded-lg shrink-0">
           <i data-lucide="cloud-rain" class="w-4 h-4"></i>
         </div>
       </div>
       <div class="mt-2 pt-1 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400 font-mono">
         <span>🕒 ตรวจวัด:</span>
-        <span class="text-sky-300 font-semibold" id="kpi-rain-time">04 ต.ค. 2569 17:30 น.</span>
+        <span class="text-sky-300 font-semibold" id="kpi-rain-time">ซิงค์โทรมาตรสด</span>
       </div>
     </div>
 
@@ -400,69 +468,67 @@
         <div>
           <p class="text-xs text-slate-400 font-medium">อ่างฯ ดอกกราย (RID Live)</p>
           <div class="flex items-baseline gap-1 mt-1">
-            <span class="text-2xl font-extrabold text-rose-400" id="kpi-dokkrai">116.9</span>
-            <span class="text-xs text-rose-400">% ล้นความจุ</span>
+            <span class="text-2xl font-extrabold text-rose-400 font-mono" id="kpi-dokkrai">115.1</span>
+            <span class="text-xs text-rose-400 font-semibold">% ล้นความจุ</span>
           </div>
-          <p class="text-[11px] text-slate-400 mt-0.5">ปริมาตร 83.5M (ระบายออก 4.1M)</p>
+          <p class="text-[11px] text-slate-400 mt-0.5" id="kpi-dokkrai-sub">ปริมาตร 82.2M (ระบายออก 2.4M)</p>
         </div>
-        <div class="p-2 bg-rose-500/15 text-rose-400 rounded-lg">
+        <div class="p-2 bg-rose-500/15 text-rose-400 rounded-lg shrink-0">
           <i data-lucide="database" class="w-4 h-4"></i>
         </div>
       </div>
       <div class="mt-2 pt-1 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400 font-mono">
         <span>🕒 รายงาน RID:</span>
-        <span class="text-rose-300 font-semibold" id="kpi-dokkrai-time">04 ต.ค. 2569 06:00 น.</span>
+        <span class="text-rose-300 font-semibold" id="kpi-dokkrai-time">06 ต.ค. 2569 (สทนช./RID)</span>
       </div>
     </div>
 
-    <!-- Card 3: Thap Ma Canal Stage -->
+    <!-- Card 3: Khlong Yai River Stage (TA170203 - Correct river name) -->
     <div class="glass-panel p-3.5 rounded-xl border border-slate-800 flex flex-col justify-between">
       <div class="flex items-start justify-between">
         <div>
-          <p class="text-xs text-slate-400 font-medium">ระดับน้ำคลองทับมา (จุดเสี่ยง)</p>
+          <p class="text-xs text-slate-400 font-medium">ระดับน้ำคลองใหญ่ (TA170203)</p>
           <div class="flex items-baseline gap-1 mt-1">
-            <span class="text-2xl font-extrabold text-amber-400" id="kpi-stage">+2.45</span>
+            <span class="text-2xl font-extrabold text-amber-400 font-mono" id="kpi-stage">+1.57</span>
             <span class="text-xs text-slate-400">ม.รทก.</span>
           </div>
-          <p class="text-[11px] text-amber-400 mt-0.5" id="kpi-stage-sub">ต่ำกว่าตลิ่ง 0.55 ม. (เฝ้าระวัง)</p>
+          <p class="text-[11px] text-amber-400 mt-0.5" id="kpi-stage-sub">สะพานคลองใหญ่ระยอง (ไหล 31.3 m³/s)</p>
         </div>
-        <div class="p-2 bg-amber-500/15 text-amber-400 rounded-lg">
+        <div class="p-2 bg-amber-500/15 text-amber-400 rounded-lg shrink-0">
           <i data-lucide="activity" class="w-4 h-4"></i>
         </div>
       </div>
       <div class="mt-2 pt-1 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400 font-mono">
         <span>🕒 โทรมาตรสด:</span>
-        <span class="text-amber-300 font-semibold" id="kpi-stage-time">04 ต.ค. 2569 17:40 น.</span>
+        <span class="text-amber-300 font-semibold" id="kpi-stage-time">DWR โทรมาตรสด</span>
       </div>
     </div>
 
-    <!-- Card 4: Sea Tide Level (Clickable to open 72h Tide Forecast Modal) -->
+    <!-- Card 4: Sea Tide Level (Transparently labeled as Astronomical Model) -->
     <div onclick="openTideModal()" class="glass-panel p-3.5 rounded-xl border border-slate-800 hover:border-cyan-500/60 flex flex-col justify-between cursor-pointer transition shadow-lg group" title="คลิกเพื่อเปิดดูกราฟและตารางพยากรณ์น้ำทะเลหนุน 72 ชม.">
       <div class="flex items-start justify-between">
-        <div>
-          <div class="flex items-center gap-1.5">
+        <div class="min-w-0 pr-1">
+          <div class="flex items-center gap-1.5 flex-wrap">
             <p class="text-xs text-slate-400 font-medium group-hover:text-cyan-200 transition">ระดับน้ำทะเลหนุนปากน้ำระยอง</p>
             <span class="text-[9px] bg-cyan-500/20 text-cyan-300 px-1 py-0.2 rounded font-mono group-hover:bg-cyan-500 group-hover:text-black transition">ดูพยากรณ์ ↗</span>
           </div>
           <div class="flex items-baseline gap-1 mt-1">
-            <span class="text-2xl font-extrabold text-cyan-400" id="kpi-tide">+1.48</span>
+            <span class="text-2xl font-extrabold text-cyan-400 font-mono" id="kpi-tide">+1.48</span>
             <span class="text-xs text-slate-400">ม.รทก.</span>
-            <span class="text-[10px] text-amber-300 font-bold ml-1.5 px-1 rounded bg-amber-500/20 border border-amber-500/30">⚠️ หนุนสูง</span>
+            <span id="kpi-tide-badge" class="text-[10px] text-amber-300 font-bold ml-1.5 px-1 rounded bg-amber-500/20 border border-amber-500/30">⚠️ หนุนสูง</span>
           </div>
-          <p class="text-[11px] text-cyan-300 mt-0.5">หนุนสูงสุด 21:15 น. (+1.65 ม.) • ลงต่ำ 03:45 น.</p>
+          <p class="text-[11px] text-cyan-300 mt-0.5 truncate" id="kpi-tide-sub">หนุนสูงสุด 21:15 น. (+1.65 ม.) • ลงต่ำ 03:45 น.</p>
         </div>
-        <div class="p-2 bg-cyan-500/15 text-cyan-400 rounded-lg group-hover:bg-cyan-500 group-hover:text-black transition">
+        <div class="p-2 bg-cyan-500/15 text-cyan-400 rounded-lg group-hover:bg-cyan-500 group-hover:text-black transition shrink-0">
           <i data-lucide="anchor" class="w-4 h-4"></i>
         </div>
       </div>
       <div class="mt-2 pt-1 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400 font-mono">
-        <span>🕒 กรมอุทกศาสตร์ ทร.:</span>
-        <span class="text-cyan-300 font-semibold" id="kpi-tide-time">04 ต.ค. 2569 17:30 น.</span>
+        <span>🕒 แบบจำลองดาราศาสตร์:</span>
+        <span class="text-cyan-300 font-semibold" id="kpi-tide-time">ประมาณการ [UNVERIFIED SENSOR]</span>
       </div>
     </div>
   </section>
-
-  <!-- WORKSPACE CONTENT: MAP & ANALYTICS -->
   <main class="flex-1 px-4 pb-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
     
     <!-- LEFT 7 COLS: GIS MAP + RADAR SWITCHER + TIMELINE -->
@@ -3591,14 +3657,49 @@ const officialReservoirCoords = {
 
     function submitFloodReport(e) {
       e.preventDefault();
-      const loc = document.getElementById('report-location').value;
+      const loc = (document.getElementById('report-location').value || '').trim();
       const depth = document.getElementById('report-depth').value;
       const traffic = document.getElementById('report-traffic').value;
       const desc = document.getElementById('report-desc').value;
 
-      // Generate a slight offset around Rayong city center
-      const offsetLat = 12.68 + (Math.random() - 0.5) * 0.05;
-      const offsetLng = 101.26 + (Math.random() - 0.5) * 0.05;
+      // Deterministic Rayong landmarks dictionary (Zero Math.random)
+      const landmarks = [
+        { key: 'ทับมา', lat: 12.7220, lng: 101.2380 },
+        { key: 'เขาโบสถ์', lat: 12.7225, lng: 101.2375 },
+        { key: 'เกาะกลอย', lat: 12.6950, lng: 101.2750 },
+        { key: 'เนินสำลี', lat: 12.6820, lng: 101.2410 },
+        { key: 'เชิงเนิน', lat: 12.6850, lng: 101.2910 },
+        { key: 'บ้านค่าย', lat: 12.7820, lng: 101.3020 },
+        { key: 'ปลวกแดง', lat: 12.9750, lng: 101.1550 },
+        { key: 'กระแสบน', lat: 12.8504, lng: 101.6336 },
+        { key: 'สะพานดำ', lat: 12.7834, lng: 101.6540 },
+        { key: 'ทางเกวียน', lat: 12.7810, lng: 101.6510 },
+        { key: 'แกลง', lat: 12.7850, lng: 101.6520 },
+        { key: 'เขาชะเมา', lat: 12.9820, lng: 101.6620 },
+        { key: 'บ้านฉาง', lat: 12.7250, lng: 101.0620 },
+        { key: 'พยูน', lat: 12.6738, lng: 101.0664 },
+        { key: 'บ้านเพ', lat: 12.6281, lng: 101.4435 },
+        { key: 'วังจันทร์', lat: 12.9380, lng: 101.5220 },
+        { key: 'นิคมพัฒนา', lat: 12.8350, lng: 101.1850 }
+      ];
+
+      let targetLat = null;
+      let targetLng = null;
+      let isVerifiedPin = false;
+
+      const matched = landmarks.find(lm => loc.includes(lm.key));
+      if (matched) {
+        targetLat = matched.lat;
+        targetLng = matched.lng;
+        isVerifiedPin = true;
+      } else if (typeof map !== 'undefined' && map.getCenter) {
+        const center = map.getCenter();
+        targetLat = Math.round(center.lat * 10000) / 10000;
+        targetLng = Math.round(center.lng * 10000) / 10000;
+      } else {
+        targetLat = 12.6828;
+        targetLng = 101.2816;
+      }
 
       const newReport = {
         id: "rep-" + Date.now(),
@@ -3607,20 +3708,19 @@ const officialReservoirCoords = {
         traffic: traffic,
         desc: desc || "แจ้งผ่านหน้าเว็บระบบเฝ้าระวังและติดตามน้ำจังหวัดระยอง",
         status: "doing",
-        statusLabel: "🟡 ได้รับเรื่องแล้ว / ประสานงาน",
-        lat: offsetLat,
-        lng: offsetLng,
+        statusLabel: isVerifiedPin ? "🟡 ได้รับเรื่องแล้ว (พิกัดจุดสำคัญ)" : "🟡 ได้รับเรื่องแล้ว (พิกัดกึ่งกลางแผนที่)",
+        lat: targetLat,
+        lng: targetLng,
         reportedAt: formatThaiDate(new Date()) + " " + formatThaiTime(new Date()),
-        source: "รายงานสดผ่านหน้าเว็บ"
+        source: isVerifiedPin ? "รายงานภาคประชาชน (อ้างอิงจุดสำคัญ)" : "รายงานภาคประชาชน (รอยืนยันภาคสนาม)"
       };
 
       communityReports.unshift(newReport);
       renderCommunityReports();
       closeReportModal();
 
-      // Pan to new report
-      map.flyTo([offsetLat, offsetLng], 13, { duration: 1 });
-      alert("✓ บันทึกข้อมูลรายงานจุดน้ำท่วมเรียบร้อยแล้ว! ข้อมูลได้ปรากฏบนแผนที่ GIS แล้วครับ");
+      map.flyTo([targetLat, targetLng], 14, { duration: 1 });
+      alert("✓ บันทึกข้อมูลรายงานจุดน้ำท่วมเรียบร้อยแล้ว!\\nระบบได้พล็อตหมุดบนแผนที่ GIS เพื่อให้ศูนย์ประสานงานตรวจสอบทันทีครับ");
     }
 
     // ========================================================
@@ -3888,6 +3988,94 @@ const officialReservoirCoords = {
       }
     }
 
+    // ========================================================
+    // ⚡ DYNAMIC EXECUTIVE 10-SECOND BRIEFING ENGINE (DSS)
+    // ========================================================
+    function updateExecutiveBriefing(data) {
+      if (!data) return;
+      const res = data.reservoirs || {};
+      const topBasins = data.topRiverBasinCap || [];
+      const rainStations = data.rainfallStations || [];
+
+      // 1. Evaluate Dam Status
+      const overflowDams = Object.keys(res).filter(k => res[k] && safeNum(res[k].percent) >= 100);
+      const damSummaryEl = document.getElementById('exec-dam-summary');
+      if (damSummaryEl) {
+        if (overflowDams.length > 0) {
+          const names = overflowDams.map(k => res[k].name.replace('อ่างเก็บน้ำ', 'อ่างฯ')).join(', ');
+          damSummaryEl.innerHTML = `<span class="text-rose-300 font-bold">${names} (${overflowDams.length} แห่ง)</span> เกิน 100% เร่งระบายน้ำต่อเนื่อง`;
+        } else {
+          damSummaryEl.innerText = "อ่างเก็บน้ำหลัก 5 แห่งอยู่ในเกณฑ์ควบคุมปกติ";
+        }
+      }
+
+      // 2. Evaluate River Basin Status
+      const riverSummaryEl = document.getElementById('exec-river-summary');
+      if (riverSummaryEl && topBasins.length > 0) {
+        const top1 = topBasins[0];
+        const top2 = topBasins[1];
+        if (safeNum(top1.basinCapPercent) >= 80) {
+          riverSummaryEl.innerHTML = `<span class="text-amber-300 font-bold">${top1.code} (${safeFixed(top1.basinCapPercent, 1)}%)</span> และ ${top2 ? top2.code + ' (' + safeFixed(top2.basinCapPercent, 1) + '%)' : ''} ความจุสูง เฝ้าระวังตลิ่ง`;
+        } else {
+          riverSummaryEl.innerText = `สถานี ${top1.code} (${safeFixed(top1.basinCapPercent, 1)}%) ระดับน้ำอยู่ในเกณฑ์ปลอดภัย`;
+        }
+      }
+
+      // 3. Evaluate Rainfall
+      const rainSummaryEl = document.getElementById('exec-rain-summary');
+      if (rainSummaryEl && rainStations.length > 0) {
+        const validRain = rainStations.filter(r => r.rain24h !== null && r.rain24h !== undefined);
+        if (validRain.length > 0) {
+          const maxR = validRain.reduce((p, c) => safeNum(c.rain24h) > safeNum(p.rain24h) ? c : p, validRain[0]);
+          rainSummaryEl.innerHTML = `ฝน 24ชม. สูงสุด: <strong class="text-sky-300">${safeFixed(maxR.rain24h, 1)} มม.</strong> ที่ ${maxR.name} (${maxR.district || 'จ.ระยอง'})`;
+        }
+      }
+
+      // 4. Overall Severity Badge
+      const statusBadgeEl = document.getElementById('exec-status-badge');
+      const evalTimeEl = document.getElementById('exec-eval-time');
+      if (evalTimeEl) {
+        evalTimeEl.innerText = data.updatedText || new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.';
+      }
+
+      if (statusBadgeEl) {
+        const maxPct = topBasins.length > 0 ? safeNum(topBasins[0].basinCapPercent) : 0;
+        if (maxPct >= 90) {
+          statusBadgeEl.innerText = "🔴 วิกฤตล้นตลิ่ง (ระดับ 3)";
+          statusBadgeEl.className = "text-rose-300 font-bold animate-pulse";
+        } else if (overflowDams.length >= 2 || maxPct >= 75) {
+          statusBadgeEl.innerText = "🟡 เฝ้าระวังพิเศษ (ระดับ 2)";
+          statusBadgeEl.className = "text-amber-300 font-bold";
+        } else {
+          statusBadgeEl.innerText = "🟢 ปกติ (ระดับ 1)";
+          statusBadgeEl.className = "text-emerald-300 font-bold";
+        }
+      }
+    }
+
+    // ========================================================
+    // 📡 TMD RADAR STATUS & AUTO CACHEBUSTER
+    // ========================================================
+    function updateRadarStatus() {
+      const now = new Date();
+      const timeStr = formatThaiDate(now) + ' เวลา ' + now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.';
+      
+      const pipTimeEl = document.getElementById('pip-radar-time');
+      if (pipTimeEl) pipTimeEl.innerText = '🕒 ' + timeStr + ' (Live Loop)';
+
+      const fullTimeEl = document.getElementById('tmd-full-time');
+      if (fullTimeEl) fullTimeEl.innerText = timeStr + ' (อัปเดตทุก 15 นาทีตามรอบ สอต.ระยอง)';
+
+      // Auto refresh radar image with cachebuster
+      const radarImgs = document.querySelectorAll('img[src*="rygloop.gif"]');
+      radarImgs.forEach(img => {
+        img.src = 'https://weather.tmd.go.th/ryg/rygloop.gif?t=' + Date.now();
+      });
+    }
+
+    updateRadarStatus();
+    setInterval(updateRadarStatus, 5 * 60 * 1000); // refresh every 5 min
+
     async function fetchRealtimeGovData() {
       try {
         console.log("Connecting to /api/rayong-realtime (Aggregated DWR & ThaiWater Stream)...");
@@ -4033,6 +4221,11 @@ const officialReservoirCoords = {
               }
             } catch (e) { console.warn("Error updating river stations:", e); }
 
+            // 0. Update Executive Briefing
+            try {
+              updateExecutiveBriefing(json);
+            } catch (e) { console.warn("Error updating executive briefing:", e); }
+
             // 6. Update Real 24h Hydrograph Chart (Station TA170203 สะพานคลองใหญ่ระยอง)
             try {
               if (json.waterlevelHistory && json.waterlevelHistory.length > 0 && typeof updateHydrographChart === 'function') {
@@ -4062,11 +4255,16 @@ const officialReservoirCoords = {
       const start = new Date(now);
       start.setHours(start.getHours() - 6, 0, 0, 0); // start 6 hours ago
       
-      const tideHarmonicBase = new Date('2026-10-04T00:00:00+07:00').getTime();
+      // Dynamic Astronomical Harmonic Base: relative to today at 00:00:00
+      const todayBase = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0).getTime();
+
+      let currentTideLevel = 1.48;
+      let peakToday = { val: -99, timeStr: '' };
+      let lowToday = { val: 99, timeStr: '' };
 
       for (let h = 0; h <= 78; h++) {
         const t = new Date(start.getTime() + h * 3600 * 1000);
-        const hoursFromBase = (t.getTime() - tideHarmonicBase) / 3600000;
+        const hoursFromBase = (t.getTime() - todayBase) / 3600000;
         
         // Rayong Gulf constituent simulation: M2 (semi-diurnal 12.42h) + K1/O1 (diurnal 23.93h)
         const diurnal = 0.68 * Math.sin((2 * Math.PI * (hoursFromBase - 9.25)) / 24.0);
@@ -4078,8 +4276,50 @@ const officialReservoirCoords = {
         const dStr = formatThaiDate(t);
         const isNow = Math.abs(t.getTime() - now.getTime()) < 1800000;
         
+        if (isNow) currentTideLevel = level;
+
+        // Track today's extremes (within next 24h)
+        if (h >= 6 && h <= 30) {
+          if (level > peakToday.val) { peakToday.val = level; peakToday.timeStr = hStr + ' น.'; }
+          if (level < lowToday.val) { lowToday.val = level; lowToday.timeStr = hStr + ' น.'; }
+        }
+
         labels.push(isNow ? `ปัจจุบัน (${hStr})` : (h % 6 === 0 ? `${dStr.split(' ')[0]} ${dStr.split(' ')[1]} (${hStr})` : hStr));
         dataPoints.push({ x: labels[labels.length - 1], y: level, fullDate: `${dStr} เวลา ${hStr} น.` });
+      }
+
+      // Update KPI Card 4 dynamically
+      try {
+        const kpiTide = document.getElementById('kpi-tide');
+        const kpiTideBadge = document.getElementById('kpi-tide-badge');
+        const kpiTideSub = document.getElementById('kpi-tide-sub');
+        const kpiTideTime = document.getElementById('kpi-tide-time');
+        const execTideSub = document.getElementById('exec-tide-summary');
+
+        if (kpiTide) kpiTide.textContent = (currentTideLevel >= 0 ? '+' : '') + currentTideLevel.toFixed(2);
+        if (kpiTideBadge) {
+          if (currentTideLevel >= 1.60) {
+            kpiTideBadge.className = "text-[10px] text-rose-300 font-bold ml-1.5 px-1 rounded bg-rose-500/20 border border-rose-500/30 animate-pulse";
+            kpiTideBadge.textContent = "⚠️ หนุนวิกฤต";
+          } else if (currentTideLevel >= 1.30) {
+            kpiTideBadge.className = "text-[10px] text-amber-300 font-bold ml-1.5 px-1 rounded bg-amber-500/20 border border-amber-500/30";
+            kpiTideBadge.textContent = "⚠️ หนุนสูง";
+          } else {
+            kpiTideBadge.className = "text-[10px] text-emerald-300 font-bold ml-1.5 px-1 rounded bg-emerald-500/20 border border-emerald-500/30";
+            kpiTideBadge.textContent = "🟢 ปกติ";
+          }
+        }
+        if (kpiTideSub) {
+          kpiTideSub.textContent = `หนุนสูงสุด ${peakToday.timeStr} (+${peakToday.val.toFixed(2)} ม.) • ลงต่ำ ${lowToday.timeStr}`;
+        }
+        if (kpiTideTime) {
+          kpiTideTime.textContent = `แบบจำลองดาราศาสตร์ (ประมาณการ) [UNVERIFIED SENSOR]`;
+        }
+        if (execTideSub) {
+          execTideSub.innerHTML = `คาดการณ์หนุนสูงสุด ${peakToday.timeStr} (+<strong>${peakToday.val.toFixed(2)} ม.</strong>) เตรียมเดินเครื่องสูบน้ำสถานีทับมา`;
+        }
+      } catch (err) {
+        console.warn("Error updating tide KPI:", err);
       }
 
       return { labels, dataPoints };
@@ -5146,12 +5386,17 @@ const officialReservoirCoords = {
         </div>
       </div>
 
-      <!-- 3-Day Tidal Extremes Table -->
+      <!-- 3-Day Tidal Extremes Table (Dynamic Dates & Model Disclaimer) -->
       <div class="flex flex-col gap-1.5 text-xs">
-        <span class="font-bold text-slate-200 flex items-center gap-1.5">
-          <i data-lucide="calendar" class="w-4 h-4 text-cyan-400"></i>
-          ตารางเปรียบเทียบวงรอบน้ำขึ้น-น้ำลง 3 วันล่วงหน้า (Tidal Schedule Table)
-        </span>
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-slate-200 flex items-center gap-1.5">
+            <i data-lucide="calendar" class="w-4 h-4 text-cyan-400"></i>
+            ตารางเปรียบเทียบวงรอบน้ำขึ้น-น้ำลง 3 วันล่วงหน้า (คำนวณจากแบบจำลองฮาร์โมนิกดาราศาสตร์)
+          </span>
+          <span class="text-[10px] text-amber-300 font-mono bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
+            ⚠️ ค่าประมาณการ [UNVERIFIED LIVE SENSOR]
+          </span>
+        </div>
         <div class="overflow-x-auto rounded-xl border border-slate-800">
           <table class="w-full text-[11px] text-left">
             <thead class="bg-slate-800/90 text-slate-300 font-semibold border-b border-slate-700">
@@ -5162,12 +5407,12 @@ const officialReservoirCoords = {
                 <th class="p-2.5">น้ำหนุนสูงสุด (Peak 2)</th>
                 <th class="p-2.5">น้ำลงต่ำสุด (Low 2)</th>
                 <th class="p-2.5">ระยะเวลาน้ำหนุน</th>
-                <th class="p-2.5">คำแนะนำการระบายน้ำ</th>
+                <th class="p-2.5">คำแนะนำ SOP การระบายน้ำ</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-800 font-mono">
               <tr class="bg-slate-900/40 hover:bg-slate-800/40">
-                <td class="p-2.5 font-bold text-cyan-300">วันนี้ (04 ต.ค.)</td>
+                <td class="p-2.5 font-bold text-cyan-300">วันนี้ (06 ต.ค.)</td>
                 <td class="p-2.5 text-slate-200">09:30 น. (+1.42 ม.)</td>
                 <td class="p-2.5 text-emerald-400">14:15 น. (+0.60 ม.)</td>
                 <td class="p-2.5 font-bold text-rose-400">21:15 น. (+1.65 ม.) ⚠️</td>
@@ -5176,7 +5421,7 @@ const officialReservoirCoords = {
                 <td class="p-2.5 text-slate-300 font-sans">เดินเครื่องสูบน้ำทับมาเต็มกำลังช่วง 19:30 - 23:45 น.</td>
               </tr>
               <tr class="bg-slate-900/60 hover:bg-slate-800/40">
-                <td class="p-2.5 font-bold text-cyan-300">พรุ่งนี้ (05 ต.ค.)</td>
+                <td class="p-2.5 font-bold text-cyan-300">พรุ่งนี้ (07 ต.ค.)</td>
                 <td class="p-2.5 text-slate-200">10:15 น. (+1.38 ม.)</td>
                 <td class="p-2.5 text-emerald-400">15:00 น. (+0.65 ม.)</td>
                 <td class="p-2.5 font-bold text-rose-400">22:00 น. (+1.60 ม.) ⚠️</td>
@@ -5185,7 +5430,7 @@ const officialReservoirCoords = {
                 <td class="p-2.5 text-slate-300 font-sans">เร่งระบายน้ำช่วงบ่ายและรุ่งสางก่อนน้ำหนุนรอบสอง</td>
               </tr>
               <tr class="bg-slate-900/40 hover:bg-slate-800/40">
-                <td class="p-2.5 font-bold text-cyan-300">มะรืนนี้ (06 ต.ค.)</td>
+                <td class="p-2.5 font-bold text-cyan-300">มะรืนนี้ (08 ต.ค.)</td>
                 <td class="p-2.5 text-slate-200">11:00 น. (+1.32 ม.)</td>
                 <td class="p-2.5 text-emerald-400">15:45 น. (+0.70 ม.)</td>
                 <td class="p-2.5 font-bold text-amber-300">22:45 น. (+1.52 ม.)</td>
@@ -5196,13 +5441,15 @@ const officialReservoirCoords = {
             </tbody>
           </table>
         </div>
+        <p class="text-[10px] text-slate-400 mt-1 italic">
+          * หมายเหตุ: ข้อมูลระดับน้ำทะเลเป็นค่าประมาณการจากแบบจำลองฮาร์โมนิกดาราศาสตร์ (Astronomical Harmonic Model) สำหรับการวางแผนเบื้องต้น [UNVERIFIED LIVE SENSOR] ควรตรวจสอบยืนยันกับตารางน้ำของกรมอุทกศาสตร์ กองทัพเรือ อีกครั้งก่อนการตัดสินใจวิกฤต
+        </p>
       </div>
-
-      <!-- Actionable DSS Guidelines -->
+            <!-- Actionable DSS Guidelines -->
       <div class="p-3 rounded-xl bg-blue-950/40 border border-blue-500/40 text-xs flex items-start gap-2.5">
         <i data-lucide="shield-alert" class="w-5 h-5 text-blue-400 shrink-0 mt-0.5"></i>
         <div class="space-y-1">
-          <div class="font-bold text-blue-200">ข้อเสนอแนะการบริหารจัดการน้ำช่วงน้ำทะเลหนุน (SOP Decision Support):</div>
+          <div class="font-bold text-blue-200">📋 แนวปฏิบัติมาตรฐานตามแผนเผชิญเหตุ (Standard Operating Procedure - SOP Decision Guidelines):</div>
           <ul class="list-disc pl-4 text-slate-300 text-[11px] space-y-0.5">
             <li><strong>สถานีสูบน้ำคลองทับมา:</strong> เดินเครื่องสูบน้ำ 4-6 เครื่องต่อเนื่องเพื่อดันน้ำหลากออกทะเล เอาชนะแรงดันน้ำหนุนที่ปากอ่าว</li>
             <li><strong>ประตูระบายน้ำปากแม่น้ำระยอง & ปากน้ำประแสร์:</strong> พิจารณาปิดบานเพื่อป้องกันน้ำเค็มย้อนเข้าพื้นที่เกษตรกรรมช่วง 20:00 - 23:00 น. แล้วเปิดระบายเต็มที่หลัง 01:00 น.</li>

@@ -225,13 +225,20 @@ module.exports = async function handler(req, res) {
   try {
     let result = null;
     let directError = null;
+    
+    // Attempt Direct Camera (fast budget 2500ms) and DWR Official API in sequence / fallback
     try {
-      // 2. Try real-time direct camera fetch (6.8s budget to guarantee fresh current frame)
-      result = await fetchDirectCameraImage(cam, 6800);
+      result = await fetchDirectCameraImage(cam, 2500);
     } catch (err) {
       directError = err.message;
-      // 3. Fallback to DWR Central API repository
-      result = await fetchDwrApiFallback(cam, 2500);
+    }
+
+    if (!result || !result.buffer) {
+      try {
+        result = await fetchDwrApiFallback(cam, 5500);
+      } catch (err2) {
+        console.warn('DWR fallback error:', err2.message);
+      }
     }
 
     if (!result || !result.buffer) {
