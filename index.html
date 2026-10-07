@@ -47,6 +47,40 @@
       animation: river-flow 1.1s linear infinite;
     }
 
+    /* 🌊 RESERVOIR-TO-SEA IMPACT NETWORK STYLING */
+    .flow-natural-solid {
+      stroke-dasharray: 14, 18;
+      animation: river-flow 1.3s linear infinite;
+    }
+    .flow-transfer-dashed {
+      stroke-dasharray: 7, 11;
+      animation: river-flow 1.8s linear infinite;
+    }
+    .flow-highlight-glow {
+      stroke-dasharray: 12, 16;
+      animation: river-flow 0.85s linear infinite;
+      filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.95));
+    }
+    .flow-upstream-glow {
+      stroke-dasharray: 12, 16;
+      animation: river-flow 0.95s linear infinite;
+      filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.95));
+    }
+    @keyframes beacon-ripple {
+      0% { transform: scale(0.9); opacity: 1; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+    .sea-beacon-ring {
+      animation: beacon-ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+    @keyframes affected-pulse {
+      0%, 100% { fill-opacity: 0.12; stroke-opacity: 0.65; }
+      50% { fill-opacity: 0.28; stroke-opacity: 1; }
+    }
+    .affected-zone-pulse {
+      animation: affected-pulse 2.4s ease-in-out infinite;
+    }
+
     /* 🌊 RESERVOIR WATER BODY GLOW */
     @keyframes lake-pulse {
       0%, 100% { fill-opacity: 0.55; stroke-opacity: 0.9; }
@@ -585,15 +619,47 @@
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i> ชั้นข้อมูล:
               </span>
 
-              <label class="flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 select-none">
+              <!-- 5 RESERVOIRS -->
+              <label class="flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 select-none" title="ผืนน้ำอ่างเก็บน้ำหลักในจังหวัดระยอง">
                 <input type="checkbox" id="chk-lakes" checked onchange="toggleLayer('lakes')" class="rounded bg-slate-900 border-slate-600 text-blue-500 focus:ring-0">
                 <span>🏞️ 5 อ่างหลัก</span>
               </label>
 
-              <label class="flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 select-none">
-                <input type="checkbox" id="chk-flow" checked onchange="toggleLayer('flow')" class="rounded bg-slate-900 border-slate-600 text-blue-500 focus:ring-0">
-                <span>🌊 ทางน้ำไหล</span>
+              <!-- NATURAL FLOW -->
+              <label class="flex items-center gap-1 cursor-pointer text-cyan-300 hover:text-white px-2 py-0.5 rounded bg-sky-950/70 border border-sky-600/50 select-none" title="ทางน้ำธรรมชาติ: อ่างเก็บน้ำ -> คลอง/แม่น้ำ -> ปากน้ำ -> ทะเล (เส้นทึบ)">
+                <input type="checkbox" id="chk-natural-flow" checked onchange="toggleNetworkLayer('naturalFlow')" class="rounded bg-slate-900 border-cyan-500 text-cyan-500 focus:ring-0">
+                <span>🌊 ทางน้ำธรรมชาติ</span>
               </label>
+
+              <!-- MANAGED WATER TRANSFER -->
+              <label class="flex items-center gap-1 cursor-pointer text-purple-300 hover:text-white px-2 py-0.5 rounded bg-purple-950/70 border border-purple-600/50 select-none" title="โครงข่ายผันน้ำ/ท่อส่งน้ำเชื่อมต่อระหว่างอ่างเก็บน้ำ (เส้นประ)">
+                <input type="checkbox" id="chk-transfer-flow" checked onchange="toggleNetworkLayer('transferFlow')" class="rounded bg-slate-900 border-purple-500 text-purple-500 focus:ring-0">
+                <span>🔄 โครงข่ายผันน้ำ</span>
+              </label>
+
+              <!-- CONTROL STRUCTURES (WEIRS & GATES) -->
+              <label class="flex items-center gap-1 cursor-pointer text-blue-300 hover:text-white px-2 py-0.5 rounded bg-blue-950/70 border border-blue-600/50 select-none" title="ฝายและประตูระบายน้ำควบคุมการไหล (Ban Khai Weir, Thap Ma Gate, ฯลฯ)">
+                <input type="checkbox" id="chk-control-structures" checked onchange="toggleNetworkLayer('controlStructures')" class="rounded bg-slate-900 border-blue-500 text-blue-500 focus:ring-0">
+                <span>🚪 ฝาย/ประตูระบายน้ำ</span>
+              </label>
+
+              <!-- SEA OUTLETS -->
+              <label class="flex items-center gap-1 cursor-pointer text-emerald-300 hover:text-white px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-600/50 select-none" title="จุดออกทะเล 6 แห่งในระยอง (SEA-001 ถึง SEA-006)">
+                <input type="checkbox" id="chk-sea-outlets" checked onchange="toggleNetworkLayer('seaOutlets')" class="rounded bg-slate-900 border-emerald-500 text-emerald-500 focus:ring-0">
+                <span>⚓ 6 จุดออกทะเล</span>
+              </label>
+
+              <!-- POTENTIALLY AFFECTED AREAS -->
+              <label class="flex items-center gap-1 cursor-pointer text-amber-300 hover:text-white px-2 py-0.5 rounded bg-amber-950/70 border border-amber-600/50 select-none" title="พื้นที่ที่อาจได้รับผลกระทบจากการระบายน้ำ (Potentially Affected Areas)">
+                <input type="checkbox" id="chk-affected-areas" checked onchange="toggleNetworkLayer('affectedAreas')" class="rounded bg-slate-900 border-amber-500 text-amber-500 focus:ring-0">
+                <span>⚠️ พื้นที่เสี่ยงท้ายน้ำ</span>
+              </label>
+
+              <!-- PROMINENT BUTTON: RESERVOIR IMPACT NETWORK ANALYSIS -->
+              <button onclick="openImpactModal()" class="px-2.5 py-0.5 rounded bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-[11px] flex items-center gap-1.5 shadow-md border border-cyan-400/60 transition group" title="เปิดระบบวิเคราะห์เส้นทางน้ำจากอ่างสู่อ่าวไทย (Reservoir Impact Analysis)">
+                <i data-lucide="git-merge" class="w-3.5 h-3.5 text-cyan-200 group-hover:rotate-45 transition-transform"></i>
+                <span>🌊 วิเคราะห์ทางน้ำสู่อ่าวไทย</span>
+              </button>
 
               <label class="flex items-center gap-1 cursor-pointer text-slate-300 hover:text-white px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 select-none">
                 <input type="checkbox" id="chk-stations" checked onchange="toggleLayer('stations')" class="rounded bg-slate-900 border-slate-600 text-blue-500 focus:ring-0">
@@ -798,6 +864,27 @@
           <div class="w-full flex-1 relative min-h-0">
             <!-- Leaflet Map Container -->
             <div id="map" class="w-full h-full bg-slate-900 z-0"></div>
+
+            <!-- FLOATING RESERVOIR IMPACT HUD (TOP-LEFT OF MAP) -->
+            <div id="impact-map-hud" class="hidden absolute top-3 left-14 z-[990] max-w-sm sm:max-w-md w-[calc(100%-4.5rem)] glass-panel border border-cyan-500/80 rounded-xl p-3 shadow-2xl text-slate-100 pointer-events-auto transition text-xs space-y-2">
+              <div class="flex items-center justify-between border-b border-slate-700/80 pb-1.5">
+                <div class="flex items-center gap-1.5 font-bold text-cyan-300">
+                  <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                  <span id="hud-impact-title">วิเคราะห์การไหล: อ่างฯ ดอกกราย</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="openImpactModal()" class="text-[10.5px] px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 hover:bg-cyan-900 border border-cyan-700/60 font-semibold flex items-center gap-0.5">
+                    <span>ดูรายละเอียด</span> ❯
+                  </button>
+                  <button onclick="clearImpactAnalysis()" class="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800" title="ล้างการวิเคราะห์">
+                    ✕
+                  </button>
+                </div>
+              </div>
+              <div id="hud-impact-body" class="space-y-1 text-[11px] text-slate-300 font-sans">
+                <!-- Dynamically populated via JS -->
+              </div>
+            </div>
 
             <!-- FLOATING FULLSCREEN BUTTON (TOP-RIGHT, ZOOM CONTROL IS TOP-LEFT) -->
             <button onclick="toggleMapFullscreen()" title="ขยายแผนที่เต็มจอ / ออกจากเต็มจอ (Esc)" class="absolute top-3 right-3 z-[1000] pointer-events-auto bg-slate-900/95 hover:bg-blue-600 text-cyan-300 hover:text-white border border-slate-600 rounded-lg p-2 shadow-xl transition flex items-center gap-1.5 text-[11px] font-bold">
@@ -1437,6 +1524,12 @@
       cctv: L.layerGroup().addTo(map),         // กล้องวงจรปิด CCTV สด กรมทรัพยากรน้ำ (DWR Telemetry)
       lakes: L.layerGroup().addTo(map),        // ผืนน้ำอ่างเก็บน้ำหลัก
       flow: L.layerGroup().addTo(map),         // เส้นทางน้ำ/คลองหลัก
+      naturalFlow: L.layerGroup().addTo(map),  // 🌊 ทางน้ำธรรมชาติ (Natural Downstream Flow)
+      transferFlow: L.layerGroup().addTo(map), // 🔄 โครงข่ายผันน้ำ (Managed Water Transfer)
+      controlStructures: L.layerGroup().addTo(map), // 🚪 อาคารบังคับน้ำ ฝาย ประตูระบายน้ำ
+      seaOutlets: L.layerGroup().addTo(map),   // ⚓ จุดออกทะเล 6 แห่ง (SEA-001 - SEA-006)
+      affectedAreas: L.layerGroup().addTo(map),// ⚠️ พื้นที่ที่อาจได้รับผลกระทบ (Potentially Affected Areas)
+      impactHighlight: L.layerGroup().addTo(map), // 💡 ไฮไลต์ผลการวิเคราะห์เส้นทางน้ำ
       stations: L.layerGroup().addTo(map),     // สถานีวัดน้ำ
       rainfall: L.layerGroup().addTo(map),     // สถานีวัดน้ำฝนสด 34 จุด (สทนช./สสน./TMD)
       radar: L.layerGroup().addTo(map),        // เรดาร์ฝน
@@ -1584,7 +1677,54 @@ const officialReservoirCoords = {
         [12.7150, 101.2450],
         [12.7000, 101.2380],
         [12.6750, 101.2420],
-        [12.6620, 101.2450]
+        [12.6680, 101.2180]
+      ],
+      khlongYaiLower: [
+        [12.9646, 101.3107],
+        [12.9480, 101.2950],
+        [12.9280, 101.2702]
+      ],
+      khlongChakMak: [
+        [12.7450, 101.1550],
+        [12.7100, 101.1500],
+        [12.6780, 101.1450]
+      ],
+      khlongPhayun: [
+        [12.7650, 101.0750],
+        [12.7200, 101.0700],
+        [12.6730, 101.0660]
+      ],
+      khlongNamHu: [
+        [12.7150, 101.2250],
+        [12.6900, 101.2200],
+        [12.6680, 101.2180]
+      ],
+      khlongPhe: [
+        [12.6650, 101.4400],
+        [12.6450, 101.4420],
+        [12.6280, 101.4430]
+      ],
+      transferPrasaeKhlongYai: [
+        [12.9860, 101.5554],
+        [12.9780, 101.4800],
+        [12.9720, 101.3900],
+        [12.9646, 101.3107]
+      ],
+      transferKhlongYaiNongPlaLai: [
+        [12.9646, 101.3107],
+        [12.9450, 101.2950],
+        [12.9280, 101.2702]
+      ],
+      transferNongPlaLaiDokKrai: [
+        [12.9280, 101.2702],
+        [12.9050, 101.2450],
+        [12.8864, 101.2206]
+      ],
+      transferDokKraiMapTaPhut: [
+        [12.8864, 101.2206],
+        [12.8350, 101.2000],
+        [12.7700, 101.1750],
+        [12.7100, 101.1500]
       ]
     };
 
@@ -2074,8 +2214,1295 @@ const officialReservoirCoords = {
 
     renderReservoirsSidebar();
 
-    // 4. DRAW CONTINUOUS RIVER FLOW PATHS (GEOGRAPHIC REALITY + CUSTOM EDITABLE)
+    // =========================================================================
+    // 🌊 RAYONG WATER NETWORK GRAPH (RESERVOIR-TO-SEA IMPACT NETWORK)
+    // =========================================================================
+    function calculatePathDistanceKm(coords) {
+      if (!coords || coords.length < 2) return 0;
+      let total = 0;
+      for (let i = 0; i < coords.length - 1; i++) {
+        const lat1 = coords[i][0] * Math.PI / 180;
+        const lon1 = coords[i][1] * Math.PI / 180;
+        const lat2 = coords[i+1][0] * Math.PI / 180;
+        const lon2 = coords[i+1][1] * Math.PI / 180;
+        const dlat = lat2 - lat1;
+        const dlon = lon2 - lon1;
+        const a = Math.sin(dlat/2)**2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlon/2)**2;
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        total += 6371 * c;
+      }
+      return parseFloat(total.toFixed(1));
+    }
+
+    const rayongWaterNetwork = {
+      reservoirs: {
+        dokkrai: {
+          id: 'RES-DOKKRAI',
+          name: 'อ่างเก็บน้ำดอกกราย',
+          enName: 'Dok Krai Reservoir',
+          district: 'อ.ปลวกแดง',
+          capacityMcm: 71.40,
+          outletCoord: [12.8864, 101.2206],
+          downEdges: ['FLOW-DOKKRAI', 'FLOW-THAPMA'],
+          seaOutletId: 'SEA-001',
+          confidence: 'HIGH',
+          agency: 'โครงการชลประทานระยอง (RID)'
+        },
+        nongplalai: {
+          id: 'RES-NONGPLALAI',
+          name: 'อ่างเก็บน้ำหนองปลาไหล',
+          enName: 'Nong Pla Lai Reservoir',
+          district: 'อ.ปลวกแดง',
+          capacityMcm: 163.75,
+          outletCoord: [12.9280, 101.2702],
+          downEdges: ['FLOW-RAYONG-UPPER'],
+          seaOutletId: 'SEA-001',
+          confidence: 'HIGH',
+          agency: 'โครงการชลประทานระยอง (RID)'
+        },
+        khlongyai: {
+          id: 'RES-KHLONGYAI',
+          name: 'อ่างเก็บน้ำคลองใหญ่',
+          enName: 'Khlong Yai Reservoir',
+          district: 'อ.ปลวกแดง',
+          capacityMcm: 40.10,
+          outletCoord: [12.9646, 101.3107],
+          downEdges: ['FLOW-KHLONGYAI-LOWER'],
+          seaOutletId: 'SEA-001',
+          confidence: 'HIGH',
+          agency: 'โครงการชลประทานระยอง (RID)'
+        },
+        prasae: {
+          id: 'RES-PRASAE',
+          name: 'อ่างเก็บน้ำประแสร์',
+          enName: 'Prasae Reservoir',
+          district: 'อ.วังจันทร์',
+          capacityMcm: 295.00,
+          outletCoord: [12.9860, 101.5554],
+          downEdges: ['FLOW-PRASAE-MAIN'],
+          seaOutletId: 'SEA-002',
+          confidence: 'HIGH',
+          agency: 'โครงการส่งน้ำและบำรุงรักษาประแสร์ (RID)'
+        },
+        khlongraok: {
+          id: 'RES-KHLONGRAOK',
+          name: 'อ่างเก็บน้ำคลองระโอก',
+          enName: 'Khlong Ra-ok Reservoir',
+          district: 'อ.เขาชะเมา',
+          capacityMcm: 19.65,
+          outletCoord: [12.8610, 101.7580],
+          downEdges: ['FLOW-KHLONGRAOK'],
+          seaOutletId: 'SEA-002',
+          confidence: 'HIGH',
+          agency: 'โครงการชลประทานระยอง (RID)'
+        },
+        khaochuk: {
+          id: 'RES-KHAOCHUK',
+          name: 'อ่างเก็บน้ำเขาจุก',
+          enName: 'Khao Chuk Reservoir',
+          district: 'อ.แกลง',
+          capacityMcm: 21.80,
+          outletCoord: [12.8660, 101.7220],
+          downEdges: ['FLOW-KHLONGPHO'],
+          seaOutletId: 'SEA-002',
+          confidence: 'HIGH',
+          agency: 'โครงการชลประทานระยอง (RID)'
+        }
+      },
+
+      seaOutlets: {
+        'SEA-001': {
+          id: 'SEA-001',
+          code: 'SEA-001',
+          name: 'ปากน้ำระยอง (Pak Nam Rayong Estuary)',
+          basin: 'ลุ่มน้ำคลองใหญ่ - แม่น้ำระยอง',
+          coord: [12.6550, 101.2770],
+          desc: 'จุดระบายน้ำหลักของแม่น้ำระยอง คลองดอกกราย และคลองทับมา ออกสู่อ่าวไทย ผ่านเขตเทศบาลนครระยอง',
+          confidence: 'HIGH'
+        },
+        'SEA-002': {
+          id: 'SEA-002',
+          code: 'SEA-002',
+          name: 'ปากน้ำประแสร์ (Pak Nam Prasae Estuary)',
+          basin: 'ลุ่มน้ำแม่น้ำประแสร์',
+          coord: [12.7000, 101.7080],
+          desc: 'จุดระบายน้ำหลักของแม่น้ำประแสร์ คลองโพล้ และคลองระโอก ออกสู่อ่าวไทยที่ ต.ปากน้ำประแส อ.แกลง',
+          confidence: 'HIGH'
+        },
+        'SEA-003': {
+          id: 'SEA-003',
+          code: 'SEA-003',
+          name: 'ปากคลองชากหมาก / นิคมฯ มาบตาพุด',
+          basin: 'ลุ่มน้ำชายฝั่งทะเลมาบตาพุด',
+          coord: [12.6780, 101.1450],
+          desc: 'จุดระบายน้ำสายหลักของนิคมอุตสาหกรรมมาบตาพุด และพื้นที่คลองชากหมาก ออกสู่อ่าวไทย',
+          confidence: 'HIGH'
+        },
+        'SEA-004': {
+          id: 'SEA-004',
+          code: 'SEA-004',
+          name: 'ปากคลองพยูน / หาดพยูน บ้านฉาง',
+          basin: 'ลุ่มน้ำชายฝั่ง อ.บ้านฉาง',
+          coord: [12.6730, 101.0660],
+          desc: 'จุดระบายน้ำฝั่งตะวันตกของระยอง รองรับน้ำจากเทือกเขาบ้านฉาง ระบายลงสู่อ่าวไทย',
+          confidence: 'MEDIUM'
+        },
+        'SEA-005': {
+          id: 'SEA-005',
+          code: 'SEA-005',
+          name: 'ปากคลองน้ำหู / ตากวน-สุชาดา',
+          basin: 'ลุ่มน้ำชายฝั่งระยองตะวันตก - คลองผันน้ำเลี่ยงเมือง',
+          coord: [12.6680, 101.2180],
+          desc: 'จุดระบายน้ำออกทะเลรองรับการระบายน้ำจากคลองผันน้ำเลี่ยงเมืองระยอง (ตัดยอดน้ำหลากจากคลองทับมา) และคลองน้ำหู',
+          confidence: 'HIGH'
+        },
+        'SEA-006': {
+          id: 'SEA-006',
+          code: 'SEA-006',
+          name: 'อ่าวบ้านเพ / ปากคลองเพ',
+          basin: 'ลุ่มน้ำชายฝั่งบ้านเพ - เขาแหลมหญ้า',
+          coord: [12.6280, 101.4430],
+          desc: 'จุดระบายน้ำชายฝั่งทะเลบริเวณท่าเรือบ้านเพ รองรับคลองเพและพื้นที่เชิงเขาแหลมหญ้า',
+          confidence: 'MEDIUM'
+        }
+      },
+
+      controlStructures: {
+        'GATE-001': {
+          id: 'GATE-001',
+          name: 'ฝายบ้านค่าย (Ban Khai Weir)',
+          type: 'ฝายทดน้ำ & อาคารบังคับน้ำ (Weir & Regulator)',
+          coord: [12.7750, 101.2880],
+          river: 'แม่น้ำระยอง / จุดบรรจบคลองดอกกราย',
+          role: 'ควบคุมระดับน้ำทดน้ำเพื่อการเกษตร ชะลอและตัดยอดน้ำหลากก่อนไหลเข้าสู่อำเภอเมืองระยอง',
+          capacityM3s: 180,
+          confidence: 'HIGH'
+        },
+        'GATE-002': {
+          id: 'GATE-002',
+          name: 'ประตูระบายน้ำและสถานีสูบน้ำคลองทับมา',
+          type: 'ประตูระบายน้ำ + สถานีสูบน้ำหลาก (Regulator & Pump)',
+          coord: [12.7200, 101.2480],
+          river: 'คลองทับมา (Thap Ma Canal)',
+          role: 'เฝ้าระวังน้ำหลากวิกฤต สูบระบายน้ำด้วย 6 เครื่องสูบ (24 ลบ.ม./วิ) ตัดน้ำลงคลองผันน้ำเลี่ยงเมือง',
+          capacityM3s: 24,
+          confidence: 'HIGH'
+        },
+        'GATE-003': {
+          id: 'GATE-003',
+          name: 'ประตูระบายน้ำปากแม่น้ำระยอง (Pak Nam Rayong Tidal Gate)',
+          type: 'ประตูระบายน้ำปากแม่น้ำ (Tidal Sluice Gate)',
+          coord: [12.6650, 101.2720],
+          river: 'แม่น้ำระยอง (Rayong River)',
+          role: 'ควบคุมการเปิด-ปิดระบายน้ำช่วงน้ำทะเลหนุน ป้องกันน้ำเค็มรุกเข้าพื้นที่เกษตรและประปา',
+          capacityM3s: 150,
+          confidence: 'HIGH'
+        },
+        'GATE-004': {
+          id: 'GATE-004',
+          name: 'ประตูระบายน้ำเขาวังไทร / ฝายคลองโพล้',
+          type: 'ฝายและประตูระบายน้ำ (Weir & Gate)',
+          coord: [12.8350, 101.6480],
+          river: 'คลองโพล้ - แม่น้ำประแสร์',
+          role: 'ควบคุมการไหลของน้ำจากคลองโพล้ (คลองระโอก) รวมเข้าสู่แม่น้ำประแสร์ มุ่งหน้าตัวเมืองแกลง',
+          capacityM3s: 120,
+          confidence: 'HIGH'
+        },
+        'GATE-005': {
+          id: 'GATE-005',
+          name: 'ประตูระบายน้ำคลองผันน้ำเลี่ยงเมืองระยอง',
+          type: 'ประตูระบายน้ำผันน้ำเลี่ยงเมือง (Drainage Sluice)',
+          coord: [12.6750, 101.2420],
+          river: 'คลองผันน้ำเลี่ยงเมืองระยอง',
+          role: 'ตัดยอดมวลน้ำหลากจากคลองทับมาให้ไหลออกทะเลทางตากวน-สุชาดา ไม่ผ่านเข้าเขตเศรษฐกิจตัวเมือง',
+          capacityM3s: 40,
+          confidence: 'HIGH'
+        }
+      },
+
+      waterways: {
+        'FLOW-DOKKRAI': {
+          id: 'FLOW-DOKKRAI',
+          name: 'คลองดอกกราย (Dok Krai Canal)',
+          type: 'NATURAL',
+          color: '#06b6d4',
+          coordsKey: 'dokkraiCanal',
+          lengthKm: 14.9,
+          from: 'อ่างเก็บน้ำดอกกราย',
+          to: 'ฝายบ้านค่าย (จุดบรรจบแม่น้ำระยอง)',
+          nextEdges: ['FLOW-RAYONG-LOWER'],
+          seaOutletId: 'SEA-001',
+          structures: ['GATE-001'],
+          areas: ['AREA-MAENAMKHU', 'AREA-PHANANIKHOM', 'AREA-BANKHAI'],
+          confidence: 'HIGH'
+        },
+        'FLOW-RAYONG-UPPER': {
+          id: 'FLOW-RAYONG-UPPER',
+          name: 'แม่น้ำระยองตอนบน (Upper Rayong River)',
+          type: 'NATURAL',
+          color: '#38bdf8',
+          coordsKey: 'rayongRiver',
+          customCoords: [
+            [12.9280, 101.2702],
+            [12.8800, 101.2780],
+            [12.8500, 101.2850],
+            [12.8100, 101.2950],
+            [12.7750, 101.2880]
+          ],
+          lengthKm: 17.4,
+          from: 'อ่างเก็บน้ำหนองปลาไหล',
+          to: 'ฝายบ้านค่าย (จุดบรรจบคลองดอกกราย)',
+          nextEdges: ['FLOW-RAYONG-LOWER'],
+          seaOutletId: 'SEA-001',
+          structures: ['GATE-001'],
+          areas: ['AREA-BANKHAI'],
+          confidence: 'HIGH'
+        },
+        'FLOW-KHLONGYAI-LOWER': {
+          id: 'FLOW-KHLONGYAI-LOWER',
+          name: 'คลองใหญ่ตอนล่าง (Lower Khlong Yai Stream)',
+          type: 'NATURAL',
+          color: '#0284c7',
+          coordsKey: 'khlongYaiLower',
+          lengthKm: 6.0,
+          from: 'อ่างเก็บน้ำคลองใหญ่',
+          to: 'อ่างเก็บน้ำหนองปลาไหล / แม่น้ำระยองตอนบน',
+          nextEdges: ['FLOW-RAYONG-UPPER'],
+          seaOutletId: 'SEA-001',
+          structures: [],
+          areas: [],
+          confidence: 'HIGH'
+        },
+        'FLOW-RAYONG-LOWER': {
+          id: 'FLOW-RAYONG-LOWER',
+          name: 'แม่น้ำระยองตอนล่าง (Lower Rayong River)',
+          type: 'NATURAL',
+          color: '#2563eb',
+          customCoords: [
+            [12.7750, 101.2880],
+            [12.7450, 101.2850],
+            [12.7180, 101.2700],
+            [12.6780, 101.2750],
+            [12.6650, 101.2720],
+            [12.6550, 101.2770]
+          ],
+          lengthKm: 14.0,
+          from: 'ฝายบ้านค่าย',
+          to: 'ปากน้ำระยอง (อ่าวไทย)',
+          nextEdges: [],
+          seaOutletId: 'SEA-001',
+          structures: ['GATE-003'],
+          areas: ['AREA-MUEANG'],
+          confidence: 'HIGH'
+        },
+        'FLOW-THAPMA': {
+          id: 'FLOW-THAPMA',
+          name: 'คลองทับมา (Thap Ma Canal)',
+          type: 'NATURAL',
+          color: '#f59e0b',
+          coordsKey: 'thapma',
+          lengthKm: 27.2,
+          from: 'ช่องระบายน้ำหลากอ่างฯ ดอกกราย',
+          to: 'ต.ทับมา / สถานีสูบน้ำคลองทับมา',
+          nextEdges: ['TRANSFER-CITY-BYPASS', 'FLOW-RAYONG-LOWER'],
+          seaOutletId: 'SEA-001',
+          structures: ['GATE-002'],
+          areas: ['AREA-THAPMA'],
+          confidence: 'HIGH'
+        },
+        'FLOW-PRASAE-MAIN': {
+          id: 'FLOW-PRASAE-MAIN',
+          name: 'แม่น้ำประแสร์ (Prasae River)',
+          type: 'NATURAL',
+          color: '#06b6d4',
+          coordsKey: 'prasaeRiver',
+          lengthKm: 36.3,
+          from: 'อ่างเก็บน้ำประแสร์',
+          to: 'ปากน้ำประแสร์ (อ่าวไทย)',
+          nextEdges: [],
+          seaOutletId: 'SEA-002',
+          structures: ['GATE-004'],
+          areas: ['AREA-WANGCHAN', 'AREA-KLAENG'],
+          confidence: 'HIGH'
+        },
+        'FLOW-KHLONGRAOK': {
+          id: 'FLOW-KHLONGRAOK',
+          name: 'คลองระโอก (Khlong Ra-ok)',
+          type: 'NATURAL',
+          color: '#38bdf8',
+          coordsKey: 'khlongRaOk',
+          lengthKm: 4.8,
+          from: 'อ่างเก็บน้ำคลองระโอก',
+          to: 'คลองโพล้',
+          nextEdges: ['FLOW-KHLONGPHO'],
+          seaOutletId: 'SEA-002',
+          structures: [],
+          areas: ['AREA-KHAOCHAMAO'],
+          confidence: 'HIGH'
+        },
+        'FLOW-KHLONGPHO': {
+          id: 'FLOW-KHLONGPHO',
+          name: 'คลองโพล้ (Khlong Pho)',
+          type: 'NATURAL',
+          color: '#0284c7',
+          coordsKey: 'khlongPho',
+          lengthKm: 17.5,
+          from: 'อ่างเก็บน้ำเขาจุก / เขาชะเมา',
+          to: 'จุดบรรจบแม่น้ำประแสร์ (เขาวังไทร)',
+          nextEdges: ['FLOW-PRASAE-MAIN'],
+          seaOutletId: 'SEA-002',
+          structures: ['GATE-004'],
+          areas: ['AREA-KHAOCHAMAO', 'AREA-KLAENG'],
+          confidence: 'HIGH'
+        },
+        'FLOW-CHAKMAK': {
+          id: 'FLOW-CHAKMAK',
+          name: 'คลองชากหมาก (Khlong Chak Mak)',
+          type: 'NATURAL',
+          color: '#0ea5e9',
+          coordsKey: 'khlongChakMak',
+          lengthKm: 7.5,
+          from: 'เขตอุตสาหกรรมมาบตาพุด',
+          to: 'ปากคลองชากหมาก (SEA-003)',
+          nextEdges: [],
+          seaOutletId: 'SEA-003',
+          structures: [],
+          areas: [],
+          confidence: 'HIGH'
+        },
+        'FLOW-PHAYUN': {
+          id: 'FLOW-PHAYUN',
+          name: 'คลองพยูน (Khlong Phayun - บ้านฉาง)',
+          type: 'NATURAL',
+          color: '#0284c7',
+          coordsKey: 'khlongPhayun',
+          lengthKm: 10.3,
+          from: 'เทือกเขาบ้านฉาง',
+          to: 'หาดพยูน (SEA-004)',
+          nextEdges: [],
+          seaOutletId: 'SEA-004',
+          structures: [],
+          areas: [],
+          confidence: 'MEDIUM'
+        },
+        'FLOW-NAMHU': {
+          id: 'FLOW-NAMHU',
+          name: 'คลองน้ำหู (Khlong Nam Hu)',
+          type: 'NATURAL',
+          color: '#0284c7',
+          coordsKey: 'khlongNamHu',
+          lengthKm: 5.3,
+          from: 'ต.เนินพระ ตอนบน',
+          to: 'หาดสุชาดา (SEA-005)',
+          nextEdges: [],
+          seaOutletId: 'SEA-005',
+          structures: [],
+          areas: [],
+          confidence: 'MEDIUM'
+        },
+        'FLOW-BANPHE': {
+          id: 'FLOW-BANPHE',
+          name: 'คลองเพ (Khlong Phe)',
+          type: 'NATURAL',
+          color: '#0284c7',
+          coordsKey: 'khlongPhe',
+          lengthKm: 4.1,
+          from: 'ชุมชนบ้านเพ / เชิงเขาแหลมหญ้า',
+          to: 'อ่าวบ้านเพ (SEA-006)',
+          nextEdges: [],
+          seaOutletId: 'SEA-006',
+          structures: [],
+          areas: [],
+          confidence: 'MEDIUM'
+        },
+
+        // MANAGED WATER TRANSFERS (เส้นประ)
+        'TRANSFER-PRASAE-KHLONGYAI': {
+          id: 'TRANSFER-PRASAE-KHLONGYAI',
+          name: 'ท่อส่งน้ำผันน้ำ ประแสร์ - คลองใหญ่',
+          type: 'MANAGED_TRANSFER',
+          color: '#c084fc',
+          coordsKey: 'transferPrasaeKhlongYai',
+          lengthKm: 26.6,
+          from: 'อ่างเก็บน้ำประแสร์ (สถานีสูบน้ำ)',
+          to: 'อ่างเก็บน้ำคลองใหญ่',
+          operator: 'East Water / กรมชลประทาน',
+          confidence: 'HIGH'
+        },
+        'TRANSFER-KHLONGYAI-NONGPLALAI': {
+          id: 'TRANSFER-KHLONGYAI-NONGPLALAI',
+          name: 'ท่อ/คลองผันน้ำ คลองใหญ่ - หนองปลาไหล',
+          type: 'MANAGED_TRANSFER',
+          color: '#c084fc',
+          coordsKey: 'transferKhlongYaiNongPlaLai',
+          lengthKm: 6.1,
+          from: 'อ่างเก็บน้ำคลองใหญ่',
+          to: 'อ่างเก็บน้ำหนองปลาไหล (1.2 ล้าน ลบ.ม./วัน)',
+          operator: 'East Water / กรมชลประทาน',
+          confidence: 'HIGH'
+        },
+        'TRANSFER-NONGPLALAI-DOKKRAI': {
+          id: 'TRANSFER-NONGPLALAI-DOKKRAI',
+          name: 'ท่อเชื่อมโยง หนองปลาไหล - ดอกกราย',
+          type: 'MANAGED_TRANSFER',
+          color: '#c084fc',
+          coordsKey: 'transferNongPlaLaiDokKrai',
+          lengthKm: 7.1,
+          from: 'อ่างเก็บน้ำหนองปลาไหล',
+          to: 'อ่างเก็บน้ำดอกกราย',
+          operator: 'East Water / กรมชลประทาน',
+          confidence: 'HIGH'
+        },
+        'TRANSFER-DOKKRAI-MAPTAPHUT': {
+          id: 'TRANSFER-DOKKRAI-MAPTAPHUT',
+          name: 'ท่อส่งน้ำ ดอกกราย - นิคมฯ มาบตาพุด',
+          type: 'MANAGED_TRANSFER',
+          color: '#c084fc',
+          coordsKey: 'transferDokKraiMapTaPhut',
+          lengthKm: 21.1,
+          from: 'อ่างเก็บน้ำดอกกราย',
+          to: 'ศูนย์อุตสาหกรรมมาบตาพุด',
+          operator: 'East Water / กนอ.',
+          confidence: 'HIGH'
+        },
+        'TRANSFER-CITY-BYPASS': {
+          id: 'TRANSFER-CITY-BYPASS',
+          name: 'คลองผันน้ำเลี่ยงเมืองระยอง (Rayong Flood Bypass)',
+          type: 'MANAGED_TRANSFER',
+          color: '#34d399',
+          coordsKey: 'bypassCanal',
+          lengthKm: 7.4,
+          from: 'สถานีสูบน้ำคลองทับมา',
+          to: 'ปากคลองน้ำหู / ตากวน-สุชาดา (SEA-005)',
+          operator: 'ชลประทานระยอง / ทต.ทับมา',
+          confidence: 'HIGH'
+        }
+      },
+
+      affectedAreas: {
+        'AREA-MAENAMKHU': {
+          id: 'AREA-MAENAMKHU',
+          name: 'ต.แม่น้ำคู้ (อ.ปลวกแดง)',
+          bounds: [[12.860, 101.228], [12.890, 101.255]],
+          center: [12.8750, 101.2420],
+          triggers: ['RES-DOKKRAI'],
+          desc: 'พื้นที่ลุ่มต่ำริมคลองดอกกราย ชุมชนแม่น้ำคู้ เสี่ยงกระทบหากระบายน้ำเกิน 30 ลบ.ม./วินาที'
+        },
+        'AREA-PHANANIKHOM': {
+          id: 'AREA-PHANANIKHOM',
+          name: 'ต.พนานิคม (อ.นิคมพัฒนา)',
+          bounds: [[12.815, 101.250], [12.845, 101.275]],
+          center: [12.8300, 101.2620],
+          triggers: ['RES-DOKKRAI'],
+          desc: 'พื้นที่เกษตรและแนวคลองเลียบนิคมอุตสาหกรรม'
+        },
+        'AREA-BANKHAI': {
+          id: 'AREA-BANKHAI',
+          name: 'อ.บ้านค่าย (ต.บ้านค่าย, ต.หนองละลอก, ต.ตาขัน)',
+          bounds: [[12.755, 101.270], [12.795, 101.305]],
+          center: [12.7750, 101.2880],
+          triggers: ['RES-DOKKRAI', 'RES-NONGPLALAI', 'RES-KHLONGYAI'],
+          desc: 'จุดบรรจบคลองดอกกรายและแม่น้ำระยอง เหนือฝายบ้านค่าย'
+        },
+        'AREA-THAPMA': {
+          id: 'AREA-THAPMA',
+          name: 'ต.ทับมา (อ.เมืองระยอง)',
+          bounds: [[12.690, 101.230], [12.725, 101.260]],
+          center: [12.7050, 101.2450],
+          triggers: ['RES-DOKKRAI'],
+          desc: 'พื้นที่ลุ่มต่ำริมคลองทับมา (หมู่ 1, 2, 3 ชุมชนหนองมะหาด) รองรับน้ำหลากจากอ่างฯ ดอกกราย'
+        },
+        'AREA-MUEANG': {
+          id: 'AREA-MUEANG',
+          name: 'เขตเทศบาลนครระยอง (ต.เชิงเนิน, ท่าประดู่, เนินพระ)',
+          bounds: [[12.658, 101.260], [12.698, 101.290]],
+          center: [12.6780, 101.2750],
+          triggers: ['RES-DOKKRAI', 'RES-NONGPLALAI', 'RES-KHLONGYAI'],
+          desc: 'พื้นที่สองฝั่งแม่น้ำระยองในเขตเศรษฐกิจและชุมชนเมือง ก่อนออกปากน้ำระยอง'
+        },
+        'AREA-WANGCHAN': {
+          id: 'AREA-WANGCHAN',
+          name: 'อ.วังจันทร์ (ต.ชุมแสง, ต.วังจันทร์)',
+          bounds: [[12.915, 101.565], [12.955, 101.605]],
+          center: [12.9350, 101.5850],
+          triggers: ['RES-PRASAE'],
+          desc: 'พื้นที่ริมแม่น้ำประแสร์ตอนบน ท้ายอ่างเก็บน้ำประแสร์'
+        },
+        'AREA-KHAOCHAMAO': {
+          id: 'AREA-KHAOCHAMAO',
+          name: 'อ.เขาชะเมา (ต.ชำฆ้อ, ต.น้ำเป็น)',
+          bounds: [[12.855, 101.665], [12.895, 101.715]],
+          center: [12.8750, 101.6850],
+          triggers: ['RES-KHLONGRAOK', 'RES-KHAOCHUK'],
+          desc: 'พื้นที่ริมคลองโพล้และคลองระโอก รองรับน้ำจากอ่างฯ คลองระโอกและเขาจุก'
+        },
+        'AREA-KLAENG': {
+          id: 'AREA-KLAENG',
+          name: 'เทศบาลเมืองแกลง (ต.ทางเกวียน, ทุ่งควายกิน, วังหว้า, ปากน้ำประแส)',
+          bounds: [[12.710, 101.640], [12.810, 101.710]],
+          center: [12.7800, 101.6650],
+          triggers: ['RES-PRASAE', 'RES-KHLONGRAOK', 'RES-KHAOCHUK'],
+          desc: 'พื้นที่ปลายน้ำลุ่มน้ำประแสร์และย่านการค้าเมืองแกลง ก่อนออกสู่อ่าวไทยที่ปากน้ำประแสร์'
+        }
+      },
+
+      scenarios: {
+        'A': {
+          name: 'Scenario A: ระบายน้ำปกติ (10 m³/s)',
+          rateText: '10 ลบ.ม./วินาที',
+          severity: 'normal',
+          color: 'emerald',
+          badge: 'ปกติ (Normal Flow)',
+          desc: 'การระบายอยู่ในขอบเขตความจุลำน้ำธรรมชาติ ไม่มีน้ำล้นตลิ่ง การไหลปกติและราบรื่น'
+        },
+        'B': {
+          name: 'Scenario B: ระบายน้ำสูง (30-50 m³/s)',
+          rateText: '30 - 50 ลบ.ม./วินาที',
+          severity: 'watch',
+          color: 'amber',
+          badge: 'เฝ้าระวัง (Watch)',
+          desc: 'ระดับน้ำในลำน้ำเพิ่มสูงขึ้นใกล้เคียงตลิ่ง แจ้งเตือนพื้นที่ลุ่มต่ำริมคลองยกของขึ้นที่สูง เฝ้าระวังพื้นที่เกษตรกรรม'
+        },
+        'C': {
+          name: 'Scenario C: น้ำล้นสปิลเวย์วิกฤต (>80-100 m³/s)',
+          rateText: '80 - 100+ ลบ.ม./วินาที',
+          severity: 'warning',
+          color: 'rose',
+          badge: 'เตือนภัยวิกฤต (Spillway Overflow)',
+          desc: 'มวลน้ำหลากเกินความจุลำน้ำธรรมชาติ เสี่ยงน้ำล้นตลิ่งเข้าท่วมพื้นที่ลุ่มต่ำ อาคารบังคับน้ำทุกแห่งเปิดระบาย 100% สถานีสูบน้ำเดินเครื่องเต็มกำลัง'
+        },
+        'D': {
+          name: 'Scenario D: วิกฤตฝนตกหนัก + น้ำทะเลหนุนสูง (Extreme + Tidal Lock)',
+          rateText: 'สูงสุด + น้ำทะเลหนุนสูง',
+          severity: 'critical',
+          color: 'purple',
+          badge: 'วิกฤตสูงสุด (Tidal Lock Backwater)',
+          desc: 'เกิดสภาวะน้ำเทิน (Backwater Effect) เนื่องจากน้ำทะเลหนุนสูงต้านการระบายบริเวณปากน้ำระยองและปากน้ำประแสร์ ระบายน้ำลงสู่อ่าวไทยชะลอตัว ชุมชนเมืองและพื้นที่ปากน้ำเสี่ยงน้ำท่วมขังสูง'
+        }
+      }
+    };
+
+    var currentActiveAnalysis = null;
+    var currentImpactTab = 'downstream';
+
+    // RENDER WATER NETWORK MAP LAYERS
+    function renderWaterNetwork() {
+      if (!layers.naturalFlow || !layers.transferFlow) return;
+
+      layers.naturalFlow.clearLayers();
+      layers.transferFlow.clearLayers();
+      layers.controlStructures.clearLayers();
+      layers.seaOutlets.clearLayers();
+      layers.affectedAreas.clearLayers();
+
+      // 1. RENDER WATERWAYS
+      Object.values(rayongWaterNetwork.waterways).forEach(edge => {
+        const coords = edge.customCoords || (hydroOverrides[edge.coordsKey] || officialRiverCoords[edge.coordsKey]);
+        if (!coords || coords.length < 2) return;
+
+        const isTransfer = edge.type === 'MANAGED_TRANSFER';
+        const targetLayer = isTransfer ? layers.transferFlow : layers.naturalFlow;
+
+        // Base stroke underlay
+        L.polyline(coords, {
+          color: isTransfer ? '#7e22ce' : '#0369a1',
+          weight: isTransfer ? 7 : 8,
+          opacity: 0.45
+        }).addTo(targetLayer);
+
+        // Active animated stream stroke
+        const line = L.polyline(coords, {
+          color: edge.color,
+          weight: isTransfer ? 4 : 5.5,
+          dashArray: isTransfer ? '7, 11' : undefined,
+          className: isTransfer ? 'flow-transfer-dashed' : 'flow-natural-solid',
+          opacity: 0.95
+        }).addTo(targetLayer);
+
+        const seaOutlet = rayongWaterNetwork.seaOutlets[edge.seaOutletId];
+
+        // Rich Click-to-Analyze Popup
+        line.bindPopup(`
+          <div class="text-xs p-2 max-w-[280px] space-y-1.5 font-sans">
+            <div class="flex items-center justify-between border-b border-slate-700/80 pb-1">
+              <strong class="text-cyan-300 text-sm font-bold flex items-center gap-1">
+                ${isTransfer ? '🔄' : '🌊'} ${edge.name}
+              </strong>
+              <span class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold ${isTransfer ? 'bg-purple-950 text-purple-300 border border-purple-700/60' : 'bg-cyan-950 text-cyan-300 border border-cyan-700/60'}">
+                ${isTransfer ? 'โครงข่ายผันน้ำ' : 'ทางน้ำธรรมชาติ'}
+              </span>
+            </div>
+            <div class="text-[11px] text-slate-300 space-y-1">
+              <div><span class="text-slate-400">📏 ความยาว:</span> <strong class="text-cyan-300 font-mono">${edge.lengthKm} กม.</strong></div>
+              <div><span class="text-slate-400">⬆️ ต้นทาง:</span> <span class="text-slate-200">${edge.from}</span></div>
+              <div><span class="text-slate-400">⬇️ ปลายทาง:</span> <span class="text-slate-200">${edge.to}</span></div>
+              ${seaOutlet ? `<div><span class="text-slate-400">⚓ ปากน้ำออกทะเล:</span> <strong class="text-emerald-300">${seaOutlet.name}</strong></div>` : ''}
+              <div class="flex items-center gap-1 pt-0.5">
+                <span class="text-slate-400">🛡️ ความถูกต้อง:</span>
+                <span class="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold ${edge.confidence === 'HIGH' ? 'bg-emerald-950 text-emerald-300 border border-emerald-700/60' : 'bg-amber-950 text-amber-300 border border-amber-700/60'}">
+                  [${edge.confidence}] ${edge.confidence === 'HIGH' ? 'ยืนยัน RID/DWR' : 'ประเมินภูมิประเทศ'}
+                </span>
+              </div>
+            </div>
+            <div class="pt-2 border-t border-slate-700/80 flex items-center gap-1.5">
+              <button onclick="runTraceDownstreamFromEdge('${edge.id}')" class="flex-1 py-1 px-2 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-[10.5px] flex items-center justify-center gap-1 shadow transition">
+                <span>⬇️ Downstream</span>
+              </button>
+              <button onclick="runTraceUpstreamFromEdge('${edge.id}')" class="flex-1 py-1 px-2 rounded bg-amber-700 hover:bg-amber-600 text-white font-bold text-[10.5px] flex items-center justify-center gap-1 shadow transition">
+                <span>⬆️ Upstream</span>
+              </button>
+            </div>
+          </div>
+        `);
+
+        line.bindTooltip(`${isTransfer ? '🔄' : '🌊'} ${edge.name} (${edge.lengthKm} กม.)`, { sticky: true });
+      });
+
+      // 2. RENDER CONTROL STRUCTURES (WEIRS & GATES)
+      Object.values(rayongWaterNetwork.controlStructures).forEach(gate => {
+        const gateIcon = L.divIcon({
+          className: 'gate-marker-icon',
+          html: `
+            <div class="relative flex items-center justify-center cursor-pointer group">
+              <div class="w-7 h-7 rounded-lg bg-blue-950 border-2 border-cyan-400 flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                <span class="text-xs">🚪</span>
+              </div>
+              <div class="absolute -bottom-4 bg-slate-900/90 text-[9px] px-1 rounded font-bold text-cyan-300 border border-slate-700 whitespace-nowrap shadow">
+                ${gate.id}
+              </div>
+            </div>
+          `,
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
+
+        L.marker(gate.coord, { icon: gateIcon })
+          .bindTooltip(`<strong>${gate.name}</strong><br/><span class="text-xs text-slate-300">${gate.type}</span>`, { sticky: true })
+          .bindPopup(`
+            <div class="text-xs p-2 max-w-[260px] space-y-1.5 font-sans">
+              <strong class="text-cyan-300 text-sm font-bold flex items-center gap-1">
+                🚪 ${gate.name}
+              </strong>
+              <div class="text-[11px] text-slate-300 space-y-1">
+                <div><span class="text-slate-400">🌊 ลำน้ำ:</span> <strong class="text-white">${gate.river}</strong></div>
+                <div><span class="text-slate-400">⚙️ หน้าที่:</span> <span>${gate.role}</span></div>
+                <div><span class="text-slate-400">📊 อัตราการระบาย:</span> <strong class="text-amber-300 font-mono">${gate.capacityM3s} m³/s</strong></div>
+                <div><span class="text-slate-400">🛡️ ข้อมูล:</span> <span class="text-emerald-300 font-bold">[${gate.confidence}] ตรวจสอบยืนยัน</span></div>
+              </div>
+              <div class="pt-2 border-t border-slate-700/80 flex items-center gap-1.5">
+                <button onclick="runTraceUpstreamFromEdge('${gate.id}')" class="flex-1 py-1 px-2 rounded bg-amber-700 hover:bg-amber-600 text-white font-bold text-[10.5px] flex items-center justify-center gap-1 shadow transition">
+                  <span>⬆️ สืบหาต้นน้ำ (Upstream)</span>
+                </button>
+              </div>
+            </div>
+          `)
+          .addTo(layers.controlStructures);
+      });
+
+      // 3. RENDER SEA OUTLETS (SEA-001 TO SEA-006)
+      Object.values(rayongWaterNetwork.seaOutlets).forEach(sea => {
+        const seaIcon = L.divIcon({
+          className: 'sea-marker-icon',
+          html: `
+            <div class="relative flex items-center justify-center cursor-pointer">
+              <div class="w-8 h-8 rounded-full bg-emerald-950/80 border-2 border-emerald-400 flex items-center justify-center shadow-xl">
+                <span class="text-sm">⚓</span>
+              </div>
+              <div class="sea-beacon-ring absolute w-9 h-9 rounded-full border-2 border-emerald-400 pointer-events-none"></div>
+              <div class="absolute -bottom-5 bg-slate-900/95 text-[9px] px-1.5 py-0.2 rounded font-mono font-bold text-emerald-300 border border-emerald-600/70 shadow whitespace-nowrap">
+                ${sea.code}
+              </div>
+            </div>
+          `,
+          iconSize: [32, 32],
+          iconAnchor: [16, 16]
+        });
+
+        L.marker(sea.coord, { icon: seaIcon })
+          .bindTooltip(`<strong>⚓ ${sea.code}: ${sea.name}</strong><br/><span class="text-xs text-slate-300">${sea.basin}</span>`, { sticky: true })
+          .bindPopup(`
+            <div class="text-xs p-2 max-w-[260px] space-y-1.5 font-sans">
+              <strong class="text-emerald-300 text-sm font-bold flex items-center gap-1">
+                ⚓ ${sea.code}: ${sea.name}
+              </strong>
+              <div class="text-[11px] text-slate-300 space-y-1">
+                <div><span class="text-slate-400">🌊 ลุ่มน้ำ:</span> <strong class="text-white">${sea.basin}</strong></div>
+                <div><span class="text-slate-400">📝 คำอธิบาย:</span> <span>${sea.desc}</span></div>
+                <div><span class="text-slate-400">🛡️ ระดับความเชื่อมั่น:</span> <strong class="text-emerald-400 font-bold">[${sea.confidence}] กรมชลประทาน</strong></div>
+              </div>
+              <div class="pt-2 border-t border-slate-700/80 flex items-center gap-1.5">
+                <button onclick="runTraceUpstreamFromEdge('${sea.id}')" class="w-full py-1 px-2 rounded bg-amber-700 hover:bg-amber-600 text-white font-bold text-[10.5px] flex items-center justify-center gap-1 shadow transition">
+                  <span>⬆️ สืบหาต้นน้ำที่ไหลลงจุดนี้ (Upstream)</span>
+                </button>
+              </div>
+            </div>
+          `)
+          .addTo(layers.seaOutlets);
+      });
+
+      // 4. RENDER POTENTIALLY AFFECTED AREAS
+      Object.values(rayongWaterNetwork.affectedAreas).forEach(area => {
+        L.rectangle(area.bounds, {
+          color: '#f59e0b',
+          weight: 1.5,
+          dashArray: '4, 6',
+          fillColor: '#d97706',
+          fillOpacity: 0.12
+        })
+        .bindTooltip(`⚠️ พื้นที่ที่อาจได้รับผลกระทบ: <strong>${area.name}</strong>`, { sticky: true })
+        .bindPopup(`
+          <div class="text-xs p-2 max-w-[260px] space-y-1.5 font-sans">
+            <strong class="text-amber-400 text-sm font-bold flex items-center gap-1">
+              ⚠️ ${area.name}
+            </strong>
+            <span class="text-[9px] px-1.5 py-0.2 rounded font-semibold bg-amber-950 text-amber-300 border border-amber-700/60 block">
+              Potentially Affected Area (พื้นที่ที่อาจได้รับผลกระทบ)
+            </span>
+            <div class="text-[11px] text-slate-300 space-y-1 pt-1">
+              <div><span class="text-slate-400">🔍 ปัจจัยเสี่ยง:</span> <span>${area.desc}</span></div>
+              <div><span class="text-slate-400">🏞️ อ่างฯ ที่มีผล:</span> <strong class="text-cyan-300">${area.triggers.map(t => rayongWaterNetwork.reservoirs[t.replace('RES-','').toLowerCase()]?.name || t).join(', ')}</strong></div>
+            </div>
+            <div class="pt-2 border-t border-slate-700/80 flex items-center gap-1.5">
+              <button onclick="runTraceUpstreamFromEdge('${area.id}')" class="w-full py-1 px-2 rounded bg-amber-700 hover:bg-amber-600 text-white font-bold text-[10.5px] flex items-center justify-center gap-1 shadow transition">
+                <span>⬆️ ตรวจสอบอ่างเก็บน้ำต้นทาง</span>
+              </button>
+            </div>
+          </div>
+        `)
+        .addTo(layers.affectedAreas);
+      });
+    }
+
+    // =========================================================================
+    // 🔍 TWO-WAY TRACING ENGINE (DOWNSTREAM & UPSTREAM)
+    // =========================================================================
+    function traceDownstream(resKey) {
+      const res = rayongWaterNetwork.reservoirs[resKey];
+      if (!res) return null;
+
+      const visited = new Set();
+      const queue = [...res.downEdges];
+      let totalKm = 0;
+      const pathWaterways = [];
+      const areaIds = new Set();
+      const structIds = new Set();
+
+      while (queue.length > 0) {
+        const edgeId = queue.shift();
+        if (visited.has(edgeId)) continue;
+        visited.add(edgeId);
+
+        const edge = rayongWaterNetwork.waterways[edgeId];
+        if (!edge) continue;
+
+        pathWaterways.push(edge);
+        totalKm += edge.lengthKm;
+        (edge.areas || []).forEach(a => areaIds.add(a));
+        (edge.structures || []).forEach(s => structIds.add(s));
+        (edge.nextEdges || []).forEach(nextId => {
+          if (!visited.has(nextId)) queue.push(nextId);
+        });
+      }
+
+      // Add direct affected areas triggered by this reservoir
+      Object.values(rayongWaterNetwork.affectedAreas).forEach(area => {
+        if (area.triggers && area.triggers.includes(res.id)) {
+          areaIds.add(area.id);
+        }
+      });
+
+      const seaOutlet = rayongWaterNetwork.seaOutlets[res.seaOutletId];
+
+      return {
+        mode: 'downstream',
+        reservoir: res,
+        seaOutlet: seaOutlet,
+        totalDistanceKm: parseFloat(totalKm.toFixed(1)),
+        waterways: pathWaterways,
+        structures: [...structIds].map(sid => rayongWaterNetwork.controlStructures[sid]).filter(Boolean),
+        areas: [...areaIds].map(aid => rayongWaterNetwork.affectedAreas[aid]).filter(Boolean)
+      };
+    }
+
+    function traceUpstream(targetId) {
+      let contributingEdges = [];
+      let parentResKeys = new Set();
+      let structIds = new Set();
+
+      // Determine feeders based on target
+      if (targetId === 'FLOW-RAYONG-LOWER' || targetId === 'GATE-001' || targetId === 'AREA-MUEANG' || targetId === 'AREA-BANKHAI' || targetId === 'SEA-001') {
+        contributingEdges = ['FLOW-DOKKRAI', 'FLOW-RAYONG-UPPER', 'FLOW-KHLONGYAI-LOWER', 'FLOW-THAPMA', 'FLOW-RAYONG-LOWER'];
+        parentResKeys.add('dokkrai');
+        parentResKeys.add('nongplalai');
+        parentResKeys.add('khlongyai');
+        structIds.add('GATE-001');
+        structIds.add('GATE-003');
+      } else if (targetId === 'FLOW-THAPMA' || targetId === 'AREA-THAPMA' || targetId === 'GATE-002') {
+        contributingEdges = ['FLOW-THAPMA', 'FLOW-DOKKRAI'];
+        parentResKeys.add('dokkrai');
+        structIds.add('GATE-002');
+      } else if (targetId === 'FLOW-PRASAE-MAIN' || targetId === 'AREA-KLAENG' || targetId === 'AREA-WANGCHAN' || targetId === 'SEA-002') {
+        contributingEdges = ['FLOW-PRASAE-MAIN', 'FLOW-KHLONGPHO', 'FLOW-KHLONGRAOK'];
+        parentResKeys.add('prasae');
+        parentResKeys.add('khlongraok');
+        parentResKeys.add('khaochuk');
+        structIds.add('GATE-004');
+      } else if (targetId === 'FLOW-KHLONGPHO' || targetId === 'FLOW-KHLONGRAOK' || targetId === 'AREA-KHAOCHAMAO') {
+        contributingEdges = ['FLOW-KHLONGPHO', 'FLOW-KHLONGRAOK'];
+        parentResKeys.add('khlongraok');
+        parentResKeys.add('khaochuk');
+        structIds.add('GATE-004');
+      } else {
+        // Fallback search
+        Object.values(rayongWaterNetwork.waterways).forEach(w => {
+          if (w.id === targetId || (w.nextEdges && w.nextEdges.includes(targetId))) contributingEdges.push(w.id);
+        });
+        parentResKeys.add('dokkrai');
+      }
+
+      const waterways = contributingEdges.map(eid => rayongWaterNetwork.waterways[eid]).filter(Boolean);
+      const reservoirs = [...parentResKeys].map(rk => rayongWaterNetwork.reservoirs[rk]).filter(Boolean);
+      const structures = [...structIds].map(sid => rayongWaterNetwork.controlStructures[sid]).filter(Boolean);
+
+      return {
+        mode: 'upstream',
+        targetId: targetId,
+        waterways: waterways,
+        reservoirs: reservoirs,
+        structures: structures
+      };
+    }
+
+    // =========================================================================
+    // 💡 HIGHLIGHT CORRIDOR & MAP INTERACTIONS
+    // =========================================================================
+    function highlightAnalysisCorridor(analysis) {
+      if (!layers.impactHighlight) return;
+      layers.impactHighlight.clearLayers();
+
+      const allCoords = [];
+
+      if (analysis.mode === 'downstream') {
+        // Highlight waterways traversed
+        analysis.waterways.forEach(w => {
+          const coords = w.customCoords || (hydroOverrides[w.coordsKey] || officialRiverCoords[w.coordsKey]);
+          if (!coords || coords.length < 2) return;
+          coords.forEach(c => allCoords.push(c));
+
+          // Background glow stroke
+          L.polyline(coords, {
+            color: '#0284c7',
+            weight: 12,
+            opacity: 0.65
+          }).addTo(layers.impactHighlight);
+
+          // Fast animated active flow stroke
+          L.polyline(coords, {
+            color: '#38bdf8',
+            weight: 6.5,
+            className: 'flow-highlight-glow',
+            opacity: 0.98
+          }).addTo(layers.impactHighlight);
+        });
+
+        // Pulsing Sea Outlet Beacon
+        if (analysis.seaOutlet) {
+          const beaconIcon = L.divIcon({
+            className: 'impact-beacon-icon',
+            html: `
+              <div class="relative flex items-center justify-center">
+                <div class="w-10 h-10 rounded-full bg-emerald-500/30 border-2 border-emerald-400 flex items-center justify-center shadow-2xl animate-bounce">
+                  <span class="text-base">⚓</span>
+                </div>
+                <div class="sea-beacon-ring absolute w-14 h-14 rounded-full border-2 border-emerald-300"></div>
+              </div>
+            `,
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+          });
+          L.marker(analysis.seaOutlet.coord, { icon: beaconIcon }).addTo(layers.impactHighlight);
+          allCoords.push(analysis.seaOutlet.coord);
+        }
+
+        // Highlight affected areas
+        analysis.areas.forEach(area => {
+          L.rectangle(area.bounds, {
+            color: '#f59e0b',
+            weight: 2.5,
+            dashArray: '5, 8',
+            fillColor: '#d97706',
+            fillOpacity: 0.28,
+            className: 'affected-zone-pulse'
+          }).addTo(layers.impactHighlight);
+          allCoords.push(area.center);
+        });
+
+      } else if (analysis.mode === 'upstream') {
+        // Upstream feeder highlight (amber-gold)
+        analysis.waterways.forEach(w => {
+          const coords = w.customCoords || (hydroOverrides[w.coordsKey] || officialRiverCoords[w.coordsKey]);
+          if (!coords || coords.length < 2) return;
+          coords.forEach(c => allCoords.push(c));
+
+          L.polyline(coords, {
+            color: '#b45309',
+            weight: 11,
+            opacity: 0.6
+          }).addTo(layers.impactHighlight);
+
+          L.polyline(coords, {
+            color: '#fbbf24',
+            weight: 6,
+            className: 'flow-upstream-glow',
+            opacity: 0.98
+          }).addTo(layers.impactHighlight);
+        });
+
+        // Highlight parent reservoirs
+        analysis.reservoirs.forEach(res => {
+          allCoords.push(res.outletCoord);
+          L.circleMarker(res.outletCoord, {
+            radius: 12,
+            color: '#f59e0b',
+            weight: 3,
+            fillColor: '#d97706',
+            fillOpacity: 0.9
+          }).addTo(layers.impactHighlight);
+        });
+      }
+
+      if (allCoords.length > 0) {
+        const bounds = L.latLngBounds(allCoords);
+        map.fitBounds(bounds, { padding: [40, 40], maxZoom: 13 });
+      }
+    }
+
+    function updateImpactHud(analysis, scenarioCode = 'A') {
+      const hud = document.getElementById('impact-map-hud');
+      const titleEl = document.getElementById('hud-impact-title');
+      const bodyEl = document.getElementById('hud-impact-body');
+      if (!hud || !titleEl || !bodyEl) return;
+
+      const scenario = rayongWaterNetwork.scenarios[scenarioCode] || rayongWaterNetwork.scenarios['A'];
+
+      if (analysis.mode === 'downstream') {
+        titleEl.textContent = `วิเคราะห์: ${analysis.reservoir.name}`;
+        bodyEl.innerHTML = `
+          <div class="flex items-center justify-between text-[10.5px]">
+            <span class="text-slate-400">ระดับระบายน้ำ:</span>
+            <span class="px-1.5 py-0.2 rounded font-bold font-mono text-${scenario.color}-400 bg-${scenario.color}-950/80 border border-${scenario.color}-700/60">${scenario.badge}</span>
+          </div>
+          <div class="flex items-center justify-between text-[10.5px]">
+            <span class="text-slate-400">ระยะทางถึงทะเล:</span>
+            <strong class="text-cyan-300 font-mono">${analysis.totalDistanceKm} กม.</strong>
+          </div>
+          <div class="flex items-center justify-between text-[10.5px]">
+            <span class="text-slate-400">ปากน้ำปลายทาง:</span>
+            <strong class="text-emerald-300">${analysis.seaOutlet?.name || 'อ่าวไทย'}</strong>
+          </div>
+          <div class="flex items-center justify-between text-[10.5px]">
+            <span class="text-slate-400">พื้นที่เสี่ยงท้ายน้ำ:</span>
+            <strong class="text-amber-300">${analysis.areas.length} ชุมชน/ตำบล</strong>
+          </div>
+          <div class="text-[10px] text-slate-400 pt-1 border-t border-slate-700/80 italic">
+            * คลิก "ดูรายละเอียด" เพื่อเปลี่ยน Scenario หรือดู Cascade เต็ม
+          </div>
+        `;
+      } else {
+        titleEl.textContent = `สืบหาต้นน้ำ (Upstream Trace)`;
+        bodyEl.innerHTML = `
+          <div class="flex items-center justify-between text-[10.5px]">
+            <span class="text-slate-400">อ่างเก็บน้ำต้นทาง:</span>
+            <strong class="text-amber-300">${analysis.reservoirs.map(r => r.name).join(', ')}</strong>
+          </div>
+          <div class="flex items-center justify-between text-[10.5px]">
+            <span class="text-slate-400">ลำน้ำต้นน้ำที่เชื่อมโยง:</span>
+            <strong class="text-cyan-300">${analysis.waterways.length} สายน้ำ</strong>
+          </div>
+        `;
+      }
+
+      hud.classList.remove('hidden');
+    }
+
+    function clearImpactAnalysis() {
+      if (layers.impactHighlight) layers.impactHighlight.clearLayers();
+      const hud = document.getElementById('impact-map-hud');
+      if (hud) hud.classList.add('hidden');
+      currentActiveAnalysis = null;
+    }
+
+    // =========================================================================
+    // 🎛️ MODAL & INTERACTION HANDLERS
+    // =========================================================================
+    function openImpactModal() {
+      const modal = document.getElementById('impact-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+
+      const resSelect = document.getElementById('impact-res-select');
+      const curRes = resSelect ? resSelect.value : 'dokkrai';
+      onImpactReservoirChange(curRes);
+    }
+
+    function closeImpactModal() {
+      const modal = document.getElementById('impact-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function switchImpactTab(tab) {
+      currentImpactTab = tab;
+      const tabDown = document.getElementById('tab-content-downstream');
+      const tabUp = document.getElementById('tab-content-upstream');
+      const btnDown = document.getElementById('btn-tab-downstream');
+      const btnUp = document.getElementById('btn-tab-upstream');
+
+      if (tab === 'downstream') {
+        if (tabDown) tabDown.classList.remove('hidden');
+        if (tabUp) tabUp.classList.add('hidden');
+        if (btnDown) {
+          btnDown.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-cyan-600 text-white shadow';
+        }
+        if (btnUp) {
+          btnUp.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700';
+        }
+        const resSelect = document.getElementById('impact-res-select');
+        onImpactReservoirChange(resSelect ? resSelect.value : 'dokkrai');
+      } else {
+        if (tabDown) tabDown.classList.add('hidden');
+        if (tabUp) tabUp.classList.remove('hidden');
+        if (btnDown) {
+          btnDown.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700';
+        }
+        if (btnUp) {
+          btnUp.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-amber-600 text-white shadow';
+        }
+        const targetSelect = document.getElementById('upstream-target-select');
+        onUpstreamTargetChange(targetSelect ? targetSelect.value : 'FLOW-RAYONG-LOWER');
+      }
+      lucide.createIcons();
+    }
+
+    function onImpactReservoirChange(resKey) {
+      const scenarioSelect = document.getElementById('impact-scenario-select');
+      const scenarioCode = scenarioSelect ? scenarioSelect.value : 'A';
+      runReservoirScenario(resKey, scenarioCode);
+    }
+
+    function onImpactScenarioChange(scenarioCode) {
+      const resSelect = document.getElementById('impact-res-select');
+      const resKey = resSelect ? resSelect.value : 'dokkrai';
+      runReservoirScenario(resKey, scenarioCode);
+    }
+
+    function runReservoirScenario(resKey, scenarioCode) {
+      const analysis = traceDownstream(resKey);
+      if (!analysis) return;
+
+      currentActiveAnalysis = analysis;
+      const scenario = rayongWaterNetwork.scenarios[scenarioCode] || rayongWaterNetwork.scenarios['A'];
+
+      // Update metrics
+      const distEl = document.getElementById('metric-distance');
+      const seaEl = document.getElementById('metric-sea-outlet');
+      const structEl = document.getElementById('metric-structures');
+      const areasCountEl = document.getElementById('metric-areas-count');
+      const badgeDist = document.getElementById('cascade-distance-badge');
+
+      if (distEl) distEl.textContent = `${analysis.totalDistanceKm} กม.`;
+      if (badgeDist) badgeDist.textContent = `ระยะทางรวม: ${analysis.totalDistanceKm} กม.`;
+      if (seaEl) seaEl.textContent = `${analysis.seaOutlet?.code}: ${analysis.seaOutlet?.name}`;
+      if (structEl) structEl.textContent = `${analysis.structures.length} แห่ง (${analysis.structures.map(s => s.name).join(', ')})`;
+      if (areasCountEl) areasCountEl.textContent = `${analysis.areas.length} ตำบล/ชุมชน`;
+
+      // Render Step-by-Step Flow Cascade
+      const cascadeContainer = document.getElementById('impact-cascade-container');
+      if (cascadeContainer) {
+        let cascadeHtml = `
+          <div class="flex items-center gap-2 p-2 rounded-lg bg-slate-950/80 border border-cyan-500/40 text-xs">
+            <span class="w-6 h-6 rounded-full bg-cyan-900 border border-cyan-400 flex items-center justify-center font-bold text-cyan-300 shrink-0">1</span>
+            <div class="flex-1">
+              <strong class="text-white">🏞️ ${analysis.reservoir.name}</strong>
+              <span class="text-slate-400 text-[11px] block">ความจุเก็บกัก ${analysis.reservoir.capacityMcm} ล้าน ลบ.ม. (${analysis.reservoir.agency})</span>
+            </div>
+            <span class="text-emerald-400 font-mono text-[11px] font-bold">ต้นทางอ่างฯ</span>
+          </div>
+        `;
+
+        analysis.waterways.forEach((w, idx) => {
+          const isTransfer = w.type === 'MANAGED_TRANSFER';
+          cascadeHtml += `
+            <div class="flex items-center gap-2 px-3 py-1 text-slate-500 text-[11px]">
+              <i data-lucide="${isTransfer ? 'chevrons-right' : 'arrow-down'}" class="w-3.5 h-3.5 text-cyan-400"></i>
+              <span>${isTransfer ? 'ผันน้ำผ่านท่อ/คลอง' : 'ไหลระบายตามธรรมชาติ'} (${w.lengthKm} กม.)</span>
+            </div>
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-slate-950/80 border ${isTransfer ? 'border-purple-500/40' : 'border-slate-800'} text-xs">
+              <span class="w-6 h-6 rounded-full ${isTransfer ? 'bg-purple-900 border-purple-400 text-purple-300' : 'bg-slate-800 border-slate-600 text-slate-300'} flex items-center justify-center font-bold shrink-0">${idx + 2}</span>
+              <div class="flex-1">
+                <strong class="text-white">${isTransfer ? '🔄' : '🌊'} ${w.name}</strong>
+                <span class="text-slate-400 text-[11px] block">${w.from} ➔ ${w.to}</span>
+              </div>
+              <span class="font-mono text-cyan-300 text-[11px]">${w.lengthKm} กม.</span>
+            </div>
+          `;
+        });
+
+        if (analysis.structures.length > 0) {
+          cascadeHtml += `
+            <div class="flex items-center gap-2 px-3 py-1 text-slate-500 text-[11px]">
+              <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-blue-400"></i>
+              <span>ผ่านอาคารควบคุมน้ำ</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950/80 border border-blue-500/40 text-xs space-y-1">
+              <div class="flex items-center gap-1.5 font-bold text-blue-300">
+                <span>🚪 อาคารควบคุมน้ำที่ผ่าน:</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5 pt-0.5">
+                ${analysis.structures.map(s => `<span class="px-2 py-0.5 rounded bg-blue-950 text-blue-200 border border-blue-700/60 text-[11px]">🚪 ${s.name} (${s.capacityM3s} m³/s)</span>`).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        cascadeHtml += `
+          <div class="flex items-center gap-2 px-3 py-1 text-slate-500 text-[11px]">
+            <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>ระบายลงสู่อ่าวไทย</span>
+          </div>
+          <div class="flex items-center gap-2 p-2 rounded-lg bg-slate-950/80 border border-emerald-500/50 text-xs">
+            <span class="w-6 h-6 rounded-full bg-emerald-900 border border-emerald-400 flex items-center justify-center font-bold text-emerald-300 shrink-0">⚓</span>
+            <div class="flex-1">
+              <strong class="text-emerald-300">⚓ ${analysis.seaOutlet?.code}: ${analysis.seaOutlet?.name}</strong>
+              <span class="text-slate-400 text-[11px] block">${analysis.seaOutlet?.basin}</span>
+            </div>
+            <span class="text-emerald-400 font-mono text-[11px] font-bold">ออกสู่อ่าวไทย</span>
+          </div>
+        `;
+
+        cascadeContainer.innerHTML = cascadeHtml;
+        lucide.createIcons();
+      }
+
+      // Render affected areas badges
+      const affectedList = document.getElementById('impact-affected-list');
+      if (affectedList) {
+        affectedList.innerHTML = analysis.areas.map(a => `
+          <span class="px-2 py-1 rounded-lg bg-amber-950/70 text-amber-200 border border-amber-600/50 text-[11px] font-medium flex items-center gap-1">
+            <span>⚠️</span> <span>${a.name}</span>
+          </span>
+        `).join('') || '<span class="text-slate-400 text-xs">ไม่มีพื้นที่ได้รับผลกระทบทางตรง</span>';
+      }
+
+      // Render Decision Support Recommendation Box
+      const recBox = document.getElementById('scenario-recommendation-box');
+      if (recBox) {
+        let recBorder = 'border-emerald-500/50 bg-emerald-950/30 text-emerald-200';
+        if (scenario.severity === 'watch') recBorder = 'border-amber-500/50 bg-amber-950/30 text-amber-200';
+        if (scenario.severity === 'warning') recBorder = 'border-rose-500/50 bg-rose-950/30 text-rose-200';
+        if (scenario.severity === 'critical') recBorder = 'border-purple-500/50 bg-purple-950/30 text-purple-200';
+
+        recBox.className = `p-3 rounded-xl border text-xs leading-relaxed ${recBorder}`;
+        recBox.innerHTML = `
+          <div class="flex items-center justify-between font-bold pb-1 mb-1 border-b border-current/20">
+            <span>📋 ข้อแนะนำและมาตรการรับมือ (${scenario.name}):</span>
+            <span class="font-mono text-[11px]">อัตรา: ${scenario.rateText}</span>
+          </div>
+          <p>${scenario.desc}</p>
+          <div class="mt-2 pt-1.5 border-t border-current/20 font-medium space-y-0.5 text-[11px]">
+            <div>• <strong>การเดินเครื่องระบาย:</strong> ${scenario.severity === 'critical' ? 'เดินเครื่องสูบน้ำสถานีทับมา 100% พร้อมเปิดประตูระบายน้ำฝายบ้านค่ายเต็มพิกัด' : 'ควบคุมการระบายตามเกณฑ์บริหารจัดการน้ำชลประทาน'}</div>
+            <div>• <strong>การแจ้งเตือนประชาชน:</strong> ${scenario.severity === 'normal' ? 'แจ้งข้อมูลสภาวะน้ำตามรอบปกติ' : 'ประสานงาน ปภ.ระยอง และเทศบาลในพื้นที่เสี่ยง ประกาศเตือนยกของขึ้นที่สูง'}</div>
+          </div>
+        `;
+      }
+
+      // Update HUD and Map Highlight
+      highlightAnalysisCorridor(analysis);
+      updateImpactHud(analysis, scenarioCode);
+    }
+
+    function onUpstreamTargetChange(targetId) {
+      const analysis = traceUpstream(targetId);
+      if (!analysis) return;
+
+      currentActiveAnalysis = analysis;
+      const resContainer = document.getElementById('upstream-result-container');
+      if (resContainer) {
+        resContainer.innerHTML = `
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-amber-500/40 text-xs space-y-2">
+            <h4 class="font-bold text-amber-300 flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-4 h-4 text-amber-400"></i> อ่างเก็บน้ำต้นทางที่ส่งผลต่อจุดนี้:
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              ${analysis.reservoirs.map(r => `
+                <div class="p-2 rounded-lg bg-slate-900 border border-slate-700 space-y-1">
+                  <div class="font-bold text-white flex items-center justify-between">
+                    <span>🏞️ ${r.name}</span>
+                    <span class="text-cyan-300 font-mono text-[10.5px]">${r.capacityMcm} MCM</span>
+                  </div>
+                  <div class="text-[10.5px] text-slate-400">${r.district} (${r.agency})</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 text-xs space-y-2">
+            <h4 class="font-bold text-slate-200 flex items-center gap-1.5">
+              <i data-lucide="git-branch" class="w-4 h-4 text-cyan-400"></i> ทางน้ำต้นน้ำที่ไหลเชื่อมต่อ:
+            </h4>
+            <div class="flex flex-wrap gap-1.5">
+              ${analysis.waterways.map(w => `
+                <span class="px-2 py-1 rounded bg-slate-900 text-cyan-200 border border-slate-700 text-[11px] font-mono">
+                  ${w.type === 'MANAGED_TRANSFER' ? '🔄' : '🌊'} ${w.name} (${w.lengthKm} กม.)
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      }
+
+      highlightAnalysisCorridor(analysis);
+      updateImpactHud(analysis);
+    }
+
+    function runTraceDownstreamFromEdge(edgeId) {
+      map.closePopup();
+      let resKey = 'dokkrai';
+      if (edgeId.includes('PRASAE')) resKey = 'prasae';
+      else if (edgeId.includes('KHLONGRAOK')) resKey = 'khlongraok';
+      else if (edgeId.includes('KHLONGPHO')) resKey = 'khaochuk';
+      else if (edgeId.includes('RAYONG-UPPER')) resKey = 'nongplalai';
+      else if (edgeId.includes('KHLONGYAI')) resKey = 'khlongyai';
+
+      const resSelect = document.getElementById('impact-res-select');
+      if (resSelect) resSelect.value = resKey;
+      runReservoirScenario(resKey, 'A');
+    }
+
+    function runTraceUpstreamFromEdge(edgeId) {
+      map.closePopup();
+      const targetSelect = document.getElementById('upstream-target-select');
+      if (targetSelect) targetSelect.value = edgeId;
+      switchImpactTab('upstream');
+      openImpactModal();
+    }
+
+    function zoomToActiveImpactCorridor() {
+      closeImpactModal();
+      if (currentActiveAnalysis) {
+        highlightAnalysisCorridor(currentActiveAnalysis);
+      }
+    }
+
+    // Initialize Network Layers
+    function initWaterNetworkLayers() {
+      renderWaterNetwork();
+    }
+
+    // 4. DRAW CONTINUOUS RIVER FLOW PATHS (BACKWARD COMPATIBLE WRAPPER)
     function drawDetailedRiverNetworks() {
+      renderWaterNetwork();
       layers.flow.clearLayers();
 
       const dokkraiCanalCoords = hydroOverrides.dokkraiCanal || officialRiverCoords.dokkraiCanal;
@@ -2329,7 +3756,8 @@ const officialReservoirCoords = {
         .addTo(layers.flow);
     }
 
-        drawDetailedRiverNetworks();
+        initWaterNetworkLayers();
+      drawDetailedRiverNetworks();
 
     // 5. OFFICIAL TIDE & ESTUARY STATIONS (CONNECTED TO 72-HOUR TIDE FORECAST)
     const riverStations = [
@@ -2575,15 +4003,34 @@ const officialReservoirCoords = {
     function updateFloodZone(val) {}
 
     // Toggle Standard Layers (Lakes, Rivers, Stations)
+    function toggleNetworkLayer(name) {
+      const chk = document.getElementById('chk-' + name.replace(/([A-Z])/g, '-$1').toLowerCase());
+      if (!chk) return;
+      if (chk.checked) {
+        if (!map.hasLayer(layers[name])) map.addLayer(layers[name]);
+      } else {
+        if (map.hasLayer(layers[name])) map.removeLayer(layers[name]);
+      }
+    }
+
     function toggleLayer(name) {
       const chk = document.getElementById('chk-' + name);
+      if (!chk) return;
       if (chk.checked) {
         map.addLayer(layers[name]);
-        if (name === 'flow') map.addLayer(layers.customRivers);
+        if (name === 'flow') {
+          map.addLayer(layers.customRivers);
+          map.addLayer(layers.naturalFlow);
+          map.addLayer(layers.transferFlow);
+        }
         if (name === 'lakes') map.addLayer(layers.customLakes);
       } else {
         map.removeLayer(layers[name]);
-        if (name === 'flow') map.removeLayer(layers.customRivers);
+        if (name === 'flow') {
+          map.removeLayer(layers.customRivers);
+          map.removeLayer(layers.naturalFlow);
+          map.removeLayer(layers.transferFlow);
+        }
         if (name === 'lakes') map.removeLayer(layers.customLakes);
       }
     }
@@ -5386,6 +6833,172 @@ const officialReservoirCoords = {
     </div>
   </div>
 
+
+  <!-- ======================================================== -->
+  <!-- 🌊 RESERVOIR-TO-SEA WATER IMPACT NETWORK MODAL           -->
+  <!-- ======================================================== -->
+  <div id="impact-modal" class="fixed inset-0 z-[10000] bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-3 md:p-6 overflow-y-auto pointer-events-auto">
+    <div class="glass-panel w-full max-w-4xl bg-slate-900/98 border border-cyan-500/60 rounded-2xl p-4 md:p-6 shadow-2xl text-slate-100 flex flex-col gap-4 max-h-[92vh] overflow-y-auto relative animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">
+            <i data-lucide="git-merge" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2 flex-wrap">
+              <span>วิเคราะห์เส้นทางน้ำจากอ่างสู่อ่าวไทย</span>
+              <span class="text-xs px-2 py-0.5 rounded font-mono font-semibold bg-cyan-950 text-cyan-300 border border-cyan-700/60">Reservoir-to-Sea Water Impact Network</span>
+            </h3>
+            <p class="text-xs text-slate-400">แบบจำลองโครงข่ายอุทกวิทยาระยอง: ติดตามเส้นทางไหลจากอ่างเก็บน้ำ ผ่านคลอง-อาคารบังคับน้ำ สู่พื้นที่ท้ายน้ำและทะเล</p>
+          </div>
+        </div>
+        <button onclick="closeImpactModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Analysis Mode Switcher Tabs -->
+      <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
+        <button id="btn-tab-downstream" onclick="switchImpactTab('downstream')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-cyan-600 text-white shadow">
+          <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+          <span>วิเคราะห์ท้ายน้ำสู่อ่าวไทย (Downstream Impact)</span>
+        </button>
+        <button id="btn-tab-upstream" onclick="switchImpactTab('upstream')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700">
+          <i data-lucide="arrow-up-left" class="w-4 h-4"></i>
+          <span>วิเคราะห์ย้อนรอยต้นน้ำ (Upstream Feeder Trace)</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: DOWNSTREAM IMPACT ANALYSIS -->
+      <div id="tab-content-downstream" class="space-y-4">
+        <!-- Selector Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 p-3 bg-slate-950/70 rounded-xl border border-slate-800/80">
+          <!-- Reservoir Pick -->
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1 flex items-center gap-1">
+              <i data-lucide="droplet" class="w-3.5 h-3.5 text-cyan-400"></i> เลือกอ่างเก็บน้ำต้นทาง:
+            </label>
+            <select id="impact-res-select" onchange="onImpactReservoirChange(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-cyan-200 font-semibold focus:outline-none focus:ring-1 focus:ring-cyan-500">
+              <option value="dokkrai">🏞️ อ่างเก็บน้ำดอกกราย (Dok Krai) - 71.4 MCM [อ.ปลวกแดง]</option>
+              <option value="nongplalai">🏞️ อ่างเก็บน้ำหนองปลาไหล (Nong Pla Lai) - 163.75 MCM [อ.ปลวกแดง]</option>
+              <option value="khlongyai">🏞️ อ่างเก็บน้ำคลองใหญ่ (Khlong Yai) - 40.1 MCM [อ.ปลวกแดง]</option>
+              <option value="prasae">🏞️ อ่างเก็บน้ำประแสร์ (Prasae) - 295.0 MCM [อ.วังจันทร์]</option>
+              <option value="khlongraok">🏞️ อ่างเก็บน้ำคลองระโอก (Khlong Ra-ok) - 19.65 MCM [อ.เขาชะเมา]</option>
+              <option value="khaochuk">🏞️ อ่างเก็บน้ำเขาจุก (Khao Chuk) - 21.8 MCM [อ.แกลง]</option>
+            </select>
+          </div>
+
+          <!-- Scenario Pick -->
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1 flex items-center gap-1">
+              <i data-lucide="gauge" class="w-3.5 h-3.5 text-amber-400"></i> เลือกระดับการระบายน้ำ (Scenario):
+            </label>
+            <select id="impact-scenario-select" onchange="onImpactScenarioChange(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-200 font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500">
+              <option value="A">🟢 Scenario A: ระบายน้ำปกติ (10 m³/s) - ลำน้ำรองรับได้ปกติ</option>
+              <option value="B">🟡 Scenario B: ระบายน้ำสูง (30-50 m³/s) - เฝ้าระวังตลิ่งลุ่มต่ำ</option>
+              <option value="C">🔴 Scenario C: น้ำล้นสปิลเวย์วิกฤต (>80-100 m³/s) - เสี่ยงล้นตลิ่งเต็มพิกัด</option>
+              <option value="D">🟣 Scenario D: วิกฤตฝนตกหนัก + น้ำทะเลหนุนสูง (Extreme + Tidal Lock)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Flow Cascade Sequence (Step-by-Step Pipeline) -->
+        <div>
+          <h4 class="text-xs font-bold text-slate-300 mb-2 flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="git-commit" class="w-4 h-4 text-cyan-400"></i> ลำดับเส้นทางการไหลของมวลน้ำ (Flow Cascade Corridor):
+            </span>
+            <span id="cascade-distance-badge" class="font-mono text-cyan-300 text-xs font-bold">ระยะทางรวม: 35.0 กม.</span>
+          </h4>
+          <div id="impact-cascade-container" class="space-y-2">
+            <!-- Cascade cards populated via JS -->
+          </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">ระยะทางสู่ทะเล:</span>
+            <strong id="metric-distance" class="text-base text-cyan-300 font-mono font-bold">35.0 กม.</strong>
+          </div>
+          <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">จุดออกทะเล:</span>
+            <strong id="metric-sea-outlet" class="text-xs text-emerald-300 font-bold">SEA-001 ปากน้ำระยอง</strong>
+          </div>
+          <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">อาคารควบคุมน้ำที่ผ่าน:</span>
+            <strong id="metric-structures" class="text-xs text-cyan-300 font-bold">2 แห่ง (ฝายบ้านค่าย, ปากน้ำ)</strong>
+          </div>
+          <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+            <span class="text-[10px] text-slate-400 block">พื้นที่ที่อาจได้รับผลกระทบ:</span>
+            <strong id="metric-areas-count" class="text-xs text-amber-300 font-bold">5 ตำบล/ชุมชน</strong>
+          </div>
+        </div>
+
+        <!-- Potentially Affected Communities Box -->
+        <div class="bg-slate-950/80 p-3 rounded-xl border border-amber-500/40 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-300 text-xs flex items-center gap-1.5">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i> พื้นที่ที่อาจได้รับผลกระทบ (Potentially Affected Areas):
+            </span>
+            <span class="text-[10px] text-slate-400 italic">* ประเมินตามแบบจำลอง ไม่ใช่การยืนยันท่วมแน่นอน</span>
+          </div>
+          <div id="impact-affected-list" class="flex flex-wrap gap-1.5 pt-1">
+            <!-- Badges populated via JS -->
+          </div>
+        </div>
+
+        <!-- Decision Support & Action Recommendation -->
+        <div id="scenario-recommendation-box" class="p-3 rounded-xl border text-xs leading-relaxed">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+
+      <!-- TAB 2: UPSTREAM TRACE ANALYSIS -->
+      <div id="tab-content-upstream" class="hidden space-y-4">
+        <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800/80 space-y-2">
+          <label class="block text-xs font-bold text-slate-300 flex items-center gap-1">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-amber-400"></i> เลือกจุดเฝ้าระวังหรือคลอง เพื่อสืบหาต้นน้ำ:
+          </label>
+          <select id="upstream-target-select" onchange="onUpstreamTargetChange(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-amber-200 font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500">
+            <option value="FLOW-RAYONG-LOWER">🏙️ แม่น้ำระยองตอนล่าง (เขตเทศบาลนครระยอง / ตะพง / เนินพระ)</option>
+            <option value="FLOW-THAPMA">⚠️ คลองทับมา (ต.ทับมา อ.เมืองระยอง / จุดสะพานท่าสถิตย์)</option>
+            <option value="GATE-001">🚪 ฝายบ้านค่าย (อ.บ้านค่าย Confluence)</option>
+            <option value="FLOW-PRASAE-MAIN">🌊 แม่น้ำประแสร์ (เทศบาลเมืองแกลง / ต.ทางเกวียน / ต.กระแสบน)</option>
+            <option value="FLOW-KHLONGPHO">🌊 คลองโพล้ (อ.เขาชะเมา / จุดบรรจบแม่น้ำประแสร์)</option>
+            <option value="SEA-001">⚓ SEA-001: ปากน้ำระยอง</option>
+            <option value="SEA-002">⚓ SEA-002: ปากน้ำประแสร์</option>
+          </select>
+        </div>
+
+        <div id="upstream-result-container" class="space-y-3">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="pt-3 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2 text-xs">
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold bg-emerald-950 text-emerald-300 border border-emerald-700/60">
+            ✓ HIGH DATA CONFIDENCE (RID / DWR)
+          </span>
+          <span class="text-[11px] text-slate-400">สอดคล้องกับผังเส้นทางน้ำและแผนที่ชลประทานจริง</span>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button onclick="zoomToActiveImpactCorridor()" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg transition">
+            <i data-lucide="map-pin" class="w-4 h-4 text-cyan-200"></i>
+            <span>ซูมดูเส้นทางบนแผนที่</span>
+          </button>
+          <button onclick="closeImpactModal()" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition">
+            ปิด
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ======================================================== -->
   <!-- 📢 CITIZEN FLOOD REPORT MODAL (TRAFFY & CROWDSOURCING)     -->
